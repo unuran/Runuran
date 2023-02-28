@@ -1,6 +1,4 @@
 
-(*) Add support for 'rstream' package.
-
 (*) Add support for 'distr' package.
 
 (*) Add support for building non-standard distributions 
@@ -8,3 +6,6 @@
     Maybe using the 'distr' package.
 
 (*) Add support for multivariate distributions.
+
+(*) Add support for 'rstream' package.
+

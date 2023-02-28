@@ -9,9 +9,9 @@
 \alias{r,unuran-method}
 \alias{r,unuran,numeric-method}
 
-\title{Methods for Function unuran.sample in Package `Runuran'}
+\title{Sample from a distribution specified by an UNU.RAN object}
 \description{
-  Get random sample from an "unuran" object in package
+  Get random sample from an UNU.RAN object in package
   \pkg{Runuran}.
 }
 
@@ -28,12 +28,21 @@
   \code{\link{unuran-class}}.
 }
 
-\note{\code{r} is equivalent to \code{unuran.sample}.}
+\note{
+  For performance reasons \code{unuran.sample} is implemented as a
+  simple \code{function}.
 
-\author{Josef Leydold}
+  \code{r} is an S4 method and equivalent to \code{unuran.sample}.
+}
+
+\author{
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
+}
 
 %%\examples{ }
 
 \keyword{methods}
 \keyword{distribution}
 \keyword{datagen}
+

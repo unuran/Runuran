@@ -9,6 +9,7 @@
 #include "x_gen_source.h"
 #include "hinv.h"
 #include "hinv_struct.h"
+#define HINV_MAX_ITER      (300)
 #define HINV_MAX_U_LENGTH  (0.05)
 #define HINV_TAILCUTOFF    (1.e-10) 
 #define HINV_XDEVIATION    (0.05)
@@ -31,6 +32,7 @@ static struct unur_gen *_unur_hinv_clone( const struct unur_gen *gen );
 static void _unur_hinv_free( struct unur_gen *gen );
 static double _unur_hinv_sample( struct unur_gen *gen );
 static double _unur_hinv_eval_approxinvcdf( const struct unur_gen *gen, double u );
+static int _unur_hinv_find_boundary( struct unur_gen *gen );
 static int _unur_hinv_create_table( struct unur_gen *gen );
 static struct unur_hinv_interval *_unur_hinv_interval_new( struct unur_gen *gen, double p, double u );
 static struct unur_hinv_interval *_unur_hinv_interval_adapt( struct unur_gen *gen, 
@@ -69,7 +71,7 @@ unur_hinv_new( const struct unur_distr *distr )
   COOKIE_SET(par,CK_HINV_PAR);
   par->distr   = distr;           
   PAR->order = (DISTR_IN.pdf) ? 3 : 1;  
-  PAR->u_resolution = 1.0e-8;     
+  PAR->u_resolution = 1.0e-10;    
   PAR->guide_factor = 1.;         
   PAR->bleft = -1.e20;            
   PAR->bright = 1.e20;            
@@ -314,6 +316,8 @@ _unur_hinv_create( struct unur_par *par )
   GEN->tailcutoff_right = 10.;
   GEN->bleft = GEN->bleft_par;
   GEN->bright = GEN->bright_par;
+  GEN->Umin = 0.;
+  GEN->Umax = 1.;
   GEN->N = 0;
   GEN->iv = NULL;
   GEN->intervals = NULL;
@@ -326,8 +330,6 @@ _unur_hinv_check_par( struct unur_gen *gen )
 {
   GEN->bleft = GEN->bleft_par;
   GEN->bright = GEN->bright_par;
-  if (GEN->bleft  < DISTR.domain[0]) GEN->bleft  = DISTR.domain[0];
-  if (GEN->bright > DISTR.domain[1]) GEN->bright = DISTR.domain[1];
   DISTR.trunc[0] = DISTR.domain[0];
   DISTR.trunc[1] = DISTR.domain[1];
   GEN->CDFmin = (DISTR.domain[0] > -INFINITY) ? _unur_cont_CDF((DISTR.domain[0]),(gen->distr)) : 0.;
@@ -336,11 +338,13 @@ _unur_hinv_check_par( struct unur_gen *gen )
     _unur_error(gen->genid,UNUR_ERR_GEN_DATA,"CDF not increasing");
     return UNUR_ERR_GEN_DATA;
   }
-  if (DISTR.domain[0] <= -INFINITY || PDF(DISTR.domain[0])<=0.) {
+  if (DISTR.domain[0] <= -INFINITY || 
+      (DISTR.pdf!=NULL && _unur_cont_PDF((DISTR.domain[0]),(gen->distr))<=0.) ) {
     GEN->tailcutoff_left = _unur_min(HINV_TAILCUTOFF, 0.1*GEN->u_resolution);
     GEN->tailcutoff_left = _unur_max(GEN->tailcutoff_left,2*DBL_EPSILON);
   }
-  if (DISTR.domain[1] >= INFINITY || PDF(DISTR.domain[1])<=0.) {
+  if (DISTR.domain[1] >= INFINITY || 
+      (DISTR.pdf!=NULL && _unur_cont_PDF((DISTR.domain[1]),(gen->distr))<=0.) ) {
     GEN->tailcutoff_right = _unur_min(HINV_TAILCUTOFF, 0.1*GEN->u_resolution);
     GEN->tailcutoff_right = _unur_max(GEN->tailcutoff_right,2*DBL_EPSILON);
     GEN->tailcutoff_right = 1. - GEN->tailcutoff_right;
@@ -449,17 +453,65 @@ unur_hinv_estimate_error( const UNUR_GEN *gen, int samplesize, double *max_error
   return UNUR_SUCCESS;
 } 
 int
+_unur_hinv_find_boundary( struct unur_gen *gen )
+{
+  double x,u;
+  int i;
+  CHECK_NULL(gen,UNUR_ERR_NULL);  COOKIE_CHECK(gen,CK_HINV_GEN,UNUR_ERR_COOKIE);
+  GEN->N = 0;
+  if (GEN->bleft  < DISTR.domain[0]) GEN->bleft  = DISTR.domain[0];
+  if (GEN->bright > DISTR.domain[1]) GEN->bright = DISTR.domain[1];
+  for (x = GEN->bleft, i=0; i<HINV_MAX_ITER; i++) {
+    GEN->bleft = x;
+    u = CDF(GEN->bleft);
+    if (u <= GEN->tailcutoff_left || GEN->tailcutoff_left < 0.) 
+      break;
+    if (DISTR.domain[0] <= -INFINITY) {
+      x = (GEN->bleft > -1.) ? -1. : 10.*GEN->bleft;
+      if (! _unur_isfinite(x) )  
+	i = HINV_MAX_ITER;
+    }
+    else {
+      x = _unur_arcmean(GEN->bleft, DISTR.domain[0]);
+      if (_unur_FP_equal(x,DISTR.domain[0])) 
+	i = HINV_MAX_ITER;
+    }
+  }
+  if (i >= HINV_MAX_ITER)
+    _unur_warning(gen->genid,UNUR_ERR_DISTR_PROP,"cannot find l.h.s. of domain");
+  GEN->iv = _unur_hinv_interval_new(gen,GEN->bleft,u);
+  if (GEN->iv == NULL) return UNUR_ERR_GEN_DATA;
+  for (x = GEN->bright, i=0; i<HINV_MAX_ITER; i++) {
+    GEN->bright = x;
+    u = CDF(GEN->bright);
+    if (u >= GEN->tailcutoff_right || GEN->tailcutoff_right > 1.1) 
+      break;
+    if (DISTR.domain[1] >= INFINITY) {
+      x = (GEN->bright < 1.) ? 1. : 10.*GEN->bright;
+      if (! _unur_isfinite(x) )  
+	i = HINV_MAX_ITER;
+    }
+    else {
+      x = _unur_arcmean(GEN->bright, DISTR.domain[1]);
+      if (_unur_FP_equal(x,DISTR.domain[1])) 
+	i = HINV_MAX_ITER;
+    }
+  }
+  if (i >= HINV_MAX_ITER)
+    _unur_warning(gen->genid,UNUR_ERR_DISTR_PROP,"cannot find r.h.s. of domain");
+  GEN->iv->next = _unur_hinv_interval_new(gen,GEN->bright,u);
+  if (GEN->iv->next == NULL) return UNUR_ERR_GEN_DATA;
+  return UNUR_SUCCESS;
+} 
+int
 _unur_hinv_create_table( struct unur_gen *gen )
 {
   struct unur_hinv_interval *iv, *iv_new;
   int i, error_count_shortinterval=0;
   double Fx;
   CHECK_NULL(gen,UNUR_ERR_NULL);  COOKIE_CHECK(gen,CK_HINV_GEN,UNUR_ERR_COOKIE);
-  GEN->N = 0;
-  GEN->iv = _unur_hinv_interval_new(gen,GEN->bleft,CDF(GEN->bleft));
-  if (GEN->iv == NULL) return UNUR_ERR_GEN_DATA;
-  GEN->iv->next = _unur_hinv_interval_new(gen,GEN->bright,CDF(GEN->bright));
-  if (GEN->iv->next == NULL) return UNUR_ERR_GEN_DATA;
+  if (_unur_hinv_find_boundary(gen) != UNUR_SUCCESS)
+    return UNUR_ERR_GEN_DATA;
   if (GEN->stp) {
     iv = GEN->iv;
     for (i=0; i<GEN->n_stp; i++) {
@@ -492,6 +544,7 @@ _unur_hinv_create_table( struct unur_gen *gen )
       return UNUR_ERR_GEN_CONDITION;
     }
     iv = _unur_hinv_interval_adapt(gen,iv, &error_count_shortinterval);
+    if (iv == NULL) return UNUR_ERR_GEN_DATA;
   }
   iv->spline[0] = iv->p;
   return UNUR_SUCCESS;
@@ -573,6 +626,7 @@ _unur_hinv_interval_adapt( struct unur_gen *gen, struct unur_hinv_interval *iv,
   if ( (iv->next->u - iv->u > HINV_MAX_U_LENGTH) ||
        (! _unur_hinv_interval_is_monotone(gen,iv)) ) {
     iv_new = _unur_hinv_interval_new(gen,p_new,CDF(p_new));
+    if (iv_new == NULL) return NULL;
     iv_new->next = iv->next;
     iv->next = iv_new;
     return iv;
@@ -585,6 +639,7 @@ _unur_hinv_interval_adapt( struct unur_gen *gen, struct unur_hinv_interval *iv,
       iv_new = _unur_hinv_interval_new(gen,x,Fx);
     else
       iv_new = _unur_hinv_interval_new(gen,p_new,CDF(p_new));
+    if (iv_new == NULL) return NULL;
     iv_new->next = iv->next;
     iv->next = iv_new;
     return iv;
@@ -701,10 +756,7 @@ _unur_hinv_make_guide_table( struct unur_gen *gen )
   for( j=1; j<GEN->guide_size ;j++ ) {
     while( u(i) < (j/(double)GEN->guide_size) && i <= imax)
       i += GEN->order+2;
-    if (i > imax) {
-      _unur_warning(gen->genid,UNUR_ERR_ROUNDOFF,"guide table");
-      break;
-    }
+    if (i > imax) break;
     GEN->guide[j]=i;
   }
 # undef u
@@ -777,9 +829,6 @@ _unur_hinv_debug_intervals( const struct unur_gen *gen )
 	fprintf(log,"  %#12.6g  %#12.6g", GEN->intervals[i+5], GEN->intervals[i+6]);
       fprintf(log,"\n");
     }
-    i = n*(GEN->order+2);
-    fprintf(log,"%s:[%4d]: %#12.6g  %#12.6g  (right boundary)\n", gen->genid, n,
-	    GEN->intervals[i], GEN->intervals[i+1]);
   }
   fprintf(log,"%s:\n",gen->genid);
 } 
