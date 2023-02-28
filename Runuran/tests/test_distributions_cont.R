@@ -4,6 +4,10 @@
 ##                                                                         ##
 #############################################################################
 ##                                                                         ##
+##   Continuous univariate distributions                                   ##
+##                                                                         ##
+#############################################################################
+##                                                                         ##
 ##   Remark: You must use named arguments when calling the test routines!  ##
 ##                                                                         ##
 #############################################################################
@@ -149,7 +153,6 @@ for (i in 1:n.rep.params)
         unur.test.cont("cauchy", location=rcauchy(1), scale=rgamma(1,shape=2))
 
 ## Chi distribution ---------------------------------------------------------
-#urchi <- function (n,nu,lb=0,ub=Inf) {
 
 ## Chi^2 distribution - (replacement for rchisq) ----------------------------
 for (i in 1:n.rep.domains)
@@ -164,13 +167,10 @@ for (i in 1:n.rep.params)
         unur.test.cont("exp", rate=runif(1,0.1,10))
 
 ## Extreme value type I (Gumbel-type) distribution --------------------------
-#urextremeI <- function (n,location=0,scale=1,lb=-Inf,ub=Inf) {
-#
+
 ## Extreme value type II (Frechet-type) distribution ------------------------
-#urextremeII <- function (n,shape,location=0,scale=1,lb=location,ub=Inf) {
-#
+
 ## F distribution  - (replacement for rf) -----------------------------------
-#urf <- function (n,df1,df2,lb=0,ub=Inf) {
 for (i in 1:n.rep.domains)
         unur.test.cont("f", df1=runif(1,0.1,10), df2=runif(1,0.1,10), 
                        domain=sort(runif(2)))
@@ -184,13 +184,10 @@ for (i in 1:n.rep.params)
         unur.test.cont("gamma", shape=runif(1,0.1,10), scale=runif(1,0.1,10))
 
 ## Generalized inverse Gaussian ---------------------------------------------
-#urgig <- function (n,lambda,omega,lb=1.e-12,ub=Inf) { 
-#
+
 ## Hyperbolic distribution --------------------------------------------------
-#urhyperbolic <- function (n,zeta,scale=1,lb=-Inf,ub=Inf) {
-#
+
 ## Laplace (double exponential) distribution --------------------------------
-#urlaplace <- function (n,location=0,scale=1,lb=-Inf,ub=Inf) {
 
 ## Lognormal distribution  - (replacement for rlnorm) -----------------------
 unur.test.cont("lnorm")
@@ -207,7 +204,6 @@ for (i in 1:n.rep.params)
         unur.test.cont("logis", location=rcauchy(1), scale=rgamma(1,shape=2))
 
 ## Lomax distribution (Pareto distribution of second kind) ------------------
-#urlomax <- function (n,shape,scale=1,lb=0,ub=Inf) {
 
 ## Normal (Gaussian) distribution - (replacement for rnorm) -----------------
 unur.test.cont("norm")
@@ -217,16 +213,12 @@ for (i in 1:n.rep.params)
         unur.test.cont("norm", mean=rcauchy(1), sd=rgamma(1,shape=2))
 
 ## Pareto distribution ------------------------------------------------------
-#urpareto <- function (n,k,a,lb=k,ub=Inf) {
-#
+
 ## Planck distribution ------------------------------------------------------
-#urplanck <- function (n,a,lb=1.e-12,ub=Inf) { 
-#
+
 ## Powerexponential (Subbotin) distribution ---------------------------------
-#urpowerexponential <- function (n,shape,lb=-Inf,ub=Inf) {
-#
+
 ## Rayleigh distribution ----------------------------------------------------
-#urrayleigh <- function (n,scale,lb=0,ub=Inf) {
 
 ## Student's t distribution - (replacement for rt) --------------------------
 for (i in 1:n.rep.domains)
@@ -241,36 +233,10 @@ for (i in 1:n.rep.params)
         unur.test.cont("weibull", shape=runif(1,0.1,10), scale=runif(1,0.1,10))
 
 
-#############################################################################
-## Discrete univariate Distributions                                        #
-#############################################################################
-
-## Binomial distribution - (replacement for rbinom) -------------------------
-#urbinom <- function (n,size,prob,lb=0,ub=n) { 
-#
-## Geometric distribution - (replacement for rgeom) -------------------------
-#urgeom <- function (n,prob,lb=0,ub=Inf) {
-#
-## Hypergeometric distribution - (replacement for rhyper) -------------------
-#urhyper <- function (nn,m,n,k,lb=0,ub=n) {
-#
-## Logarithmic distribution -------------------------------------------------
-#urlogarithmic <- function (n,shape,lb=1,ub=Inf) {
-#
-## Negative binomial distribution - (replacement for rnbinom) ---------------
-#urnbinom <- function (n,size,prob,lb=0,ub=Inf) {
-#
-## Poisson distribution - (replacement for rpois) ---------------------------
-#urpois <- function (n,lambda,lb=0,ub=Inf) {
-
-#############################################################################
-## Continuous multivariate Distributions:                                   #
-##    Yet net implemented.                                                  #
-#############################################################################
-
 ## -- Print statistics ------------------------------------------------------
 
-message("number of tests = ",length(pvals),"  (number of warnings = ",n.warns,")")
+cat("\nTests for continuous univariate distributions\n\n",
+    "\tnumber of tests = ",length(pvals),"  (number of warnings = ",n.warns,")\n\n")
 summary(pvals)
 
 

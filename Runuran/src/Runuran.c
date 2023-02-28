@@ -1,6 +1,6 @@
 /*****************************************************************************
  *                                                                           *
- *          UNURAN -- Universal Non-Uniform Random number generator          *
+ *          UNU.RAN -- Universal Non-Uniform Random number generator         *
  *                                                                           *
  *****************************************************************************
  *                                                                           *
@@ -72,7 +72,7 @@ static double Runuran_R_unif_rand (void *unused);
         error("[UNU.RAN - error] invalid UNU.RAN object"); \
     } while (0)
 
-/* Use an external reference to store the UNURAN generator objects */
+/* Use an external reference to store the UNU.RAN generator objects */
 static SEXP Runuran_tag = NULL;
 
 /*---------------------------------------------------------------------------*/
@@ -80,30 +80,47 @@ static SEXP Runuran_tag = NULL;
 SEXP
 Runuran_init (SEXP sexp_distr, SEXP sexp_method)
      /*----------------------------------------------------------------------*/
-     /* Create and initinalize UNU.RAN generator object.                     */
+     /* Create and initialize UNU.RAN generator object.                      */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_gen;
   struct unur_gen *gen;
-  const char *distr, *method;
+  const char *method;
 
   /* make tag for R object */
   if (!Runuran_tag) Runuran_tag = install("R_UNURAN_TAG");
 
   /* check argument */
-  if (!sexp_distr || TYPEOF(sexp_distr) != STRSXP)
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'distribution'");
   if (!sexp_method || TYPEOF(sexp_method) != STRSXP)
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'method'");
+  if (!sexp_distr)
+    /* this error should not happen. But we add it just in case. */
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid NULL pointer");
 
-  /* get pointers to argument strings */
-  distr = CHAR(STRING_ELT(sexp_distr,0));
+  /* get method string */
   method = CHAR(STRING_ELT(sexp_method,0));
 
   /* create generator object */
-  gen = unur_makegen_ssu( distr, method, NULL );
+  switch (TYPEOF(sexp_distr)) {
+  case STRSXP:
+    {
+      const char *distr = CHAR(STRING_ELT(sexp_distr,0));
+      gen = unur_makegen_ssu( distr, method, NULL );
+    }
+    break;
 
-  /* this must not be a NULL pointer */
+  case EXTPTRSXP:
+    {
+      struct unur_distr *distr = R_ExternalPtrAddr(sexp_distr);
+      gen = unur_makegen_dsu( distr, method, NULL );
+    }
+    break;
+
+  default:
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'distribution'");
+  }
+
+  /* 'gen' must not be a NULL pointer */
   if (gen == NULL) {
     errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN object");
   }

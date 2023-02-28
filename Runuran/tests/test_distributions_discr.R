@@ -4,6 +4,10 @@
 ##                                                                         ##
 #############################################################################
 ##                                                                         ##
+##   Discrete distributions                                                ##
+##                                                                         ##
+#############################################################################
+##                                                                         ##
 ##   Remark: You must use named arguments when calling the test routines!  ##
 ##                                                                         ##
 #############################################################################
@@ -96,7 +100,8 @@ unur.test.discr <- function (distr, domain, ...) {
                 hits <- hits[hits>5]
 
                 ## -- run unur.chiq.test --
-                pval <- chisq.test(hits,probs,rescale.p=TRUE,simulate.p.value=F)$p.value
+                pval <- chisq.test(hits,p=probs,rescale.p=TRUE)$p.value
+
                 ## -- check p-value
                 if (pval > alpha) { # test passed
                         message("chisq test PASSed with p-value=",signif(pval))
@@ -152,7 +157,8 @@ for (i in 1:n.rep.params) {
 
 ## -- Print statistics ------------------------------------------------------
 
-message("number of tests = ",length(pvals),"  (number of warnings = ",n.warns,")")
+cat("\nTests for discrete distributions\n\n",
+    "\tnumber of tests = ",length(pvals),"  (number of warnings = ",n.warns,")\n\n")
 summary(pvals)
 
 

@@ -43,23 +43,27 @@ setMethod( "initialize", "unuran",
                   ## Check entries
                   if (is.null(distr)) {
                           stop("no distribution given", call.=FALSE) }
-                  if (!is.character(distr)) {
-                          stop("'distr' must be a character string", call.=FALSE) }
                   if (!is.character(method)) {
                           stop("'method' must be a character string", call.=FALSE) }
 
                   ## Store informations 
-                  .Object@distr <- distr
+                  .Object@distr <- ifelse(is.character(distr), distr, "[UNU.RAN distribution]")
                   .Object@method <- method
 
                   ## Create UNU.RAN object
-                  .Object@unur <-.Call("Runuran_init", distr, method, PACKAGE="Runuran")
+                  if (is.character(distr)) {
+                          .Object@unur <-.Call("Runuran_init", distr, method, PACKAGE="Runuran")
+                  } else { if (class(distr)=="unuran.discr") {
+                          .Object@unur <-.Call("Runuran_init", distr@distr, method, PACKAGE="Runuran")
+                  } else {
+                          stop("'distr' must be a character string or an UNU.RAN distribution object", call.=FALSE)
+                  }}
 
                   ## Check UNU.RAN object
                   if (is.null(.Object@unur)) {
                           stop("Cannot create UNU.RAN object", call.=FALSE)
                   }
-
+                  
                   ## return new UNU.RAN object
                   .Object
           } )

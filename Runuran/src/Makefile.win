@@ -12,7 +12,7 @@ UNURAN_CPPFLAGS := -I. -I${UNURAN_DIR} -DHAVE_CONFIG_H
 
 # --- File lists -------------------------------------------------------------
 
-R_UNURAN_SRC := Runuran.c ${UNURAN_SRC}
+R_UNURAN_SRC := Runuran.c Runuran_distr.c ${UNURAN_SRC}
 R_UNURAN_OBJ := $(R_UNURAN_SRC:.c=.o)
 R_UNURAN_SHLIB := $(pkg).dll
 
