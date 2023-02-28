@@ -1,11 +1,31 @@
 
+Version 0.4: 2007-05-16
+
+         - First public release
+
+	 - new function unuran.new() for creating a UNU.RAN object
+
+	 - new class "unuran.discr" for dicrete distributions
+
+	 - new functions ur...() for sampling from various standard
+           distributions
+
+         - unuran.sample() is now a function and not an S4 method any more
+
+         - internal: added test suite for generation method
+
+	 - internal: d fixed possible leak in R's PROTECT stack
+
+
 Version 0.3: 2007-05-03
 
-	- First public release
+         - added support for Windows
+
 
 Version 0.2: 2007-05-02
 
         - R CMD check now does not report any warnings or errors
+
 
 Version 0.1: 2007-04-30
 

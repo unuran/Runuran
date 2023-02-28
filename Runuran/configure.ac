@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl --- Initialize ----------------------------------------------------------- 
 AC_PREREQ(2.59)
-AC_INIT([Runuran],[0.3],[unuran@statmath.wu-wien.ac.at])
+AC_INIT([Runuran],[0.4],[unuran@statmath.wu-wien.ac.at])
 AC_CONFIG_HEADER([src/config.h])
 
 dnl --- Configure flags ------------------------------------------------------
