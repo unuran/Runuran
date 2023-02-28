@@ -1,19 +1,38 @@
+# Makefile for Unices
+
+# --- Package name -----------------------------------------------------------
+
+pkg = Runuran
+
+# --- Location of UNU.RAN ----------------------------------------------------
 
 UNURAN_DIR := unuran-src
-UNURAN_SRC := $(wildcard ${UNURAN_DIR}/src/*/*.c)
-UNURAN_CPPFLAGS := -I. -I${UNURAN_DIR}/src -I${UNURAN_DIR}/src/tests -DHAVE_CONFIG_H
+UNURAN_SRC := $(wildcard ${UNURAN_DIR}/*/*.c)
+UNURAN_CPPFLAGS := -I. -I${UNURAN_DIR} -DHAVE_CONFIG_H
 
-## UNURAN_CFLAGS := -Wall -pedantic
-UNURAN_CFLAGS := 
+# --- File lists -------------------------------------------------------------
 
-all: libRunuran
+R_UNURAN_SRC := Runuran.c ${UNURAN_SRC}
+R_UNURAN_OBJ := $(R_UNURAN_SRC:.c=.o)
+R_UNURAN_SHLIB := $(pkg)$(SHLIB_EXT)
 
-libRunuran:
-	@echo "Create shared library for UNU.RAN"
-	PKG_CFLAGS="${UNURAN_CFLAGS}" PKG_CPPFLAGS="${UNURAN_CPPFLAGS}" \
-		"${R_HOME}/bin/R" CMD SHLIB Runuran.c ${UNURAN_SRC}
+# --- Compiler and linker flags ----------------------------------------------
+
+PKG_CPPFLAGS = ${UNURAN_CPPFLAGS}
+
+# --- Create DLL -------------------------------------------------------------
+
+all: $(R_UNURAN_SHLIB)
+
+$(R_UNURAN_SHLIB): $(R_UNURAN_OBJ)
+	$(SHLIB_LINK) -o $@ $(R_UNURAN_OBJ) $(ALL_LIBS)
+
+# --- Clear working space ----------------------------------------------------
+
+mostlyclean: clean
 
 clean:
 	@echo "Clear working space"
-	rm -f Runuran.o Runuran.so config.h
-	find ./unuran-src/src -type f -name '*.o' -exec rm -v {} ';'
+	@find ./ -type f -name '*.o' -o -name '*.so' -exec rm -v {} ';'
+
+# --- End --------------------------------------------------------------------
