@@ -1,7 +1,7 @@
 Package: Runuran
 Type: Package
 Title: R interface for UNU.RAN
-Version: 0.2.1
+Version: 0.3
 Date: 2007-05-03
 Author: Josef Leydold <leydold@statmath.wu-wien.ac.at>
 Maintainer: Josef Leydold <leydold@statmath.wu-wien.ac.at>

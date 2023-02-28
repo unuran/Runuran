@@ -1,0 +1,13 @@
+
+Version 0.3: 2007-05-03
+
+	- First public release
+
+Version 0.2: 2007-05-02
+
+        - R CMD check now does not report any warnings or errors
+
+Version 0.1: 2007-04-30
+
+        - First pre-alpha release
+

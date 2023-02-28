@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl --- Initialize ----------------------------------------------------------- 
 AC_PREREQ(2.59)
-AC_INIT([Runuran],[0.1],[unuran@statmath.wu-wien.ac.at])
+AC_INIT([Runuran],[0.3],[unuran@statmath.wu-wien.ac.at])
 AC_CONFIG_HEADER([src/config.h])
 
 dnl --- Configure flags ------------------------------------------------------
@@ -64,12 +64,12 @@ dnl Check IEEE comparisons, whether "x != x" is true for NaNs
 AC_CACHE_CHECK([for IEEE comparisons], ac_cv_c_ieee_comparisons,
 [AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <math.h>
+#include <stdlib.h>
 int main (void) 
 { 
-   int status; double inf, nan;
-   inf = exp(1.0e10);
-   nan = inf / inf;
-   /* nan = 0.0 / 0.0; */
+   int status; double nan;
+   const double zero = 0.;
+   nan = 0.0 / zero;
    status = (nan == nan);
    exit (status);
 }]])],

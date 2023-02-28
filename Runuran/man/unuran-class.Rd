@@ -46,7 +46,7 @@
 }
 
 \author{
-  Josef Leydold <leydold@statmath.wu-wien.ac.at>
+  Josef Leydold \email{leydold@statmath.wu-wien.ac.at}
 }
 
 \note{

@@ -1,6 +1,12 @@
 
 all: help
 
+help:
+	@echo "clean ... clear working space"
+
+clean: clean-runuran
+	find . -type f -name "*~" -exec rm -v {} ';'
+
 unuran-build: unuran-src
 	R CMD build Runuran
 
@@ -11,16 +17,17 @@ unuran-src:
 	(cd Runuran; autoheader; autoconf)
 	(cd ../unuran; \
 		test -f configure || ./autogen.sh; \
-		test -f src/unuran.h || make; \
-		find ./src -type f -name '*.[ch]' -o -name '*.ch' | \
-			grep -v "/src/tests/" | \
+		test -f src/unuran.h || make; )
+	(cd ../unuran/src; \
+		find ./ -type f -name '*.[ch]' -o -name '*.ch' | \
+			grep -v "/tests/" | \
 			grep -v "deprecated_.*\.c" | \
-			grep -v "/src/uniform/.*\.c" | \
-			cpio -vdump ../R/Runuran/src/unuran-src; \
-		rm -v ../R/Runuran/src/unuran-src/src/unuran_config.h; \
-		cp -v ./src/unuran.h.in ../R/Runuran/src/unuran-src/src; \
+			grep -v "/uniform/.*\.c" | \
+			cpio -vdump ../../R/Runuran/src/unuran-src; \
+		cp -v ./unuran.h.in ../../R/Runuran/src/unuran-src; \
 	)
-	for f in `find ./Runuran/src/unuran-src/src -type f -name '*.[ch]' -o -name '*.ch'`; do \
+	rm -v ./Runuran/src/unuran-src/unuran_config.h
+	for f in `find ./Runuran/src/unuran-src -type f -name '*.[ch]' -o -name '*.ch'`; do \
 		../unuran/scripts/remove_comments.pl $$f; \
 	done
 
@@ -32,12 +39,6 @@ clean-runuran:
 	(cd Runuran/src; \
 		rm -f config.h*; \
 		rm -f Runuran.so Runuran.o; \
-		rm -rf unuran-src/src )
-
-clean: clean-runuran
-	find . -type f -name "*~" -exec rm -v {} ';'
-
-help:
-	@echo "clean ... clear working space"
+		rm -rf unuran-src/* )
 
 .PHONY: help clean clean-rstream clean-runuran unuran unuran-src unuran-check unuran-build
