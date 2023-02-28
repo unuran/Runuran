@@ -25,10 +25,10 @@
 
   It provides the following two calls:
   \describe{
-    \item{\code{new("unuran",distring,methodstring)}}{
+    \item{\code{new("unuran",dist.string,method.string)}}{
       Create a "unuran" object.
     }
-    \item{\code{unuran.sample(unuranobject,samplesize)}}{
+    \item{\code{unuran.sample(unuran.object,sample.size)}}{
       Get a random sample from the stream object.
     }
   }

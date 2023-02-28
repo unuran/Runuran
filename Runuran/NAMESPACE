@@ -2,10 +2,12 @@ useDynLib(Runuran)
 
 import("methods")
 
-exportMethods(unuran.sample)
+exportClass(unuran)
+
 exportMethods(r)
 exportMethods(initialize)
 exportMethods(print)
 exportMethods(show)
 
-exportClass(unuran)
+export(unuran.sample)
+

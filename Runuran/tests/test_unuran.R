@@ -1,3 +1,4 @@
+
 #############################################################################
 ##                                                                         ##
 ##   Tests for class 'unuran'                                              ##
@@ -12,15 +13,27 @@ samplesize <- 1e4
 
 library(Runuran)
 
-## --- Run tests ------------------------------------------------------------
+## --- Continuous distributions ---------------------------------------------
 
 ## Create an object
 unr <- new("unuran", "normal()")
 
-## Draw a sample
+## Draw samples
+unuran.sample(unr)
+unuran.sample(unr,10)
 x <- unuran.sample(unr, samplesize)
 
 ## Run a chi-square GoF test
 chisq.test( hist(pnorm(x),plot=FALSE)$density )
+
+## --- Discrete distributions -----------------------------------------------
+
+## Create an object
+unr <- new("unuran", "binomial(20,0.5)", "dgt")
+
+## Draw samples
+unuran.sample(unr)
+unuran.sample(unr,10)
+x <- unuran.sample(unr, samplesize)
 
 ## --- End ------------------------------------------------------------------

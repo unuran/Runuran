@@ -64,21 +64,20 @@ setMethod( "initialize", "unuran",
 ## Sampling -----------------------------------------------------------------
 
 ## unuran.sample
-if(!isGeneric("unuran.sample"))
-        setGeneric("unuran.sample", function(unur,...) standardGeneric("unuran.sample"))
-
-setMethod("unuran.sample", "unuran", 
-          function(unur,n=1) { 
-                  .Call("Runuran_sample", unur@unur, as.integer(n), PACKAGE="Runuran")
-          } )
+## ( We avoid using a method as this has an expensive overhead. )
+unuran.sample <- function(unr,n=1) { 
+        .Call("Runuran_sample", unr@unur, n, PACKAGE="Runuran")
+}
 
 ## r
-##    alias for unuran.sample  (slow!!)
+##    method alias for unuran.sample  (slow!!)
 if(!isGeneric("r"))
         setGeneric("r", function(unur,...) standardGeneric("r"))
 
 setMethod("r", "unuran",
-          function(unur,n=1) { unuran.sample(unur,n) } )
+          function(unur,n=1) {
+                  .Call("Runuran_sample", unr@unur, n, PACKAGE="Runuran")
+          } )
 
 ## Printing -----------------------------------------------------------------
 

@@ -69,7 +69,7 @@ static double Runuran_R_unif_rand (void *unused);
 /* check pointer to generator object */
 #define CHECK_PTR(s) do { \
     if (TYPEOF(s) != EXTPTRSXP || R_ExternalPtrTag(s) != Runuran_tag) \
-        error("bad UNU.RAN object"); \
+        error("[UNU.RAN - error] invalid UNU.RAN object"); \
     } while (0)
 
 /* Use an external reference to store the UNURAN generator objects */
@@ -92,9 +92,9 @@ Runuran_init (SEXP sexp_distr, SEXP sexp_method)
 
   /* check argument */
   if (!sexp_distr || TYPEOF(sexp_distr) != STRSXP)
-    error("bad distribution");
+    error("[UNU.RAN - error] invalid argument 'distribution'");
   if (!sexp_method || TYPEOF(sexp_method) != STRSXP)
-    error("bad method");
+    error("[UNU.RAN - error] invalid argument 'method'");
 
   /* get pointers to argument strings */
   distr = CHAR(STRING_ELT(sexp_distr,0));
@@ -105,7 +105,7 @@ Runuran_init (SEXP sexp_distr, SEXP sexp_method)
 
   /* this must not be a NULL pointer */
   if (gen == NULL) {
-    error("cannot create UNU.RAN object");
+    error("[UNU.RAN - error] cannot create UNU.RAN object");
   }
 
   /* make R external pointer and store pointer to structure */
@@ -128,31 +128,59 @@ Runuran_sample (SEXP sexp_gen, SEXP sexp_n)
      /* Sample from UNU.RAN generator object.                                */
      /*----------------------------------------------------------------------*/
 {
-  int n = INTEGER (sexp_n)[0];
+  int n;
   struct unur_gen *gen;
   int i;
-  SEXP res;
+  SEXP res = NULL;
 
 #ifdef DEBUG
   /* check pointer */
   CHECK_PTR(sexp_gen);
 #endif
 
+  /* Extract and check sample size */
+  n = *(INTEGER (AS_INTEGER (sexp_n)));
+  if (n<=0) {
+    error("sample size 'n' must be positive integer");
+  }
+
   /* Extract pointer to generator */
   gen = R_ExternalPtrAddr(sexp_gen);
   
+#ifdef DEBUG
   /* this must not be a NULL pointer */
   if (gen == NULL)
-    error("bad UNURAN object");
+    error("[UNU.RAN - error] bad UNU.RAN object");
+#endif
 
   /* TODO: this must not be called when we do not use the R built-in URNG */
   GetRNGstate();
 
   /* generate random vector of length n */
-  PROTECT(res = NEW_NUMERIC(n));
-  for (i=0; i<n; i++)
-    NUMERIC_POINTER(res)[i] = unur_sample_cont(gen);
-  UNPROTECT(1);
+  switch (unur_distr_get_type(unur_get_distr(gen))) {
+
+  case UNUR_DISTR_CONT:   /* univariate continuous distribution */
+  case UNUR_DISTR_CEMP:   /* empirical continuous univariate distribution */
+    PROTECT(res = NEW_NUMERIC(n));
+    for (i=0; i<n; i++) {
+      NUMERIC_POINTER(res)[i] = unur_sample_cont(gen); }
+    UNPROTECT(1);
+    break;
+
+  case UNUR_DISTR_DISCR:  /* discrete univariate distribution */
+    PROTECT(res = NEW_NUMERIC(n));
+    for (i=0; i<n; i++) {
+      NUMERIC_POINTER(res)[i] = (double) unur_sample_discr(gen); }
+    UNPROTECT(1);
+    break;
+
+  case UNUR_DISTR_CVEC:   /* continuous mulitvariate distribution */
+  case UNUR_DISTR_CVEMP:  /* empirical continuous multivariate distribution */
+  case UNUR_DISTR_MATR:   /* matrix distribution */
+  default:
+    error("[UNU.RAN - error] '%s': Distribution type yet not support",
+	  unur_distr_get_name(unur_get_distr(gen)) );
+  }
 
   /* TODO: this must not be called when we do not use the R built-in URNG */
   PutRNGstate();
