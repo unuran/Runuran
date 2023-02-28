@@ -26,6 +26,18 @@ x <- unuran.sample(unr, samplesize)
 ## Run a chi-square GoF test
 chisq.test( hist(pnorm(x),plot=FALSE)$density )
 
+
+## Create an object
+unr <- unuran.new("normal()")
+
+## Draw samples
+unuran.sample(unr)
+unuran.sample(unr,10)
+x <- unuran.sample(unr, samplesize)
+
+## Run a chi-square GoF test
+chisq.test( hist(pnorm(x),plot=FALSE)$density )
+
 ## --- Discrete distributions -----------------------------------------------
 
 ## Create an object

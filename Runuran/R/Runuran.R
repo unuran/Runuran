@@ -64,6 +64,11 @@ setMethod( "initialize", "unuran",
                   .Object
           } )
 
+## Shortcut
+unuran.new <- function(distr,method="auto") {
+        new("unuran",distr,method)
+}
+
 ## Validity -----------------------------------------------------------------
 
 ## Sampling -----------------------------------------------------------------

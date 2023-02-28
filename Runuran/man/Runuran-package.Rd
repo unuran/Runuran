@@ -1,7 +1,9 @@
 \name{Runuran-package}
+\docType{package}
+
 \alias{Runuran-package}
 \alias{Runuran}
-\docType{package}
+\alias{unuran}
 
 \title{
   Runuran -- R interface to Universal Non-Uniform RANdom variate
@@ -25,76 +27,93 @@
 
   It provides the following two main calls:
   \describe{
-    \item{\code{new("unuran",dist.string,method.string)}}{
-      Create a "unuran" object. For details see unuran.new.
+    \item{\code{unuran.new(dist.string,method.string)}}{
+      Create a UNU.RAN object. For details see
+      \code{\link{unuran.new}}.
     }
     \item{\code{unuran.sample(unuran.object,sample.size)}}{
-      Get a random sample from the stream object.
+      Get a random sample from the UNU.RAN object.
+      For details see \code{\link{unuran.sample}}.
     }
   }
   It uses the \R built-in uniform random number generator.
 
-  The functions urdgt() and urdau() are provided to allow an easy
-  interface when generating from discrete distributions.
+  The \pkg{Runuran} package makes use of the string API of UNU.RAN,
+  i.e., distributions and methods are described as strings and passed
+  directly to UNU.RAN. See \code{\link{unuran.new}} for a short
+  introduction to this interface. 
+
+  The \pkg{Runuran} uses S4 classes to implemented this interface to
+  UNU.RAN.
+
+  The functions \code{\link{urdgt}} and \code{\link{urdau}} are provided
+  to allow an easy to use interface when generating from discrete
+  distributions with given probability vectors.
 
   To facilitate the use of the package for standard distributions
   the package also includes direct generation functions for
-  approximately 30 standard distributions. The names of these calls are:
+  approximately 30 standard distributions.
 
-  urbeta() ,
-urburr() ,
-urcauchy() ,
-urchi() ,
-urchisq() ,
-urexp() ,
-urextremeI() ,
-urextremeII() ,
-urf() ,
-urgamma() ,
-urgig() ,
-urhyperbolic() ,
-urlaplace() ,
-urlnorm() ,
-urlogis() ,
-urlomax() ,
-urnorm() ,
-urpareto() ,
-urplanck() ,
-urpowerexponential() ,
-urrayleigh() ,
-urt() ,
-urtriang() ,
-urweibull() ,
-urbinom() ,
-urgeom() , 
-urhyper() ,
-urlogarithmic() ,
-urnbinom() ,
-urpois() 
+  For continuous univariate distributions these calls are:
+  \code{\link{urbeta}}, 
+  \code{\link{urburr}}, 
+  \code{\link{urcauchy}}, 
+  \code{\link{urchi}}, 
+  \code{\link{urchisq}}, 
+  \code{\link{urexp}}, 
+  \code{\link{urextremeI}}, 
+  \code{\link{urextremeII}}, 
+  \code{\link{urf}}, 
+  \code{\link{urgamma}},
+  \code{\link{urgig}}, 
+  \code{\link{urhyperbolic}}, 
+  \code{\link{urlaplace}}, 
+  \code{\link{urlnorm}}, 
+  \code{\link{urlogis}}, 
+  \code{\link{urlomax}}, 
+  \code{\link{urnorm}}, 
+  \code{\link{urpareto}}, 
+  \code{\link{urplanck}}, 
+  \code{\link{urpowerexp}}, 
+  \code{\link{urrayleigh}}, 
+  \code{\link{urt}}, 
+  \code{\link{urtriang}}, and 
+  \code{\link{urweibull}}.
 
+  For discrete distributions these are:
+  \code{\link{urbinom}}, 
+  \code{\link{urgeom}},  
+  \code{\link{urhyper}}, 
+  \code{\link{urlogarithmic}}, 
+  \code{\link{urnbinom}}, and
+  \code{\link{urpois}}.
 
-  All calls are based on the syntax:
+  All these calls have similar syntax to the analogous \R built-in
+  generating functions (if these exist) but have an optional domain
+  arguments \code{lb} and \code{ub},
+  i.e., these calls also allow to draw samples from truncated
+  distributions:
 
-  ur...(n, ... distribution parameters ..., lb , ub)
+  \code{ur...(n, distribution parameters, lb , ub)}
 
-  We also include unuran "ur" - fuctions for standard distributions included in R
-  as they have a slightly different behaviour than the 
-  random variate generation functions of R like "rnorm". 
-  \describe{
-    \item{}{"ur" functions are often much faster (e.g. a factor) of about 5 for the  
-      t distribution when n is large. For n small the "ur" functions are slow.}
-    \item{}{All "ur" functions allow to generate truncated versions of
-      the original distributions. Therefore the arguments lb (lower border)
-      and ub (upper border) are available for all "ur" functions.}
-    \item{}{Allmost all "ur" functions are based on fast numerical inversion
-      algorithms. This is important for example for generating
+  Compared to the corresponding \R functions these \code{ur} functions
+  have a slightly different behavior.
+  \itemize{
+    \item{}{\code{ur} functions are often much faster (e.g. a factor) of
+      about 5 for the \eqn{t} distribution when the sample size is
+      large. For small samples the \code{ur} functions are slow.}
+    \item{}{All \code{ur} functions allow to sample from truncated
+      versions of the original distributions. Therefore the arguments
+      \code{lb} (lower border) and \code{ub} (upper border) are
+      available for all \code{ur} functions.}
+    \item{}{Allmost all \code{ur} functions are based on fast numerical
+      inversion algorithms. This is important for example for generating
       order statistics or random vectors from copulas.}
-    \item{}{All "ur" functions do NOT allow vectors as arguments.}
+    \item{}{All \code{ur} functions do \strong{not} allow vectors as
+      arguments (to be more precise: they only use the first element of
+      the vector).}
   }
 }
-
-
-  
 
 \note{
   The interface has been changed compared to the DSC 2003 paper.
@@ -123,8 +142,8 @@ urpois()
 }
 
 \seealso{
-  \code{\link{unuran.new}}, \link[Runuran:unuran-class]{unuran-class}, \code{\link{urdgt}}
-  and \code{\link{urdau}}.
+  \code{\link{unuran.new}}, \link[Runuran:unuran-class]{unuran-class},
+  \code{\link{urdgt}} and \code{\link{urdau}}.
 }
 
 \keyword{distribution}

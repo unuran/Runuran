@@ -25,6 +25,9 @@
       generation method, see UNU.RAN User Manual. If omitted method
       \code{"auto"} (automatic) is used.}
   }
+
+  See \code{\link{unuran.new}} for short introduction and examples for
+  this interface.
 }
 
 \section{Methods}{
@@ -77,12 +80,16 @@
 }
 
 \seealso{
-  \code{\link{unuran.sample-methods}}.
+  \code{\link{unuran.new}} and 
+  \code{\link{unuran.sample}}.
 }
 
 \examples{
 ## create a new unuran object
 unr <- new("unuran","normal","auto")
+
+## alternatively one can use
+unr <- unuran.new("normal","auto")
 
 ## get random number
 unuran.sample(unr)

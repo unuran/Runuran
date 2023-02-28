@@ -9,9 +9,9 @@
 \alias{r,unuran-method}
 \alias{r,unuran,numeric-method}
 
-\title{Methods for Function unuran.sample in Package `Runuran'}
+\title{Sample from a distribution specified by an UNU.RAN object}
 \description{
-  Get random sample from an "unuran" object in package
+  Get random sample from an UNU.RAN object in package
   \pkg{Runuran}.
 }
 
