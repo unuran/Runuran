@@ -11,3 +11,4 @@ exportMethods(show)
 
 export(unuran.sample)
 
+exportPattern("^ur")

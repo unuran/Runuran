@@ -1,8 +1,13 @@
 #############################################################################
 ##                                                                         ##
-##   Class: unuran                                                         ##
+##   Runuran                                                               ##
+##                                                                         ##
+##   (c) 2007, Josef Leydold and Wolfgang Hoermann                         ##
+##   Department for Statistics and Mathematics, WU Wien                    ##
 ##                                                                         ##
 #############################################################################
+##                                                                         ##
+##   Class: unuran                                                         ##
 ##                                                                         ##
 ##   Interface to the UNU.RAN library for                                  ##
 ##   Universal Non-Uniform RANdom variate generators                       ##
@@ -94,37 +99,3 @@ setMethod( "show", "unuran",
 
 
 ## End ----------------------------------------------------------------------
-
-###print("------------------------Beispiele ----------------------")
-#### Beispiel 1
-###datanormal1=sample.unur(gen1,5)
-###print(datanormal1)
-####
-#### Beispiel 2
-###gen2<-new("unur","normal(1,2);domain=(0,inf)")
-###datanormal2=sample.unur(gen2,5)
-###print(datanormal2)
-###hist(z<-sample.unur(gen2,100000),breaks=20)
-####
-#### Beispiel 3
-###gen3<-new("unur","normal(1,2);domain=(0,inf)&method=hinv")
-###datanormal3=sample.unur(gen3,5)
-###print(datanormal3)
-###hist(z<-sample.unur(gen3,100000),breaks=20)
-####
-#### Beispiel 4
-###gen4<-new("unur","distr = cont; pdf=\"1-x*x\"; domain=(-1,1) & method=tdr")
-###datanormal4=sample.unur(gen4,5)
-###print(datanormal4)
-###hist(z<-sample.unur(gen4,100000),breaks=20)
-###
-#### Beispiel 5 hyperbolische Funktion
-###gen5<-new("unur","distr = cont; pdf=\"1/sqrt(1+x^2)*exp(-2*sqrt(1+x^2)+1*x)\"; domain=(-1,3) & method=tdr")
-###datanormal5=sample.unur(gen5,5)
-###print(datanormal5)
-###hist(z<-sample.unur(gen5,100000),breaks=20)
-###
-####------output to postscript file----------
-#### postscript("bild.ps",horizontal=FALSE)     # open Device postscript - see also help(Device)
-#### hist(z <- sample.unur(gen5, 1e+05), breaks = 40,tck=0.01,main="Titel")
-#### graphics.off()                           # close graphic Devices

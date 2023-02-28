@@ -46,7 +46,8 @@
 }
 
 \author{
-  Josef Leydold \email{leydold@statmath.wu-wien.ac.at}
+  Josef Leydold \email{leydold@statmath.wu-wien.ac.at} and
+  Wolfgang H\"ormann \email{hormannw@boun.edu.tr}
 }
 
 \note{

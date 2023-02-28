@@ -28,7 +28,12 @@
   \code{\link{unuran-class}}.
 }
 
-\note{\code{r} is equivalent to \code{unuran.sample}.}
+\note{
+  For performance reasons \code{unuran.sample} is implemented as a
+  simple \code{function}.
+
+  \code{r} is an S4 method and equivalent to \code{unuran.sample}.
+}
 
 \author{Josef Leydold}
 
@@ -37,3 +42,4 @@
 \keyword{methods}
 \keyword{distribution}
 \keyword{datagen}
+

@@ -11,7 +11,7 @@
  *                                                                           *
  *****************************************************************************
  *                                                                           *
- *   Copyright (c) 2000 Wolfgang Hoermann and Josef Leydold                  *
+ *   Copyright (c) 2007 Wolfgang Hoermann and Josef Leydold                  *
  *   Dept. for Statistics, University of Economics, Vienna, Austria          *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
@@ -92,9 +92,9 @@ Runuran_init (SEXP sexp_distr, SEXP sexp_method)
 
   /* check argument */
   if (!sexp_distr || TYPEOF(sexp_distr) != STRSXP)
-    error("[UNU.RAN - error] invalid argument 'distribution'");
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'distribution'");
   if (!sexp_method || TYPEOF(sexp_method) != STRSXP)
-    error("[UNU.RAN - error] invalid argument 'method'");
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'method'");
 
   /* get pointers to argument strings */
   distr = CHAR(STRING_ELT(sexp_distr,0));
@@ -105,7 +105,7 @@ Runuran_init (SEXP sexp_distr, SEXP sexp_method)
 
   /* this must not be a NULL pointer */
   if (gen == NULL) {
-    error("[UNU.RAN - error] cannot create UNU.RAN object");
+    errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN object");
   }
 
   /* make R external pointer and store pointer to structure */
@@ -253,11 +253,30 @@ Runuran_error_handler(
      /* Error handler for UNU.RAN routines                                   */
      /*----------------------------------------------------------------------*/
 {
+  /* we suppress some warnings */
+  if (errortype[0] == 'w') {
+    switch (errorcode) {
+      /* we do not print warnings for the following codes: */
+    case UNUR_ERR_DISTR_REQUIRED:
+      return;
+
+    default:
+      break;
+    }
+  }
+
+  /* print warning or error message */
   Rprintf("[UNU.RAN - %s] %s",errortype,unur_get_strerror(errorcode));
   if (reason && strlen(reason))
     Rprintf(": %s\n", reason);
   else
     Rprintf("\n");
+  
+#ifdef DEBUG
+  /* print file and line number */
+  Rprintf("\tfile: %s, line: %d\n",file,line);
+#endif
+
 } /* end of Runuran_error_handler() */
 
 /*---------------------------------------------------------------------------*/
