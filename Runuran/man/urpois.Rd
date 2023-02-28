@@ -48,8 +48,8 @@ urpois(n, lambda, lb = 0, ub = Inf)
 }
 
 \author{
-  Josef Leydold \email{leydold@statmath.wu-wien.ac.at} and
-  Wolfgang H\"ormann \email{hormannw@boun.edu.tr}
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
 }
 
 \note{

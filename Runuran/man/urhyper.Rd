@@ -50,8 +50,8 @@ urhyper(nn, m, n, k, lb=max(0,k-n), ub=min(k,m))
 }
 
 \author{
-  Josef Leydold \email{leydold@statmath.wu-wien.ac.at} and
-  Wolfgang H\"ormann \email{hormannw@boun.edu.tr}
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
 }
 
 \note{

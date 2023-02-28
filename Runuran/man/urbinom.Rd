@@ -47,8 +47,8 @@ urbinom(n, size, prob, lb = 0, ub = size)
 }
 
 \author{
-  Josef Leydold \email{leydold@statmath.wu-wien.ac.at} and
-  Wolfgang H\"ormann \email{hormannw@boun.edu.tr}
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
 }
 
 \note{

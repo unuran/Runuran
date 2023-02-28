@@ -35,7 +35,10 @@
   \code{r} is an S4 method and equivalent to \code{unuran.sample}.
 }
 
-\author{Josef Leydold}
+\author{
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
+}
 
 %%\examples{ }
 

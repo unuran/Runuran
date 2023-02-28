@@ -53,11 +53,11 @@ urlaplace(n, location=0, scale=1, lb = -Inf, ub = Inf)
   Continuous Univariate Distributions, Volume 2.
   2nd edition, John Wiley & Sons, Inc., New York.
   Chap.24, p.164. 
- }
+}
 
 \author{
-  Josef Leydold \email{leydold@statmath.wu-wien.ac.at} and
-  Wolfgang H\"ormann \email{hormannw@boun.edu.tr}
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
 }
 
 \note{
