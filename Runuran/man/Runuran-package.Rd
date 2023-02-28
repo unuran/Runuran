@@ -18,8 +18,8 @@
   \tabular{ll}{
     Package: \tab Runuran       \cr
     Type:    \tab Package       \cr
-    Version: \tab 0.3           \cr
-    Date:    \tab 2007-05-03    \cr
+    Version: \tab 0.4           \cr
+    Date:    \tab 2007-05-16    \cr
     License: \tab GPL 2 or later\cr
   }
   This package provides an interface to the UNU.RAN library for universal
@@ -120,8 +120,8 @@
 } 
 
 \author{
-  Josef Leydold \email{leydold@statmath.wu-wien.ac.at} and
-  Wolfgang H\"ormann \email{hormannw@boun.edu.tr}
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
 }
 
 \references{

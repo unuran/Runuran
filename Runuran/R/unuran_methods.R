@@ -26,16 +26,13 @@
 ## useing the Guide-Table Method for discrete inversion
 ##
 
-urdgt <- function (n, probvector, minval = 0, dist = 1) {
-        ## very fast for probvector not longer than about 1000
-
-        distrstring <- paste("distr=discr;pv=(",
-                             paste(probvector,collapse=",",sep=""),")",sep="")
-        unr <- new("unuran", distrstring, "DGT")
-        if (minval==0 & dist==1)
+urdgt <- function (n, probvector, from = 0, by = 1) {
+        distr <- new("unuran.discr",pv=probvector)
+        unr <- new("unuran", distr, "DGT")
+        if (from==0 && by==1)
                 unuran.sample(unr,n)
         else
-                minval + dist * unuran.sample(unr,n)
+                from + by * unuran.sample(unr,n)
 }
 
 ## -- DAU: Alias-Urn Method ------------------------------------------------
@@ -46,15 +43,13 @@ urdgt <- function (n, probvector, minval = 0, dist = 1) {
 ## useing the Alias-Urn Method
 ##
 
-urdau <- function (n, probvector, minval = 0, dist = 1) {
-        ## very fast for probvector not longer than about 1000
-        distrstring <- paste("distr=discr;pv=(",
-                             paste(probvector,collapse=",",sep=""),")",sep="")
-        unr <- new("unuran", distrstring, "DAU")
-        if (minval==0 & dist==1)
+urdau <- function (n, probvector, from = 0, by = 1) {
+        distr <- new("unuran.discr",pv=probvector)
+        unr <- new("unuran", distr, "DAU")
+        if (from==0 && by==1)
                 unuran.sample(unr,n)
         else
-                minval + dist * unuran.sample(unr,n)
+                from + by * unuran.sample(unr,n)
 }
 
 ## -- End -------------------------------------------------------------------

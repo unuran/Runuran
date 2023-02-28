@@ -14,14 +14,14 @@
 }
 
 \usage{
-urdgt(n, probvector, minval = 0, dist = 1)
-urdau(n, probvector, minval = 0, dist = 1)
+urdgt(n, probvector, from = 0, by = 1)
+urdau(n, probvector, from = 0, by = 1)
 }
 \arguments{
   \item{n}{size of required sample.}
   \item{probvector}{vector of non-negative numbers (need not sum to 1).}
-  \item{minval}{number corresponding to the first probability in probvector.}
-  \item{dist}{"minval + (k-1)*dist" is the number corresponding to the
+  \item{from}{number corresponding to the first probability in probvector.}
+  \item{by}{"from + (k-1)*by" is the number corresponding to the
     \eqn{k}-th probability in probvector.}
 }
 
@@ -74,9 +74,12 @@ urdgt() and urdau() are very fast for probvector not longer than about 1000.
 ## binomial distribution with size=115, prob=0.5
 x <- urdgt(n=10000, probvector=dbinom(0:115,115,0.5))
 
+## same but with method DAU
+x <- urdau(n=10000, probvector=dbinom(0:115,115,0.5))
+
 ## Creata a sample of size 10000 standard normal variates rounded to two
 ## decimal places 
-x <- urdgt(n=10000, probvector=dnorm(seq(-5,5,0.01)), minval=-5, dist=0.01)
+x <- urdgt(n=10000, probvector=dnorm(seq(-5,5,0.01)), from=-5, by=0.01)
 }
 
 \keyword{distribution}
