@@ -109,8 +109,10 @@ for (i in 1:n.rep.params)
         unur.test.cont("t", df=rgamma(1,shape=2))
 
 ## Weibull distribution - (replacement for rweibull) ------------------------
-for (i in 1:n.rep.domains)
-        unur.test.cont("weibull", shape=runif(1,0.1,10), domain=sort(rexp(2)))
+for (i in 1:n.rep.domains) {
+        s <- runif(1,0.1,10)
+        unur.test.cont("weibull", shape=s, domain=sort(urweibull(n=2,shape=s)))
+}
 for (i in 1:n.rep.params)
         unur.test.cont("weibull", shape=runif(1,0.1,10), scale=runif(1,0.1,10))
 

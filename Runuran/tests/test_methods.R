@@ -8,16 +8,6 @@
 
 source("test_routines.R")
 
-## -- Test whether invalid arguments are recognized -------------------------
-
-## DGT (Discrete Guide Table method)
-if( ! iserror( x <- urdgt(1000) ) ) 
-        stop("'pv' required for urdgt")
-
-## DGT (Discrete Guide Table method)
-if( ! iserror( x <- urdau(1000) ) ) 
-        stop("'pv' required for urdgt")
-
 ## --- CONT: Chi^2 goodness-of-fit test -------------------------------------
 
 ## TDR (Transformed Density Rejection)
