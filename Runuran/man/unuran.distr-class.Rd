@@ -22,6 +22,10 @@
       for discrete distributions,
       see \code{\linkS4class{unuran.discr}}.
     }
+    \item{class "unuran.cmv"}{
+      for multivariate continuous distributions,
+      see \code{\linkS4class{unuran.cmv}}.
+    }
   }
 }
 
@@ -37,7 +41,8 @@
 }
 
 \seealso{
-  \code{\linkS4class{unuran.cont}}, \code{\linkS4class{unuran.discr}};
+  \code{\linkS4class{unuran.cont}}, \code{\linkS4class{unuran.discr}},
+  \code{\linkS4class{unuran.cmv}};
   \code{\linkS4class{unuran}}.
 }
 

@@ -21,8 +21,8 @@
   \itemize{
     \item{distribution:}{A character string that describes the target
       distribution (see UNU.RAN User Manual) or one of the S4 classes
-      "unuran.discr" or "unuran.cont" that holds information about the
-      distribution.}
+      "unuran.discr", "unuran.cont" or "unuran.cmv" that holds
+      information about the distribution.}
     \item{method:}{A character string that describes the chosen
       generation method, see UNU.RAN User Manual. If omitted method
       \code{"auto"} (automatic) is used.}

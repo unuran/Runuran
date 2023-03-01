@@ -2,7 +2,6 @@
 \docType{function}
 
 \alias{urtdr}
-\alias{urtdr}
 
 \title{UNU.RAN transformend density rejection generator}
 
