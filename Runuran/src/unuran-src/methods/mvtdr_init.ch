@@ -79,6 +79,9 @@ _unur_mvtdr_create( struct unur_par *par )
   GEN->center = unur_distr_cvec_get_center(gen->distr);
   GEN->pdfcenter = PDF(GEN->center);
   GEN->has_domain = (gen->distr->set & UNUR_DISTR_SET_DOMAIN) ? TRUE : FALSE;
+#ifdef UNUR_ENABLE_INFO
+  gen->info = _unur_mvtdr_info;
+#endif
   return gen;
 } 
 struct unur_gen *

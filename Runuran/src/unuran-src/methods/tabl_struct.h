@@ -42,4 +42,7 @@ struct unur_tabl_gen {
   int     max_ivs;              
   double  max_ratio;            
   double  darsfactor;           
+#ifdef UNUR_ENABLE_INFO
+  int     max_ivs_info;         
+#endif
 };

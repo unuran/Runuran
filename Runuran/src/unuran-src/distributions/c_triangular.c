@@ -44,13 +44,16 @@ _unur_dpdf_triangular( double x, const UNUR_DISTR *distr )
 double
 _unur_cdf_triangular( double x, const UNUR_DISTR *distr )
 { 
-  register const double *params = DISTR.params;
+  const double *params = DISTR.params;
+  double Fx;
   if (x <= 0.)
     return 0.;
   if (x <= H)
     return (x*x/H);
-  if (x < 1.)
-    return ((H + x * (x-2.))/(H-1.));
+  if (x < 1.) {
+    if ((Fx = ((H + x * (x-2.))/(H-1.))) < 1.)
+      return Fx;
+  }
   return 1.;
 } 
 int

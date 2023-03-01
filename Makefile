@@ -26,7 +26,6 @@ unuran-src:
 	if [[ ! -f Runuran/src/unuran-src/unuran.h ]]; then \
 		(cd ../unuran/src; \
 			find ./ -type f -name '*.[ch]' -o -name '*.ch' | \
-				grep -v "/tests/" | \
 				grep -v "deprecated_.*\.c" | \
 				grep -v "/uniform/.*\.c" | \
 				cpio -vdump ../../R/Runuran/src/unuran-src; \

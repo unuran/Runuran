@@ -44,6 +44,10 @@ struct unur_gen {
   void (*destroy)(struct unur_gen *gen);  
   struct unur_gen* (*clone)(const struct unur_gen *gen ); 
   int (*reinit)(struct unur_gen *gen);  
+#ifdef UNUR_ENABLE_INFO
+  struct unur_string *infostr; 
+  void (*info)(struct unur_gen *gen, int help); 
+#endif
 #ifdef UNUR_COOKIES
   unsigned cookie;            
 #endif

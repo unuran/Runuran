@@ -20,4 +20,6 @@ struct unur_empk_gen {
   double  mean_observ; 
   double  stddev_observ; 
   double  sconst;      
+  double  alpha;       
+  double  beta;        
 };

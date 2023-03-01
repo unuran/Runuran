@@ -89,8 +89,14 @@ _unur_tabl_create( struct unur_par *par )
   GEN->Umax = 1.;
   GEN->guide_factor = PAR->guide_factor; 
   GEN->max_ivs   = PAR->max_ivs;         
+#ifdef UNUR_ENABLE_INFO
+  GEN->max_ivs_info = PAR->max_ivs;      
+#endif
   GEN->max_ratio = PAR->max_ratio;       
   GEN->darsfactor = PAR->darsfactor;
+#ifdef UNUR_ENABLE_INFO
+  gen->info = _unur_tabl_info;
+#endif
   return gen;
 } 
 struct unur_gen *

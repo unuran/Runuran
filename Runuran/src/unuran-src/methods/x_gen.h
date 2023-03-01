@@ -8,6 +8,7 @@ double unur_sample_cont(UNUR_GEN *generator);
 int    unur_sample_vec(UNUR_GEN *generator, double *vector);
 int    unur_sample_matr(UNUR_GEN *generator, double *matrix);
 void  unur_free( UNUR_GEN *generator );
+const char *unur_gen_info( UNUR_GEN *generator, int help );
 int unur_get_dimension( const UNUR_GEN *generator );
 const char *unur_get_genid( const UNUR_GEN *generator );
 UNUR_DISTR *unur_get_distr( const UNUR_GEN *generator );
