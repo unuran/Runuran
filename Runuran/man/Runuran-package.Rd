@@ -19,7 +19,7 @@
     Package: \tab Runuran       \cr
     Type:    \tab Package       \cr
     Version: \tab 0.5           \cr
-    Date:    \tab 2007-06-20    \cr
+    Date:    \tab 2007-08-01    \cr
     License: \tab GPL 2 or later\cr
   }
   This package provides an interface to the UNU.RAN library for universal
