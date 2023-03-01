@@ -97,6 +97,33 @@ urdau.binom <- function (n,lb=0,ub=size) {
 unur.test.discr("urdau.binom", rfunc=urdau.binom, dfunc=binom.pmf, domain=c(0,size))
 unur.test.discr("urdau.binom", rfunc=urdau.binom, pv=binom.probs, domain=c(0,size))
 
+## --- CMV: Chi^2 goodness-of-fit test --------------------------------------
+
+samplesize <- 1.e4
+
+## HITRO (Hit-and-Run + Ratio-of-Uniforms)
+hitro.norm <- function (n) {
+        pdf <- function (x) { exp(-0.5*sum(x^2)) }
+        dist <- new("unuran.cmv", dim=2, pdf=pdf)
+        gen <- unuran.new(dist, "hitro; thinning=10")
+        unuran.sample(gen,n)
+}
+unur.test.cmv("hitro.norm", rfunc=hitro.norm, pfunc=pnorm)
+
+urhitro.norm <- function (n) {
+        pdf <- function (x) { exp(-0.5*sum(x^2)) }
+        urhitro(n, dim=2, pdf=pdf, mode=c(0,0), thinning=10)
+}
+unur.test.cmv("urhitro.norm", rfunc=urhitro.norm, pfunc=pnorm)
+
+## VNROU (Naive  multivariate Ratio-of-Uniforms method)
+vnrou.norm <- function (n) {
+        pdf <- function (x) { exp(-0.5*sum(x^2)) }
+        dist <- new("unuran.cmv", dim=2, pdf=pdf)
+        gen <- unuran.new(dist, "vnrou")
+        unuran.sample(gen,n)
+}
+unur.test.cmv("vnrou.norm", rfunc=vnrou.norm, pfunc=pnorm)
 
 ## -- Print statistics ------------------------------------------------------
 

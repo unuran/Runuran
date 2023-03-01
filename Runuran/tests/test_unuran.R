@@ -115,4 +115,8 @@ unr <- 0; unr <- unuran.new(mvd, "hitro")
 x <- unuran.sample(unr, 10)
 x
 
+unr <- 0; unr <- unuran.new(mvd, "vnrou")
+x <- unuran.sample(unr, 10)
+x
+
 ## --- End ------------------------------------------------------------------

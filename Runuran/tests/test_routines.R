@@ -245,6 +245,76 @@ unur.test.discr <- function (distr, rfunc=NULL, dfunc=NULL, pv=NA, domain, ...) 
 
 #############################################################################
 ##                                                                          #
+##  Continuous multivariate Distributions                                   #
+##                                                                          #
+#############################################################################
+
+## --- CMV: Function for running chi^2 goodness-of-fit test -----------------
+
+unur.test.cmv <- function (distr, rfunc=NULL, pfunc=NULL, ...) {
+        ##  Run a chi^2 test and evaluate p-value.
+        ##  Repeat test once if it fails
+        ##  (we do not check the validity of the algorithm
+        ##   but the correct implementation.)
+        ##  
+        ##  Currently only the first component is tested!!!!
+        ##
+        ##  distr  ... name of distribution (as used for [rpqd]... calls
+        ##  rfunc  ... random number generation function
+        ##  pfunc  ... probability function (CDF) for marginal distributions
+        ##  '...'  ... list of parameters of distribution
+        ##
+
+        ## -- text for calling function
+        cat(distr,"(",paste(...,sep=","),")",
+            sep="")
+
+        ## -- function for generating a random sample
+        if (is.null(rfunc))
+                stop("sampling function required")
+        ## -- function for computing CDF of marginal distributions
+        if (is.null(pfunc))
+                stop("probability function required")
+        
+        ## -- run test and repeat once when failed the first time
+        for (i in 1:2) {
+
+                ## -- random sample
+                x <- rfunc(samplesize,...)
+                ## -- transform into uniform distribution
+                u <- pfunc(x[,1],...)
+                ## -- make histogram of with equalsized bins (classified data)
+                nbins <- as.integer(sqrt(samplesize))
+                breaks <- (0:nbins)/nbins
+                h <- hist(u,plot=F,breaks=breaks)$count
+                ## -- run unur.chiq.test --
+                pval <- chisq.test(h)$p.value
+                ## -- check p-value
+                if (pval > alpha) { # test passed
+                        message("chisq test PASSed with p-value=",signif(pval))
+                        break
+                }
+
+                ## -- test failed
+                if (i>1) { # second try failed
+                        stop("chisq test FAILED!  p-value=",signif(pval), call.=FALSE)
+                }
+                else {
+                        warning("first chisq test FAILed with p-value=",signif(pval),
+                                call.=FALSE,immediate.=TRUE)
+                        assign("n.warns", get("n.warns",envir=unur.envir)+1, env=unur.envir)
+
+                }
+        }
+
+        ## -- update list of p-values
+        assign("pvals", append(get("pvals",envir=unur.envir), pval), env=unur.envir)
+
+} ## --- end of unur.test.cmv() ---
+
+
+#############################################################################
+##                                                                          #
 ##  Auxiliary routines                                                      #
 ##                                                                          #
 #############################################################################
