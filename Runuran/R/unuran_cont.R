@@ -39,7 +39,7 @@ setClass( "unuran.cont",
 ## Initialize ---------------------------------------------------------------
 
 setMethod( "initialize", "unuran.cont",
-          function(.Object, cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE, lb=-Inf, ub=Inf) {
+          function(.Object, cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE, lb=-Inf, ub=Inf) {
                   ## cdf .... cumulative distribution function (CDF)
                   ## pdf .... probability density function (PDF)
                   ## dpdf ... derivative of PDF

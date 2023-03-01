@@ -14,28 +14,47 @@ source("test_routines.R")
 tdr.norm <- function (n) {
         pdf <- function (x) { exp(-0.5*x^2) }
         dpdf <- function (x) { -x*exp(-0.5*x^2) }
-        dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf)
+        dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, islog=FALSE)
         gen <- unuran.new(dist, "tdr")
         unuran.sample(gen,n)
 }
-unur.test.cont("norm.S4", rfunc=tdr.norm, pfunc=pnorm)
+unur.test.cont("tdr.norm", rfunc=tdr.norm, pfunc=pnorm)
 
-tdr.norm.withlog <- function (n) {
+urtdr.norm <- function (n) {
+        pdf <- function (x) { exp(-0.5*x^2) }
+        dpdf <- function (x) { -x*exp(-0.5*x^2) }
+        urtdr(n, pdf=pdf, dpdf=dpdf, islog=FALSE)
+}
+unur.test.cont("urtdr.norm", rfunc=urtdr.norm, pfunc=pnorm)
+
+urtdr.norm.wod <- function (n) {
+        pdf <- function (x) { exp(-0.5*x^2) }
+        urtdr(n, pdf=pdf, islog=FALSE)
+}
+unur.test.cont("urtdr.norm.wod", rfunc=urtdr.norm.wod, pfunc=pnorm)
+
+tdr.norm.wl <- function (n) {
         logpdf <- function (x) { -0.5*x^2 }
         dlogpdf <- function (x) { -x }
         dist <- new("unuran.cont", pdf=logpdf, dpdf=dlogpdf, islog=TRUE)
         gen <- unuran.new(dist, "tdr")
         unuran.sample(gen,n)
 }
-unur.test.cont("norm.log.S4", rfunc=tdr.norm.withlog, pfunc=pnorm)
+unur.test.cont("tdr.norm.wl", rfunc=tdr.norm.wl, pfunc=pnorm)
 
-#tdr.norm.wod <- function (n) {
-#        pdf <- function (x) { exp(-0.5*x^2) }
-#        dist <- new("unuran.cont", pdf=pdf)
-#        gen <- unuran.new(dist, "tdr")
-#        unuran.sample(gen,n)
-#}
-#unur.test.cont("norm.wod.S4", rfunc=tdr.norm.wod, pfunc=pnorm)
+urtdr.norm.wl <- function (n) {
+        logpdf <- function (x) { -0.5*x^2 }
+        dlogpdf <- function (x) { -x }
+        urtdr(n, pdf=logpdf, dpdf=dlogpdf)
+}
+unur.test.cont("urtdr.norm.wl", rfunc=urtdr.norm.wl, pfunc=pnorm)
+
+urtdr.norm.wlwod <- function (n) {
+        logpdf <- function (x) { -0.5*x^2 }
+        dlogpdf <- function (x) { -x }
+        urtdr(n, pdf=logpdf)
+}
+unur.test.cont("urtdr.norm.wlwod", rfunc=urtdr.norm.wlwod, pfunc=pnorm)
 
 
 ## --- DISCR: Chi^2 goodness-of-fit test ------------------------------------
@@ -50,8 +69,14 @@ dgt.binom <- function (n,lb=0,ub=size) {
         gen <- unuran.new(dist, "dgt")
         unuran.sample(gen,n)
 }
-unur.test.discr("binomS4", rfunc=dgt.binom, dfunc=binom.pmf, domain=c(0,size))
-unur.test.discr("binomS4", rfunc=dgt.binom, pv=binom.probs, domain=c(0,size))
+unur.test.discr("dgt.binom", rfunc=dgt.binom, dfunc=binom.pmf, domain=c(0,size))
+unur.test.discr("dgt.binom", rfunc=dgt.binom, pv=binom.probs, domain=c(0,size))
+
+urdgt.binom <- function (n,lb=0,ub=size) {
+        urdgt(n, probvector=binom.probs)
+}
+unur.test.discr("urdgt.binom", rfunc=urdgt.binom, dfunc=binom.pmf, domain=c(0,size))
+unur.test.discr("urdgt.binom", rfunc=urdgt.binom, pv=binom.probs, domain=c(0,size))
 
 ## DAU (Discrete Alias-Urn method)
 size <- 100
@@ -63,8 +88,15 @@ dau.binom <- function (n,lb=0,ub=size) {
         gen <- unuran.new(dist, "dau")
         unuran.sample(gen,n)
 }
-unur.test.discr("binomS4", rfunc=dau.binom, dfunc=binom.pmf, domain=c(0,size))
-unur.test.discr("binomS4", rfunc=dau.binom, pv=binom.probs, domain=c(0,size))
+unur.test.discr("dau.binom", rfunc=dau.binom, dfunc=binom.pmf, domain=c(0,size))
+unur.test.discr("dau.binom", rfunc=dau.binom, pv=binom.probs, domain=c(0,size))
+
+urdau.binom <- function (n,lb=0,ub=size) {
+        urdau(n, probvector=binom.probs)
+}
+unur.test.discr("urdau.binom", rfunc=urdau.binom, dfunc=binom.pmf, domain=c(0,size))
+unur.test.discr("urdau.binom", rfunc=urdau.binom, pv=binom.probs, domain=c(0,size))
+
 
 ## -- Print statistics ------------------------------------------------------
 

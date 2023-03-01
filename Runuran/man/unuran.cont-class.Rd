@@ -18,7 +18,7 @@
 \details{
   Create a new instance of an "unuran.cont" object using
 
-  \code{new ("unuran.cont", cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE, lb=-Inf, ub=Inf)}.
+  \code{new ("unuran.cont", cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE, lb=-Inf, ub=Inf)}.
 
   \describe{
     \item{cdf}{cumulative distribution function. (\R function)}
@@ -39,7 +39,7 @@
 ## Create discrete distribution with given probability density function
 pdf <- function (x) { -0.5*x^2 }
 dpdf <- function (x) { -x }
-distpdf <- new("unuran.cont", pdf=pdf, dpdf=dpdf, islog=TRUE)
+distpdf <- new("unuran.cont", pdf=pdf, dpdf=dpdf)
 ## Make generator (using method TDR)
 unr <- unuran.new(distpdf, "tdr")
 ## Draw sample of size 100

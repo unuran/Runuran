@@ -13,7 +13,7 @@
 }
 
 \usage{
-urtdr(n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
+urtdr(n, pdf, dpdf, lb=-Inf, ub=Inf, islog=TRUE, ...)
 }
 \arguments{
   \item{n}{size of required sample.}
@@ -34,6 +34,10 @@ urtdr(n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
   Moreover, the given function must be \eqn{T_{-0.5}}{T_(-0.5)}-concave
   distributions (i.e., unimodal densities with tails not higher than
   \eqn{(1/x^2)}; this includes all log-concave distributions).
+  The \code{dpdf} is optional. If omitted numerical derivation is used.
+  Notice, however, that this might cause some round-off errors such that
+  generation does not work. This is in particular the case when the
+  density function is provided instead of its logarithm.
   
   It uses method \dQuote{TDR} (Transformed Density Rejection).
   The setup time of this method depends on the given PDF, whereas its
@@ -62,7 +66,7 @@ urtdr(n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
 ## Gaussian distribution (use logPDF)
 logpdf <- function (x) { -0.5*x^2 }
 dlogpdf <- function (x) { -x }
-x <- urtdr(1000, pdf=logpdf, dpdf=dlogpdf, islog=TRUE)
+x <- urtdr(1000, pdf=logpdf, dpdf=dlogpdf)
 
 ## Create a sample of size 10000 for a 
 ## Gaussian distribution (use logPDF)
@@ -71,7 +75,7 @@ x <- urtdr(1000, pdf=logpdf, islog=TRUE)
 
 ## Create a sample of size 10000 for a 
 ## Gaussian(0,1) distribution (use dnorm)
-x <- urtdr(1000, pdf=dnorm, mean=0, sd=1)
+x <- urtdr(1000, pdf=dnorm, mean=0, sd=1, islog=FALSE)
 
 }
 

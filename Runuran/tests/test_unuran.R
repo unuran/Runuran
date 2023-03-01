@@ -55,7 +55,7 @@ if (pval < alpha) stop("chisq test FAILED!  p-value=",signif(pval))
 ## use PDF
 gausspdf <- function (x) { exp(-0.5*x^2) }
 gaussdpdf <- function (x) { -x*exp(-0.5*x^2) }
-gauss <- new("unuran.cont", pdf=gausspdf, dpdf=gaussdpdf)
+gauss <- new("unuran.cont", pdf=gausspdf, dpdf=gaussdpdf, islog=FALSE)
 unr <- 0; unr <- unuran.new(gauss, "tdr")
 x <- unuran.sample(unr, samplesize)
 pval <- chisq.test( hist(pnorm(x),plot=FALSE,breaks=breaks)$density )$p.value
