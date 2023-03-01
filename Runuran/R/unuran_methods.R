@@ -27,23 +27,33 @@
 ## Generate continuous random variates from a given PDF
 ##
 
-urtdr <- function (n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE) {
+urtdr <- function (n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...) {
         ## the probability density function is obligatory and must be a function
         if (missing(pdf))
                 stop ("argument 'pdf' required")
         if (! is.function(pdf))
                 stop ("argument 'pdf' must be of class 'function'")
+        f <- function(x) pdf(x, ...) 
         ## we also need the derivative of the PDF
-        if (missing(dpdf))
-                stop ("argument 'dpdf' required")
-        if (! is.function(dpdf))
+        if (! (missing(dpdf) || is.function(dpdf)) )
                 stop ("argument 'dpdf' must be of class 'function'")
+        if (missing(dpdf)) {
+                ## use numerical derivative
+                dpdf <- function(x) {
+                        numerical.derivative(x,f)
+                }
+        }
         ## S4 class for discrete distribution
         dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, lb=lb, ub=ub, islog=islog)
         ## create UNU.RAN object
         unr <- unuran.new(dist, "tdr")
         ## draw sample
         unuran.sample(unr,n)
+}
+
+numerical.derivative <- function (x, func, lb=-Inf, ub=Inf, xmin=1, delta=1.e-7) {
+        h <- pmax(x*delta,delta)
+        df <- (func(x+h)-func(x-h))/(2*h)
 }
 
 #############################################################################
