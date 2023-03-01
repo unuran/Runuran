@@ -146,7 +146,7 @@ urhitro <- function (n, dim=1, pdf, mode=NULL, center=NULL, ll=NULL, ur=NULL, th
                 stop ("argument 'pdf' must be of class 'function'")
         f <- function(x) pdf(x, ...) 
         ## S4 class for continuous multivariate distribution
-        dist <- new("unuran.cmv", dim=dim, pdf=pdf, mode=mode, center=center, ll=ll, ur=ur)
+        dist <- new("unuran.cmv", dim=dim, pdf=f, mode=mode, center=center, ll=ll, ur=ur)
         ## create UNU.RAN object
         method <- paste("hitro;thinning=",thinning,";burnin=",burnin, sep="")
         cat(method,"\n")
