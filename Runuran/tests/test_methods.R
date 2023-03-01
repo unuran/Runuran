@@ -18,7 +18,25 @@ tdr.norm <- function (n) {
         gen <- unuran.new(dist, "tdr")
         unuran.sample(gen,n)
 }
-unur.test.cont("normS4", rfunc=tdr.norm, pfunc=pnorm)
+unur.test.cont("norm.S4", rfunc=tdr.norm, pfunc=pnorm)
+
+tdr.norm.withlog <- function (n) {
+        logpdf <- function (x) { -0.5*x^2 }
+        dlogpdf <- function (x) { -x }
+        dist <- new("unuran.cont", pdf=logpdf, dpdf=dlogpdf, islog=TRUE)
+        gen <- unuran.new(dist, "tdr")
+        unuran.sample(gen,n)
+}
+unur.test.cont("norm.log.S4", rfunc=tdr.norm.withlog, pfunc=pnorm)
+
+#tdr.norm.wod <- function (n) {
+#        pdf <- function (x) { exp(-0.5*x^2) }
+#        dist <- new("unuran.cont", pdf=pdf)
+#        gen <- unuran.new(dist, "tdr")
+#        unuran.sample(gen,n)
+#}
+#unur.test.cont("norm.S4", rfunc=tdr.norm.wod, pfunc=pnorm)
+
 
 ## --- DISCR: Chi^2 goodness-of-fit test ------------------------------------
 

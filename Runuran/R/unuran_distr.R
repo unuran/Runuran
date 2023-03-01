@@ -1,3 +1,4 @@
+
 #############################################################################
 ##                                                                         ##
 ##   Runuran                                                               ##
@@ -20,14 +21,14 @@
 
 setClass( "unuran.distr", 
          ## slots:
-         representation( 
-                        distr   = "externalptr"    # pointer to UNU.RAN distribution object
-                        ),
+         representation = representation( 
+                 distr   = "externalptr"    # pointer to UNU.RAN distribution object
+                 ),
          ## defaults for slots
          prototype = list(
                  distr   = NULL
                  ),
-         ## misc
+         ## indicate virtual class
          contains = "VIRTUAL"
          )
 
