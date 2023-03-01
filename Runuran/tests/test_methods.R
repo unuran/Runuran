@@ -35,7 +35,7 @@ unur.test.cont("norm.log.S4", rfunc=tdr.norm.withlog, pfunc=pnorm)
 #        gen <- unuran.new(dist, "tdr")
 #        unuran.sample(gen,n)
 #}
-#unur.test.cont("norm.S4", rfunc=tdr.norm.wod, pfunc=pnorm)
+#unur.test.cont("norm.wod.S4", rfunc=tdr.norm.wod, pfunc=pnorm)
 
 
 ## --- DISCR: Chi^2 goodness-of-fit test ------------------------------------

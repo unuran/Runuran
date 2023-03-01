@@ -19,11 +19,11 @@
 ## Class --------------------------------------------------------------------
 
 setClass( "unuran.cont", 
-         ## slots
+         ## add slots for continuous univariate distributions
          representation = representation(
                  cdf  = "function",    # CDF of distribution
                  pdf  = "function",    # PDF of distribution
-                 dpdf = "function"    # derivative of PDF of distribution
+                 dpdf = "function"     # derivative of PDF of distribution
                  ),
          ## defaults for slots
          prototype = list(
@@ -33,33 +33,39 @@ setClass( "unuran.cont",
                  ),
          ## superclass
          contains = "unuran.distr",
-         ## do not allow to modify this class
+         ## seal this class
          sealed = TRUE )
 
 ## Initialize ---------------------------------------------------------------
 
 setMethod( "initialize", "unuran.cont",
-          function(.Object, cdf=NA, pdf=NA, dpdf=NA, islog=FALSE, lb=-Inf, ub=Inf) {
-                  ## pv ... probability vector
+          function(.Object, cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE, lb=-Inf, ub=Inf) {
+                  ## cdf .... cumulative distribution function (CDF)
+                  ## pdf .... probability density function (PDF)
+                  ## dpdf ... derivative of PDF
+                  ## islog .. whether CDF and PDF are given as logarithms
+                  ##          (the dpdf is then the derative of log(pdf)!)
+                  ## lb ..... lower bound of domain
+                  ## ub ..... upper bound of domain
 
                   ## Check entries
                   if(! (is.numeric(lb) && is.numeric(ub) && lb < ub) )
                           stop("invalid domain ('lb','ub')", call.=FALSE)
 
-                  if(! (is.na(cdf) || is.function(cdf)) )
+                  if(! (is.function(cdf) || is.null(cdf)) )
                           stop("invalid argument 'cdf'", call.=FALSE)
-                  if(! (is.na(pdf) || is.function(pdf)) )
+                  if(! (is.function(pdf) || is.null(pdf)) )
                           stop("invalid argument 'pdf'", call.=FALSE)
-                  if(! (is.na(dpdf) || is.function(dpdf)) )
+                  if(! (is.function(dpdf) || is.null(dpdf)) )
                           stop("invalid argument 'dpdf'", call.=FALSE)
 
                   if(!is.logical(islog))
                           stop("argument 'islog' must be boolean", call.=FALSE)
 
-                  ## Store informations: 
-                  if (!is.na(cdf))  .Object@cdf  <- cdf
-                  if (!is.na(pdf))  .Object@pdf  <- pdf
-                  if (!is.na(dpdf)) .Object@dpdf <- dpdf
+                  ## Store informations (if provided)
+                  if (is.function(cdf))  .Object@cdf  <- cdf
+                  if (is.function(pdf))  .Object@pdf  <- pdf
+                  if (is.function(dpdf)) .Object@dpdf <- dpdf
 
                   ## Create UNUR_DISTR object
                   .Object@distr <-.Call("Runuran_cont_init",

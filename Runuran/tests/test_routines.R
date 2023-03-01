@@ -48,7 +48,7 @@ library(Runuran)
 
 ## --- CONT: Function for running chi^2 goodness-of-fit test ----------------
 
-unur.test.cont <- function (distr, rfunc=NA, pfunc=NA, domain=NA, ...) {
+unur.test.cont <- function (distr, rfunc=NULL, pfunc=NULL, domain=NA, ...) {
         ##  Run a chi^2 test and evaluate p-value.
         ##  Repeat test once if it fails
         ##  (we do not check the validity of the algorithm
@@ -72,14 +72,14 @@ unur.test.cont <- function (distr, rfunc=NA, pfunc=NA, domain=NA, ...) {
             sep="")
 
         ## -- function for generating a random sample
-        if (is.na(rfunc)) {
+        if (is.null(rfunc)) {
                 rfuncname <- paste("ur",distr,sep="")
                 if (!exists(rfuncname))
                         stop("undefined function '",rfuncname,"'")
                 rfunc <- match.fun(rfuncname, descend=FALSE)
         }
         ## -- function for computing CDF
-        if (is.na(pfunc)) {
+        if (is.null(pfunc)) {
                 pfuncname <- paste("p",distr,sep="")
                 if (!exists(pfuncname))
                         stop("undefined function '",pfuncname,"'")
@@ -151,7 +151,7 @@ unur.test.cont <- function (distr, rfunc=NA, pfunc=NA, domain=NA, ...) {
 
 ## --- DISCR: Function for running chi^2 goodness-of-fit test ---------------
 
-unur.test.discr <- function (distr, rfunc=NA, dfunc=NA, pv=NA, domain, ...) {
+unur.test.discr <- function (distr, rfunc=NULL, dfunc=NULL, pv=NA, domain, ...) {
         ##  Run a chi^2 test and evaluate p-value.
         ##  Repeat test once if it fails
         ##  (we do not check the validity of the algorithm
@@ -174,14 +174,14 @@ unur.test.discr <- function (distr, rfunc=NA, dfunc=NA, pv=NA, domain, ...) {
             ") domain=(",signif(lb),",",signif(ub),"): ",sep="")
 
         ## -- function for generating a random sample
-        if (is.na(rfunc)) {
+        if (is.null(rfunc)) {
                 rfuncname <- paste("ur",distr,sep="")
                 if (!exists(rfuncname))
                         stop("undefined function '",rfuncname,"'")
                 rfunc <- match.fun(rfuncname, descend=FALSE)
         }
         ## -- function for computing probability vector
-        if (is.na(dfunc) && is.na(pv)) {
+        if (is.null(dfunc) && is.na(pv)) {
                 dfuncname <- paste("d",distr,sep="")
                 if (!exists(dfuncname))
                         stop("undefined function '",dfuncname,"'")
