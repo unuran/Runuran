@@ -56,9 +56,13 @@ setMethod( "initialize", "unuran.cmv",
                   .Object@ndim <- ndim
                   if (is.function(pdf))  .Object@pdf <- pdf
 
+                  ## We need an evironment for evaluating R expressions
+                  .Object@env <- new.env()
+                  
                   ## Create UNUR_DISTR object
                   .Object@distr <-.Call("Runuran_cmv_init",
-                                        new.env(), .Object@ndim, .Object@pdf, mode,
+                                        .Object, .Object@env,
+                                        .Object@ndim, .Object@pdf, mode,
                                         PACKAGE="Runuran")
 
                   ## Check UNU.RAN object

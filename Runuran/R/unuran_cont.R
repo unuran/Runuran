@@ -67,9 +67,12 @@ setMethod( "initialize", "unuran.cont",
                   if (is.function(pdf))  .Object@pdf  <- pdf
                   if (is.function(dpdf)) .Object@dpdf <- dpdf
 
+                  ## We need an evironment for evaluating R expressions
+                  .Object@env <- new.env()
+                  
                   ## Create UNUR_DISTR object
                   .Object@distr <-.Call("Runuran_cont_init",
-                                        new.env(),
+                                        .Object, .Object@env,
                                         .Object@cdf, .Object@pdf, .Object@dpdf, islog,
                                         c(lb,ub),
                                         PACKAGE="Runuran")

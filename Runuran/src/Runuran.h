@@ -16,7 +16,7 @@ void R_init_Runuran (DllInfo *info);
 /* Initialization routine when loading the DLL.                              */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_init (SEXP sexp_distr, SEXP sexp_method);
+SEXP Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method);
 /*---------------------------------------------------------------------------*/
 /* Create and initialize UNU.RAN generator object.                           */
 /*---------------------------------------------------------------------------*/
@@ -26,21 +26,21 @@ SEXP Runuran_sample (SEXP sexp_gen, SEXP sexp_n);
 /* Sample from UNU.RAN generator object.                                     */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_discr_init (SEXP sexp_env,
+SEXP Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 			 SEXP sexp_pv, SEXP sexp_pmf,
 			 SEXP sexp_domain);
 /*---------------------------------------------------------------------------*/
 /* Create and initialize UNU.RAN object for discrete distribution.           */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_cont_init (SEXP sexp_env, 
+SEXP Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env, 
 			SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
 			SEXP sexp_domain);
 /*---------------------------------------------------------------------------*/
 /* Create and initialize UNU.RAN object for continuous distribution.         */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_cmv_init (SEXP sexp_env, 
+SEXP Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env, 
 		       SEXP sexp_dim, SEXP sexp_pdf, SEXP sexp_mode, 
 		       SEXP sexp_domain);
 /*---------------------------------------------------------------------------*/

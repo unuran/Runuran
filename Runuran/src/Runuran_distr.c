@@ -114,13 +114,14 @@ static SEXP _Runuran_distr_tag = NULL;
 /*****************************************************************************/
 
 SEXP
-Runuran_discr_init (SEXP sexp_env,
+Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 		    SEXP sexp_pv, SEXP sexp_pmf,
 		    SEXP sexp_domain)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for discrete distribution.      */
      /*                                                                      */
      /* Parameters:                                                          */
+     /*   obj    ... S4 class that contains unuran distribution object       */ 
      /*   env    ... R environment                                           */
      /*   pv     ... PV of distribution                                      */
      /*   pmf    ... PMF of distribution                                     */
@@ -183,13 +184,13 @@ Runuran_discr_init (SEXP sexp_env,
   } 
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, R_NilValue));
-  UNPROTECT(1);
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
 
   /* return pointer to R */
+  UNPROTECT(1);
   return (sexp_distr);
 
 } /* end of Runuran_discr_init() */
@@ -224,13 +225,14 @@ _Runuran_discr_eval_pmf( int k, const struct unur_distr *distr )
 /*****************************************************************************/
 
 SEXP
-Runuran_cont_init (SEXP sexp_env, 
+Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env, 
 		   SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
 		   SEXP sexp_domain)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for continuous distribution.    */
      /*                                                                      */
      /* Parameters:                                                          */
+     /*   obj    ... S4 class that contains unuran distribution object       */ 
      /*   env    ... R environment                                           */
      /*   cdf    ... CDF of distribution                                     */
      /*   pdf    ... PDF of distribution                                     */
@@ -307,13 +309,13 @@ Runuran_cont_init (SEXP sexp_env,
   } 
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, R_NilValue));
-  UNPROTECT(1);
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
 
   /* return pointer to R */
+  UNPROTECT(1);
   return (sexp_distr);
 
 } /* end of Runuran_cont_init() */
@@ -392,7 +394,7 @@ _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr )
 /*****************************************************************************/
 
 SEXP
-Runuran_cmv_init (SEXP sexp_env, 
+Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env, 
 		  SEXP sexp_dim, SEXP sexp_pdf, SEXP sexp_mode,
 		  SEXP sexp_domain)
      /*----------------------------------------------------------------------*/
@@ -400,6 +402,7 @@ Runuran_cmv_init (SEXP sexp_env,
      /* distribution.                                                        */
      /*                                                                      */
      /* Parameters:                                                          */
+     /*   obj    ... S4 class that contains unuran distribution object       */ 
      /*   env    ... R environment                                           */
      /*   dim    ... dimensions of distribution                              */
      /*   pdf    ... PDF of distribution                                     */
@@ -456,13 +459,13 @@ Runuran_cmv_init (SEXP sexp_env,
   } 
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, R_NilValue));
-  UNPROTECT(1);
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
 
   /* return pointer to R */
+  UNPROTECT(1);
   return (sexp_distr);
 
 } /* end of Runuran_cmv_init() */
@@ -500,7 +503,7 @@ _Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr )
   UNPROTECT(2);
 
   return y;
-} /* end of _Runuran_cont_eval_pdf() */
+} /* end of _Runuran_cmv_eval_pdf() */
 
 
 /*****************************************************************************/

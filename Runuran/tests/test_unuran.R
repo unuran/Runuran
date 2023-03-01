@@ -8,7 +8,7 @@
 ## --- Test Parameters ------------------------------------------------------
 
 ## size of sample for test
-samplesize <- 1.e4
+samplesize <- 1.e6
 
 ## break points for chi^2 GoF test
 nbins <- as.integer(sqrt(samplesize))

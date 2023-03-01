@@ -74,9 +74,14 @@ static SEXP _Runuran_tag = NULL;
 /*---------------------------------------------------------------------------*/
 
 SEXP
-Runuran_init (SEXP sexp_distr, SEXP sexp_method)
+Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN generator object.                      */
+     /*                                                                      */
+     /* Parameters:                                                          */
+     /*   obj    ... S4 class that contains unuran generator object          */ 
+     /*   distr  ... distribution (string or S4 object)                      */
+     /*   method ... method (string)                                         */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_gen;
@@ -122,13 +127,13 @@ Runuran_init (SEXP sexp_distr, SEXP sexp_method)
   }
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag, R_NilValue));
-  UNPROTECT(1);
+  PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag, sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_gen, _Runuran_free);
 
   /* return pointer to R */
+  UNPROTECT(1);
   return (sexp_gen);
 
 } /* end of Runuran_init() */

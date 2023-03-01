@@ -53,9 +53,12 @@ setMethod( "initialize", "unuran.discr",
                   if (is.function(pmf)) .Object@pmf  <- pmf
                   ## (There is no need to store the PV)
                   
+                  ## We need an evironment for evaluating R expressions
+                  .Object@env <- new.env()
+                  
                   ## Create UNUR_DISTR object
                   .Object@distr <-.Call("Runuran_discr_init",
-                                        new.env(),
+                                        .Object, .Object@env,
                                         pv, .Object@pmf,
                                         c(lb,ub),
                                         PACKAGE="Runuran")
