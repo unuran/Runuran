@@ -29,22 +29,29 @@
 
 urtdr <- function (n, pdf, dpdf, lb=-Inf, ub=Inf, islog=TRUE, ...) {
         ## the probability density function is obligatory and must be a function
+
         if (missing(pdf))
                 stop ("argument 'pdf' required")
         if (! is.function(pdf))
                 stop ("argument 'pdf' must be of class 'function'")
         f <- function(x) pdf(x, ...) 
+
         ## we also need the derivative of the PDF
         if (missing(dpdf)) {
                 ## use numerical derivative
-                dpdf <- function(x) {
+                df <- function(x) {
                         numerical.derivative(x,f)
                 }
         }
-        if (! is.function(dpdf) )
-                stop ("argument 'dpdf' must be of class 'function'")
+        else{ 
+          if (! is.function(dpdf) )
+               stop ("argument 'dpdf' must be of class 'function'")
+          else df <- function(x) dpdf(x,...)
+	}	
+        
+
         ## S4 class for continuous distribution
-        dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, lb=lb, ub=ub, islog=islog)
+        dist <- new("unuran.cont", pdf=f, dpdf=df, lb=lb, ub=ub, islog=islog)
         ## create UNU.RAN object
         unr <- unuran.new(dist, "tdr")
         ## draw sample
