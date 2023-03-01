@@ -36,4 +36,7 @@ struct unur_arou_gen {
   int     max_segs;             
   double  darsfactor;           
   double  center;               
+#ifdef UNUR_ENABLE_INFO
+  int     max_segs_info;        
+#endif
 };

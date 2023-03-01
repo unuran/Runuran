@@ -54,4 +54,7 @@ struct unur_tdr_gen {
   int retry_ncpoints;           
   double  darsfactor;           
   int     darsrule;             
+#ifdef UNUR_ENABLE_INFO
+  int     max_ivs_info;         
+#endif
 };

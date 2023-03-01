@@ -43,6 +43,9 @@ static void _unur_norta_debug_eigensystem( const struct unur_gen *gen,
 					   const double *eigenvectors );
 static void _unur_norta_debug_nmgenerator( const struct unur_gen *gen );
 #endif
+#ifdef UNUR_ENABLE_INFO
+static void _unur_norta_info( struct unur_gen *gen, int help );
+#endif
 #define DISTR_IN  distr->data.cvec      
 #define PAR       ((struct unur_norta_par*)par->datap) 
 #define GEN       ((struct unur_norta_gen*)gen->datap) 
@@ -168,6 +171,9 @@ _unur_norta_create( struct unur_par *par )
   GEN->marginalgen_list = NULL;
   GEN->marginal_urng = NULL;
   GEN->urng_U[0] = 0.;
+#ifdef UNUR_ENABLE_INFO
+  gen->info = _unur_norta_info;
+#endif
   return gen;
 } 
 struct unur_gen *
@@ -407,6 +413,30 @@ _unur_norta_debug_nmgenerator( const struct unur_gen *gen )
   fprintf(log,"%s: generator for multinormal auxiliary distribution = %s\n", gen->genid,
 	  MNORMAL->genid );
   fprintf(log,"%s:\n",gen->genid);
+} 
+#endif   
+#ifdef UNUR_ENABLE_INFO
+void
+_unur_norta_info( struct unur_gen *gen, int help )
+{
+  struct unur_string *info = gen->infostr;
+  struct unur_distr *distr = gen->distr;
+  int i;
+  _unur_string_append(info,"generator ID: %s\n\n", gen->genid);
+  _unur_string_append(info,"distribution:\n");
+  _unur_distr_info_typename(gen);
+  _unur_string_append(info,"   dimension = %d\n",GEN->dim);
+  _unur_string_append(info,"   functions = MARGINAL distributions\n");
+  _unur_string_append(info,"   marginals =");
+  for (i=0; i<distr->dim; i++)
+    _unur_string_append(info," %s", distr->data.cvec.marginals[i]->name);
+  _unur_string_append(info,"\n\n");
+  _unur_string_append(info,"method: NORTA (NORmal To Anything)\n");
+  _unur_string_append(info,"\n");
+  if (help) {
+    _unur_string_append(info,"parameters: none\n");
+    _unur_string_append(info,"\n");
+  }
 } 
 #endif   
 #endif   
