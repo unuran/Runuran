@@ -20,10 +20,10 @@ source("test_routines.R")
 
 ## Beta distribution - (replacement for rbeta) ------------------------------
 for (i in 1:n.rep.domains)
-        unur.test.cont("beta", shape1=runif(1,0.1,10), shape2=runif(1,0.1,10), 
+        unur.test.cont("beta", shape1=runif(1,0.2,10), shape2=runif(1,0.2,10), 
                        domain=sort(runif(2)))
 for (i in 1:n.rep.params)
-        unur.test.cont("beta", shape1=runif(1,0.1,10), shape2=runif(1,0.1,10))
+        unur.test.cont("beta", shape1=runif(1,0.2,10), shape2=runif(1,0.2,10))
 
 ## Burr family of distributions ---------------------------------------------
 

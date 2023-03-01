@@ -48,7 +48,7 @@ library(Runuran)
 
 ## --- CONT: Function for running chi^2 goodness-of-fit test ----------------
 
-unur.test.cont <- function (distr, rfunc=NULL, pfunc=NULL, domain=NULL, ...) {
+unur.test.cont <- function (distr, rfunc=NA, pfunc=NA, domain=NA, ...) {
         ##  Run a chi^2 test and evaluate p-value.
         ##  Repeat test once if it fails
         ##  (we do not check the validity of the algorithm
@@ -62,7 +62,7 @@ unur.test.cont <- function (distr, rfunc=NULL, pfunc=NULL, domain=NULL, ...) {
         ##
 
         ## -- domain ?
-        have.domain = ifelse( is.null(domain), FALSE, TRUE )
+        have.domain = ifelse( is.na(domain), FALSE, TRUE )
         lb <- ifelse( have.domain, domain[1], -Inf)
         ub <- ifelse( have.domain, domain[2], Inf)
         
@@ -72,14 +72,14 @@ unur.test.cont <- function (distr, rfunc=NULL, pfunc=NULL, domain=NULL, ...) {
             sep="")
 
         ## -- function for generating a random sample
-        if (is.null(rfunc)) {
+        if (is.na(rfunc)) {
                 rfuncname <- paste("ur",distr,sep="")
                 if (!exists(rfuncname))
                         stop("undefined function '",rfuncname,"'")
                 rfunc <- match.fun(rfuncname, descend=FALSE)
         }
         ## -- function for computing CDF
-        if (is.null(pfunc)) {
+        if (is.na(pfunc)) {
                 pfuncname <- paste("p",distr,sep="")
                 if (!exists(pfuncname))
                         stop("undefined function '",pfuncname,"'")
@@ -151,7 +151,7 @@ unur.test.cont <- function (distr, rfunc=NULL, pfunc=NULL, domain=NULL, ...) {
 
 ## --- DISCR: Function for running chi^2 goodness-of-fit test ---------------
 
-unur.test.discr <- function (distr, rfunc=NULL, dfunc=NULL, pv=NULL, domain, ...) {
+unur.test.discr <- function (distr, rfunc=NA, dfunc=NA, pv=NA, domain, ...) {
         ##  Run a chi^2 test and evaluate p-value.
         ##  Repeat test once if it fails
         ##  (we do not check the validity of the algorithm
@@ -174,14 +174,14 @@ unur.test.discr <- function (distr, rfunc=NULL, dfunc=NULL, pv=NULL, domain, ...
             ") domain=(",signif(lb),",",signif(ub),"): ",sep="")
 
         ## -- function for generating a random sample
-        if (is.null(rfunc)) {
+        if (is.na(rfunc)) {
                 rfuncname <- paste("ur",distr,sep="")
                 if (!exists(rfuncname))
                         stop("undefined function '",rfuncname,"'")
                 rfunc <- match.fun(rfuncname, descend=FALSE)
         }
         ## -- function for computing probability vector
-        if (is.null(dfunc) && is.null(pv)) {
+        if (is.na(dfunc) && is.na(pv)) {
                 dfuncname <- paste("d",distr,sep="")
                 if (!exists(dfuncname))
                         stop("undefined function '",dfuncname,"'")
@@ -192,7 +192,7 @@ unur.test.discr <- function (distr, rfunc=NULL, dfunc=NULL, pv=NULL, domain, ...
         for (i in 1:2) {
                 
                 ## -- create probability vector
-                if (is.null(pv)) 
+                if (is.na(pv)) 
                         probs <- dfunc(lb:ub,...)
                 else
                         probs <- pv
