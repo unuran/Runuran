@@ -43,12 +43,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* #define DEBUG 1 */
-
-/*---------------------------------------------------------------------------*/
-
 /* structure for storing pointers to R objects                               */
-struct Runuran_distr {
+struct Runuran_distr_cont {
   SEXP env;                 /* R environment                                 */
   SEXP cdf;                 /* CDF of distribution                           */
   SEXP pdf;                 /* PDF of distribution                           */
@@ -56,6 +52,10 @@ struct Runuran_distr {
 };
 
 /*---------------------------------------------------------------------------*/
+/*  Discrete Distributions (DISCR)                                           */
+
+/*---------------------------------------------------------------------------*/
+/*  Continuous Univariate Distributions (CONT)                               */
 
 static double _Runuran_cont_eval_cdf( double x, const struct unur_distr *distr );
 /* Evaluate CDF function.                                                    */
@@ -65,6 +65,9 @@ static double _Runuran_cont_eval_pdf( double x, const struct unur_distr *distr )
 
 static double _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr );
 /* Evaluate derivative of PDF function.                                      */
+
+/*---------------------------------------------------------------------------*/
+/*  Common Routines                                                          */
 
 static void _Runuran_distr_free(SEXP sexp_distr);
 /* Free UNU.RAN distribution object.                                         */
@@ -117,7 +120,7 @@ Runuran_discr_init (SEXP sexp_pv)
   distr = unur_distr_discr_new();
   if (unur_distr_discr_set_pv(distr,pv,n_pv) != UNUR_SUCCESS) {
     unur_distr_free(distr);
-    errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN distribution object");
+    _Runuran_fatal();
   }
 
   /* make R external pointer and store pointer to structure */
@@ -157,7 +160,7 @@ Runuran_cont_init (SEXP sexp_this, SEXP sexp_env,
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
-  struct Runuran_distr *Rdistr;
+  struct Runuran_distr_cont *Rdistr;
   struct unur_distr *distr;
   const double *domain;
   int islog;
@@ -166,20 +169,14 @@ Runuran_cont_init (SEXP sexp_this, SEXP sexp_env,
   /* make tag for R object */
   if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
 
+#ifdef RUNURAN_DEBUG
   /* 'this' must be an S4 class */
   if (!IS_S4_OBJECT(sexp_this))
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object");
 
   /* all other variables are tested in the R routine */
   /* TODO: add checks in DEBUGging mode */
-
-  /* Extract pointer to UNU.RAN generator */
-  /*   { */
-  /*     SEXP sexp_gen; */
-  /*     SEXP sexp_slotunur; */
-  /*     sexp_slotunur = Rf_install("unur"); */
-  /*     sexp_gen = GET_SLOT(sexp_this, sexp_slotunur); */
-  /*   } */
+#endif
 
   /* domain of distribution */
   if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
@@ -190,7 +187,7 @@ Runuran_cont_init (SEXP sexp_this, SEXP sexp_env,
   islog = LOGICAL(sexp_islog)[0];
 
   /* store pointers to R objects */
-  Rdistr = Calloc(1,struct Runuran_distr);
+  Rdistr = Calloc(1,struct Runuran_distr_cont);
   Rdistr->env = sexp_env;
   Rdistr->cdf = sexp_cdf;
   Rdistr->pdf = sexp_pdf;
@@ -248,7 +245,7 @@ _Runuran_cont_eval_cdf( double x, const struct unur_distr *distr )
      /* Evaluate CDF function.                                               */
      /*----------------------------------------------------------------------*/
 {
-  const struct Runuran_distr *Rdistr;
+  const struct Runuran_distr_cont *Rdistr;
   SEXP R_fcall, arg;
   double y;
 
@@ -270,7 +267,7 @@ _Runuran_cont_eval_pdf( double x, const struct unur_distr *distr )
      /* Evaluate PDF function.                                               */
      /*----------------------------------------------------------------------*/
 {
-  const struct Runuran_distr *Rdistr;
+  const struct Runuran_distr_cont *Rdistr;
   SEXP R_fcall, arg;
   double y;
 
@@ -292,7 +289,7 @@ _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr )
      /* Evaluate derivative of PDF function.                                 */
      /*----------------------------------------------------------------------*/
 {
-  const struct Runuran_distr *Rdistr;
+  const struct Runuran_distr_cont *Rdistr;
   SEXP R_fcall, arg;
   double y;
 
@@ -320,7 +317,7 @@ _Runuran_distr_free (SEXP sexp_distr)
      /*----------------------------------------------------------------------*/
 {
   struct unur_distr *distr;
-  const struct Runuran_distr *Rdistr;
+  const void *Rdistr;
 
 #ifdef DEBUG
   /* check pointer */

@@ -22,7 +22,7 @@ setClass( "unuran",
          ## slots:
          representation( 
                         unur       = "externalptr",   # pointer to UNU.RAN object
-                        distr      = "unuran.cont",   # pointer to S4 distribution object
+                        distr      = "unuran.distr",   # pointer to S4 distribution object
                         distr.str  = "character",     # distribution
                         method.str = "character"      # generation method
                         ),

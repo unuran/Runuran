@@ -43,10 +43,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* #define DEBUG 1 */
-
-/*---------------------------------------------------------------------------*/
-
 static void _Runuran_free(SEXP sexp_gen);
 /*---------------------------------------------------------------------------*/
 /* Free UNU.RAN generator object.                                            */
@@ -152,9 +148,11 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
   SEXP sexp_gen;
   SEXP sexp_slotunur;
 
+#ifdef RUNURAN_DEBUG
   /* first argument must be S4 class */
   if (!IS_S4_OBJECT(sexp_unur))
     error("[UNU.RAN - error] invalid UNU.RAN object");
+#endif
 
   /* Extract and check sample size */
   n = *(INTEGER (AS_INTEGER (sexp_n)));
@@ -165,10 +163,11 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
   /* Extract pointer to UNU.RAN generator */
   sexp_slotunur = Rf_install("unur");
   sexp_gen = GET_SLOT(sexp_unur, sexp_slotunur);
+#ifdef RUNURAN_DEBUG
   CHECK_PTR(sexp_gen);
+#endif
   gen = R_ExternalPtrAddr(sexp_gen);
-#ifdef DEBUG
-  /* this must not be a NULL pointer */
+#ifdef RUNURAN_DEBUG
   if (gen == NULL)
     error("[UNU.RAN - error] bad UNU.RAN object");
 #endif
@@ -220,7 +219,7 @@ _Runuran_free (SEXP sexp_gen)
 {
   struct unur_gen *gen;
 
-#ifdef DEBUG
+#ifdef RUNURAN_DEBUG
   /* check pointer */
   CHECK_PTR(sexp_gen);
   printf("Runuran_free called!\n");

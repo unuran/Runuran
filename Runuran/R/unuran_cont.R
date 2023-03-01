@@ -19,17 +19,7 @@
 ## Class --------------------------------------------------------------------
 
 setClass( "unuran.cont", 
-         ## slots:
-         representation( 
-                        distr   = "externalptr"    # pointer to UNU.RAN distribution object
-                        ),
-         ## defaults for slots
-         prototype = list(
-                 distr   = NULL
-                 ),
-         ## misc
-         sealed = TRUE
-         )
+         representation(), contains = "unuran.distr", sealed = TRUE )
 
 ## Initialize ---------------------------------------------------------------
 
@@ -69,20 +59,5 @@ setMethod( "initialize", "unuran.cont",
                   ## return new UNU.RAN object
                   .Object
           } )
-
-## Validity -----------------------------------------------------------------
-
-## Sampling -----------------------------------------------------------------
-
-## Printing -----------------------------------------------------------------
-
-## print strings of UNU.RAN object
-setMethod( "print", "unuran.cont",
-          function(x, ...) {
-                  cat("\nObject is UNU.RAN distribution object\n\n")
-} )
-
-setMethod( "show", "unuran.cont",
-          function(object) { print(object) } )
 
 ## End ----------------------------------------------------------------------
