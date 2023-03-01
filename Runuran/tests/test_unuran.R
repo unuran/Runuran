@@ -29,6 +29,7 @@ unr <- new("unuran", "normal()")
 ## Print object
 unr
 print(unr)
+unuran.details(unr)
 
 ## Draw samples
 unuran.sample(unr)
@@ -49,6 +50,12 @@ x <- unuran.sample(unr, samplesize)
 ## Run a chi-square GoF test
 pval <- chisq.test( hist(pnorm(x),plot=FALSE,breaks=breaks)$density )$p.value
 if (pval < alpha) stop("chisq test FAILED!  p-value=",signif(pval))
+
+## another example (for testing print)
+unr <- new("unuran", "normal()", "arou")
+unr
+print(unr)
+unuran.details(unr)
 
 ## --- Continuous distributions - S4 distribution object --------------------
 
