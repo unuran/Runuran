@@ -21,15 +21,15 @@
 setClass( "unuran", 
          ## slots:
          representation( 
-                        distr   = "character",     # distribution
-                        method  = "character",     # generation method
-                        unur    = "externalptr"    # pointer to UNU.RAN object
+                        distr.str  = "character",     # distribution
+                        method.str = "character",     # generation method
+                        unur       = "externalptr"    # pointer to UNU.RAN object
                         ),
          ## defaults for slots
          prototype = list(
-                 distr  = character(),
-                 method = "auto",
-                 unur   = NULL
+                 distr.str  = character(),
+                 method.str = "auto",
+                 unur       = NULL
                  ),
          ## misc
          sealed = TRUE
@@ -47,8 +47,8 @@ setMethod( "initialize", "unuran",
                           stop("'method' must be a character string", call.=FALSE) }
 
                   ## Store informations 
-                  .Object@distr <- ifelse(is.character(distr), distr, "[UNU.RAN distribution]")
-                  .Object@method <- method
+                  .Object@distr.str <- ifelse(is.character(distr), distr, "[S4 class]")
+                  .Object@method.str <- method
 
                   ## Create UNU.RAN object
                   if (is.character(distr)) {
@@ -90,7 +90,7 @@ if(!isGeneric("r"))
 
 setMethod("r", "unuran",
           function(unur,n=1) {
-                  .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
+                  .Call("Runuran_sample", unur, n, PACKAGE="Runuran")
           } )
 
 ## Printing -----------------------------------------------------------------
@@ -99,8 +99,8 @@ setMethod("r", "unuran",
 setMethod( "print", "unuran",
           function(x, ...) {
                   cat("\nObject is UNU.RAN object:\n")
-                  cat("\tdistr:  ",x@distr,"\n")
-                  cat("\tmethod: ",x@method,"\n\n")
+                  cat("\tmethod: ",x@method.str,"\n")
+                  cat("\tdistr:  ",x@distr.str,"\n\n")
 } )
 
 setMethod( "show", "unuran",
