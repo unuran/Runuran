@@ -7,7 +7,7 @@
 ##                                                                         ##
 #############################################################################
 ##                                                                         ##
-##   Class: unuran.distr                                                   ##
+##   Class: unuran.discr                                                   ##
 ##                                                                         ##
 ##   Interface to the UNU.RAN library for                                  ##
 ##   Universal Non-Uniform RANdom variate generators                       ##
@@ -25,7 +25,7 @@ setClass( "unuran.discr",
                         ),
          ## defaults for slots
          prototype = list(
-                 unur   = NULL
+                 distr = NULL
                  ),
          ## misc
          sealed = TRUE

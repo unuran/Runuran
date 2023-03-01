@@ -18,7 +18,7 @@ R_UNURAN_SHLIB := $(pkg)$(SHLIB_EXT)
 
 # --- Compiler and linker flags ----------------------------------------------
 
-PKG_CPPFLAGS = ${UNURAN_CPPFLAGS}
+PKG_CPPFLAGS = ${UNURAN_CPPFLAGS} -Wall -pedantic
 
 # --- Create DLL -------------------------------------------------------------
 

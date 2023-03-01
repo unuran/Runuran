@@ -21,15 +21,17 @@
 setClass( "unuran", 
          ## slots:
          representation( 
+                        unur       = "externalptr",   # pointer to UNU.RAN object
+                        distr      = "unuran.cont",   # pointer to S4 distribution object
                         distr.str  = "character",     # distribution
-                        method.str = "character",     # generation method
-                        unur       = "externalptr"    # pointer to UNU.RAN object
+                        method.str = "character"      # generation method
                         ),
          ## defaults for slots
          prototype = list(
+                 unur       = NULL,
+                 distr      = NULL,
                  distr.str  = character(),
-                 method.str = "auto",
-                 unur       = NULL
+                 method.str = "auto"
                  ),
          ## misc
          sealed = TRUE
@@ -55,9 +57,12 @@ setMethod( "initialize", "unuran",
                           .Object@unur <-.Call("Runuran_init", distr, method, PACKAGE="Runuran")
                   } else { if (class(distr)=="unuran.discr") {
                           .Object@unur <-.Call("Runuran_init", distr@distr, method, PACKAGE="Runuran")
+                  } else { if (class(distr)=="unuran.cont") {
+                          .Object@unur <-.Call("Runuran_init", distr@distr, method, PACKAGE="Runuran")
+                          .Object@distr <- distr
                   } else {
-                          stop("'distr' must be a character string or an UNU.RAN distribution object", call.=FALSE)
-                  }}
+                          stop("'distr' must be a character string or a Runuran distribution object", call.=FALSE)
+                  }}}
 
                   ## Check UNU.RAN object
                   if (is.null(.Object@unur)) {
