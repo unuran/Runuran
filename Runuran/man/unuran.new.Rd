@@ -219,7 +219,7 @@ unuran.new(distr,method="auto")
       Alias-Urn method. Works for the same class of distributions as
       method \code{"DGT"}.
     }
-    \item{"DARI":}{
+    \item{\code{"DARI"}:}{
       Automatic Rejection Inversion. It is based on discrete
       rejection and requires the PMF of an  
       unimodal discrete distributions with tails not higher than

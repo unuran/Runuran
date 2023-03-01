@@ -140,7 +140,7 @@ Runuran_init (SEXP sexp_distr, SEXP sexp_method)
 /*---------------------------------------------------------------------------*/
 
 SEXP
-Runuran_sample (SEXP sexp_gen, SEXP sexp_n)
+Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
      /*----------------------------------------------------------------------*/
      /* Sample from UNU.RAN generator object.                                */
      /*----------------------------------------------------------------------*/
@@ -148,12 +148,13 @@ Runuran_sample (SEXP sexp_gen, SEXP sexp_n)
   int n;
   struct unur_gen *gen;
   int i;
-  SEXP res = NULL;
+  SEXP sexp_res = NULL;
+  SEXP sexp_gen;
+  SEXP sexp_slotunur;
 
-#ifdef DEBUG
-  /* check pointer */
-  CHECK_PTR(sexp_gen);
-#endif
+  /* first argument must be S4 class */
+  if (!IS_S4_OBJECT(sexp_unur))
+    error("[UNU.RAN - error] invalid UNU.RAN object");
 
   /* Extract and check sample size */
   n = *(INTEGER (AS_INTEGER (sexp_n)));
@@ -161,9 +162,11 @@ Runuran_sample (SEXP sexp_gen, SEXP sexp_n)
     error("sample size 'n' must be positive integer");
   }
 
-  /* Extract pointer to generator */
+  /* Extract pointer to UNU.RAN generator */
+  sexp_slotunur = Rf_install("unur");
+  sexp_gen = GET_SLOT(sexp_unur, sexp_slotunur);
+  CHECK_PTR(sexp_gen);
   gen = R_ExternalPtrAddr(sexp_gen);
-  
 #ifdef DEBUG
   /* this must not be a NULL pointer */
   if (gen == NULL)
@@ -178,16 +181,16 @@ Runuran_sample (SEXP sexp_gen, SEXP sexp_n)
 
   case UNUR_DISTR_CONT:   /* univariate continuous distribution */
   case UNUR_DISTR_CEMP:   /* empirical continuous univariate distribution */
-    PROTECT(res = NEW_NUMERIC(n));
+    PROTECT(sexp_res = NEW_NUMERIC(n));
     for (i=0; i<n; i++) {
-      NUMERIC_POINTER(res)[i] = unur_sample_cont(gen); }
+      NUMERIC_POINTER(sexp_res)[i] = unur_sample_cont(gen); }
     UNPROTECT(1);
     break;
 
   case UNUR_DISTR_DISCR:  /* discrete univariate distribution */
-    PROTECT(res = NEW_NUMERIC(n));
+    PROTECT(sexp_res = NEW_NUMERIC(n));
     for (i=0; i<n; i++) {
-      NUMERIC_POINTER(res)[i] = (double) unur_sample_discr(gen); }
+      NUMERIC_POINTER(sexp_res)[i] = (double) unur_sample_discr(gen); }
     UNPROTECT(1);
     break;
 
@@ -203,7 +206,7 @@ Runuran_sample (SEXP sexp_gen, SEXP sexp_n)
   PutRNGstate();
 
   /* return result to R */
-  return res;
+  return sexp_res;
  
 } /* end of Runuran_sample() */
 

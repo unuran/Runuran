@@ -80,7 +80,7 @@ unuran.new <- function(distr,method="auto") {
 ## unuran.sample
 ## ( We avoid using a method as this has an expensive overhead. )
 unuran.sample <- function(unr,n=1) { 
-        .Call("Runuran_sample", unr@unur, n, PACKAGE="Runuran")
+        .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
 }
 
 ## r
@@ -90,7 +90,7 @@ if(!isGeneric("r"))
 
 setMethod("r", "unuran",
           function(unur,n=1) {
-                  .Call("Runuran_sample", unr@unur, n, PACKAGE="Runuran")
+                  .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
           } )
 
 ## Printing -----------------------------------------------------------------
