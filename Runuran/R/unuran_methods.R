@@ -27,8 +27,8 @@
 ## Generate continuous random variates from a given PDF
 ##
 
-urtdr <- function (n, pdf, dpdf, lb=-Inf, ub=Inf) {
-        dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, lb=lb, ub=ub)
+urtdr <- function (n, pdf, dpdf, lb=-Inf, ub=Inf, islog=FALSE) {
+        dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, lb=lb, ub=ub, islog=islog)
         unr <- unuran.new(dist, "tdr")
         unuran.sample(unr,n)
 }
