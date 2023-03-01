@@ -131,7 +131,7 @@ urdau <- function (n, probvector, from = 0, by = 1) {
 ## Generate continuous random variates from a given PDF
 ##
 
-urhitro <- function (n, dim=1, pdf, mode=NULL, thinning=1, burnin=0, ...) {
+urhitro <- function (n, dim=1, pdf, mode=NULL, center=NULL, ll=NULL, ur=NULL, thinning=1, burnin=0, ...) {
         ## the probability density function is obligatory and must be a function
         if (missing(pdf))
                 stop ("argument 'pdf' required")
@@ -139,7 +139,7 @@ urhitro <- function (n, dim=1, pdf, mode=NULL, thinning=1, burnin=0, ...) {
                 stop ("argument 'pdf' must be of class 'function'")
         f <- function(x) pdf(x, ...) 
         ## S4 class for continuous multivariate distribution
-        dist <- new("unuran.cmv", dim=dim, pdf=pdf, mode=mode)
+        dist <- new("unuran.cmv", dim=dim, pdf=pdf, mode=mode, center=center, ll=ll, ur=ur)
         ## create UNU.RAN object
         method <- paste("hitro;thinning=",thinning,";burnin=",burnin, sep="")
         cat(method,"\n")
