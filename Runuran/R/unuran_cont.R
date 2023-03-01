@@ -69,7 +69,7 @@ setMethod( "initialize", "unuran.cont",
 
                   ## Create UNUR_DISTR object
                   .Object@distr <-.Call("Runuran_cont_init",
-                                        .Object, new.env(),
+                                        new.env(),
                                         .Object@cdf, .Object@pdf, .Object@dpdf, islog,
                                         c(lb,ub),
                                         PACKAGE="Runuran")
