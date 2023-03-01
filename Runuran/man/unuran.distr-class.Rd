@@ -11,7 +11,18 @@
 \description{%
   The virtual class "unuran.distr" provides am interface to UNU.RAN
   objects for distributions.
-  \strong{Experimental. Do not use!}
+
+  The following classes extend this class:
+  \describe{
+    \item{class "unuran.cont"}{
+      for univariate continuous distributions,
+      see \code{\linkS4class{unuran.cont}}.
+    }
+    \item{class "unuran.discr"}{
+      for discrete distributions,
+      see \code{\linkS4class{unuran.discr}}.
+    }
+  }
 }
 
 \author{
@@ -26,7 +37,8 @@
 }
 
 \seealso{
-  \code{\link{unuran-class}}.
+  \code{\linkS4class{unuran.cont}}, \code{\linkS4class{unuran.discr}};
+  \code{\linkS4class{unuran}}.
 }
 
 \keyword{classes}

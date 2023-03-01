@@ -260,4 +260,8 @@ unur.test.statistic <- function () {
         summary(pvals)
 }
 
+## -- Test whether an error has occured -------------------------------------
+
+iserror <- function (expr) { is(try(expr), "try-error") }
+
 ## -- End -------------------------------------------------------------------

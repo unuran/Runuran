@@ -16,7 +16,7 @@
 unuran.new(distr,method="auto")
 }
 \arguments{
-  \item{distr}{a string describing the distribution.}
+  \item{distr}{a string or an S4 class describing the distribution.}
   \item{method}{a string describing the random variate generation
     method.}
 }
@@ -132,6 +132,23 @@ unuran.new(distr,method="auto")
   }
 } %% -- end "The Distribution String"
 
+\section{The S4 Classes for Distributions}{
+  The package \pkg{Runuran} provides an alternative approach to describe
+  distributions. Thus the following S4 classes can be used.
+  \describe{
+    \item{class "unuran.cont"}{
+      for univariate continuous distributions,
+      see \code{\linkS4class{unuran.cont}}.
+    }
+    \item{class "unuran.discr"}{
+      for discrete distributions,
+      see \code{\linkS4class{unuran.discr}}.
+    }
+  }
+  This interface allows to use \R functions and object to define
+  distributions.
+}
+
 \section{The Method String}{
   The argument \code{method} describes generation method for drawing
   the random samples. UNU.RAN provides various such method for all
@@ -230,9 +247,12 @@ unuran.new(distr,method="auto")
 
 \seealso{
   \code{\link{runif}} and \code{\link{.Random.seed}} about random number
-  generation, \code{\link{unuran-class}} for the UNU.RAN class,
+  generation, \code{\linkS4class{unuran}} for the UNU.RAN class,
   \code{\link{unuran.sample}}, \code{\link{urdgt}} and
   \code{\link{urdau}}.
+
+  For distribution objects see \code{\linkS4class{unuran.cont}} and
+  \code{\linkS4class{unuran.discr}}.
 }
 
 \references{

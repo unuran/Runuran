@@ -8,6 +8,16 @@
 
 source("test_routines.R")
 
+## -- Test whether invalid arguments are recognized -------------------------
+
+## DGT (Discrete Guide Table method)
+if( ! iserror( x <- urdgt(1000) ) ) 
+        stop("'pv' required for urdgt")
+
+## DGT (Discrete Guide Table method)
+if( ! iserror( x <- urdau(1000) ) ) 
+        stop("'pv' required for urdgt")
+
 ## --- CONT: Chi^2 goodness-of-fit test -------------------------------------
 
 ## TDR (Transformed Density Rejection)
@@ -52,6 +62,19 @@ dgt.binom <- function (n,lb=0,ub=size) {
 }
 unur.test.discr("binomS4", rfunc=dgt.binom, dfunc=binom.pmf, domain=c(0,size))
 unur.test.discr("binomS4", rfunc=dgt.binom, pv=binom.probs, domain=c(0,size))
+
+## DAU (Discrete Alias-Urn method)
+size <- 100
+prob <- 0.3
+binom.pmf <- function (x) { dbinom(x, size, prob) }
+binom.probs <- dbinom(0:size, size, prob)
+dau.binom <- function (n,lb=0,ub=size) {
+        dist <- new("unuran.discr", pv=binom.probs)
+        gen <- unuran.new(dist, "dau")
+        unuran.sample(gen,n)
+}
+unur.test.discr("binomS4", rfunc=dau.binom, dfunc=binom.pmf, domain=c(0,size))
+unur.test.discr("binomS4", rfunc=dau.binom, pv=binom.probs, domain=c(0,size))
 
 ## -- Print statistics ------------------------------------------------------
 

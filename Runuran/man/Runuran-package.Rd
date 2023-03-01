@@ -18,8 +18,8 @@
   \tabular{ll}{
     Package: \tab Runuran       \cr
     Type:    \tab Package       \cr
-    Version: \tab 0.4           \cr
-    Date:    \tab 2007-05-16    \cr
+    Version: \tab 0.5           \cr
+    Date:    \tab 2007-06-20    \cr
     License: \tab GPL 2 or later\cr
   }
   This package provides an interface to the UNU.RAN library for universal
@@ -142,7 +142,7 @@
 }
 
 \seealso{
-  \code{\link{unuran.new}}, \link[Runuran:unuran-class]{unuran-class},
+  \code{\link{unuran.new}}, \code{\linkS4class{unuran}},
   \code{\link{urdgt}} and \code{\link{urdau}}.
 }
 
