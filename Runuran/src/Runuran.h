@@ -54,6 +54,19 @@ SEXP Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 /*---------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*  Special wrapper functions                                                */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+
+SEXP Runuran_qhinv (SEXP sexp_unur, SEXP sexp_U);
+/*---------------------------------------------------------------------------*/
+/* Evaluate approximate quantile function when a UNU.RAN object of type HINV */
+/* is given.                                                                 */
+/*---------------------------------------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------*/
 /* Registering native routines */
 /* Not implemented yet (it seems to be slower) */ 
 /* static const R_CallMethodDef Runuran_CallEntries[] = { */
