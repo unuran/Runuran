@@ -56,6 +56,11 @@ struct Runuran_distr_cont {
   SEXP dpdf;                /* derivative of PDF of distribution             */
 };
 
+struct Runuran_distr_cmv {
+  SEXP env;                 /* R environment                                 */
+  SEXP pdf;                 /* PDF of distribution                           */
+};
+
 /*---------------------------------------------------------------------------*/
 /*  Discrete Distributions (DISCR)                                           */
 
@@ -73,6 +78,12 @@ static double _Runuran_cont_eval_pdf( double x, const struct unur_distr *distr )
 
 static double _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr );
 /* Evaluate derivative of PDF function.                                      */
+
+/*---------------------------------------------------------------------------*/
+/*  Continuous Multivariate Distributions (CMV)                              */
+
+static double _Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr );
+/* Evaluate PDF function.                                                    */
 
 /*---------------------------------------------------------------------------*/
 /*  Common Routines                                                          */
@@ -376,6 +387,124 @@ _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr )
 
 /*****************************************************************************/
 /*                                                                           */
+/*  Continuous Multivariate Distributions (CMV)                              */
+/*                                                                           */
+/*****************************************************************************/
+
+SEXP
+Runuran_cmv_init (SEXP sexp_env, 
+		  SEXP sexp_dim, SEXP sexp_pdf, SEXP sexp_mode,
+		  SEXP sexp_domain)
+     /*----------------------------------------------------------------------*/
+     /* Create and initialize UNU.RAN object for continuous multivariate     */
+     /* distribution.                                                        */
+     /*                                                                      */
+     /* Parameters:                                                          */
+     /*   env    ... R environment                                           */
+     /*   dim    ... dimensions of distribution                              */
+     /*   pdf    ... PDF of distribution                                     */
+     /*   mode   ... mode of distribution                                    */
+     /*----------------------------------------------------------------------*/
+{
+  SEXP sexp_distr;
+  struct Runuran_distr_cmv *Rdistr;
+  struct unur_distr *distr;
+  const int *dim;
+  const double *mode;
+  unsigned int error = 0u;
+
+  /* make tag for R object */
+  if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
+
+#ifdef RUNURAN_DEBUG
+  /*   /\* 'this' must be an S4 class *\/ */
+  /*   if (!IS_S4_OBJECT(sexp_this)) */
+  /*     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object"); */
+
+  /* all other variables are tested in the R routine */
+  /* TODO: add checks in DEBUGging mode */
+#endif
+
+  /* number of dimensions */
+  dim = INTEGER(sexp_dim);
+
+  /* store pointers to R objects */
+  Rdistr = Calloc(1,struct Runuran_distr_cmv);
+  Rdistr->env = sexp_env;
+  Rdistr->pdf = sexp_pdf;
+
+  /* create distribution object */
+  distr = unur_distr_cvec_new(dim[0]);
+  if (distr == NULL) _Runuran_fatal();
+
+  /* set function pointers */
+  error |= unur_distr_set_extobj(distr, Rdistr);
+  if (!isNull(sexp_pdf))
+    error |= unur_distr_cvec_set_pdf(distr, _Runuran_cmv_eval_pdf);
+
+  /* set mode */
+  if (!isNull(sexp_mode)) {
+    mode = REAL(sexp_mode);
+    error |= unur_distr_cvec_set_mode(distr, mode);
+  }
+  
+  /* check return codes */
+  if (error) {
+    Free(Rdistr);
+    unur_distr_free (distr); 
+    _Runuran_fatal();
+  } 
+
+  /* make R external pointer and store pointer to structure */
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, R_NilValue));
+  UNPROTECT(1);
+  
+  /* register destructor as C finalizer */
+  R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
+
+  /* return pointer to R */
+  return (sexp_distr);
+
+} /* end of Runuran_cmv_init() */
+
+/*---------------------------------------------------------------------------*/
+
+double
+_Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr )
+     /*----------------------------------------------------------------------*/
+     /* Evaluate PDF function.                                               */
+     /*----------------------------------------------------------------------*/
+{
+  const struct Runuran_distr_cmv *Rdistr;
+  SEXP R_fcall, arg;
+  double *rarg;
+  double y;
+  int i, dim;
+  
+  /* get dimension of distribution */
+  dim = unur_distr_get_dim(distr);
+
+  /* pointer to R object */
+  Rdistr = unur_distr_get_extobj(distr);
+
+  /* copy x into R object of type "numeric" */
+  PROTECT(arg = NEW_NUMERIC(dim));
+  rarg = REAL(arg);
+  for (i=0; i<dim; i++)
+    rarg[i] = x[i];
+
+  /* evaluate PDF */
+  PROTECT(R_fcall = lang2(Rdistr->pdf, R_NilValue));
+  SETCADR(R_fcall, arg);
+  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  UNPROTECT(2);
+
+  return y;
+} /* end of _Runuran_cont_eval_pdf() */
+
+
+/*****************************************************************************/
+/*                                                                           */
 /*  Common Routines                                                          */
 /*                                                                           */
 /*****************************************************************************/
@@ -392,7 +521,7 @@ _Runuran_distr_free (SEXP sexp_distr)
 #ifdef DEBUG
   /* check pointer */
   CHECK_PTR(sexp_distr);
-  printf("Runuran_distr_free called!\n");
+  Rprintf("Runuran_distr_free called!\n");
 #endif
 
   /* Extract pointer to distribution object */

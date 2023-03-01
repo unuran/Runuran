@@ -143,8 +143,9 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
 {
   int n;
   struct unur_gen *gen;
-  int i;
+  int i,k;
   SEXP sexp_res = NULL;
+  double *res;
   SEXP sexp_gen;
   SEXP sexp_slotunur;
 
@@ -194,6 +195,21 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
     break;
 
   case UNUR_DISTR_CVEC:   /* continuous mulitvariate distribution */
+    {
+      int dim = unur_get_dimension(gen);
+      double *x = (double*) R_alloc(dim, sizeof(double) );
+      PROTECT(sexp_res = allocMatrix(REALSXP, n, dim));
+      res = REAL(sexp_res);
+      for (i=0; i<n; i++) {
+	if (unur_sample_vec(gen,x)!=UNUR_SUCCESS)
+	  for (k=0; k<dim; k++) res[i + n*k] = NA_REAL;
+	else
+	  for (k=0; k<dim; k++) res[i + n*k] = x[k];
+      }
+      UNPROTECT(1);
+    }
+    break;
+
   case UNUR_DISTR_CVEMP:  /* empirical continuous multivariate distribution */
   case UNUR_DISTR_MATR:   /* matrix distribution */
   default:

@@ -107,4 +107,12 @@ x <- unuran.sample(unr, samplesize)
 pval <- chisq.test( hist(pbinom(x,100,0.3),plot=FALSE)$density )$p.value
 if (pval < alpha) stop("chisq test FAILED!  p-value=",signif(pval))
 
+## --- Continuous Multivariate distributions --------------------------------
+
+mvpdf <- function (x) { exp(-sum(x^2)) }
+mvd <- new("unuran.cmv", dim=2, pdf=mvpdf, mode=c(0,0))
+unr <- 0; unr <- unuran.new(mvd, "hitro")
+x <- unuran.sample(unr, 10)
+x
+
 ## --- End ------------------------------------------------------------------

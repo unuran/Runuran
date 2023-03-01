@@ -40,6 +40,13 @@ SEXP Runuran_cont_init (SEXP sexp_env,
 /* Create and initialize UNU.RAN object for continuous distribution.         */
 /*---------------------------------------------------------------------------*/
 
+SEXP Runuran_cmv_init (SEXP sexp_env, 
+		       SEXP sexp_dim, SEXP sexp_pdf, SEXP sexp_mode, 
+		       SEXP sexp_domain);
+/*---------------------------------------------------------------------------*/
+/* Create and initialize UNU.RAN object for cont. multivariate distribution. */
+/*---------------------------------------------------------------------------*/
+
 /*---------------------------------------------------------------------------*/
 /* Registering native routines */
 /* Not implemented yet (it seems to be slower) */ 

@@ -60,9 +60,12 @@ setMethod( "initialize", "unuran",
                   } else { if (class(distr)=="unuran.cont") {
                           .Object@unur <-.Call("Runuran_init", distr@distr, method, PACKAGE="Runuran")
                           .Object@distr <- distr
+                  } else { if (class(distr)=="unuran.cmv") {
+                          .Object@unur <-.Call("Runuran_init", distr@distr, method, PACKAGE="Runuran")
+                          .Object@distr <- distr
                   } else {
                           stop("'distr' must be a character string or a Runuran distribution object", call.=FALSE)
-                  }}}
+                  }}}}
 
                   ## Check UNU.RAN object
                   if (is.null(.Object@unur)) {
