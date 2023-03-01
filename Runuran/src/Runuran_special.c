@@ -97,7 +97,12 @@ Runuran_qhinv (SEXP sexp_unur, SEXP sexp_U)
   /* evaluate inverse CDF */
   PROTECT(sexp_res = NEW_NUMERIC(n));
   for (i=0; i<n; i++) {
-    NUMERIC_POINTER(sexp_res)[i] = unur_hinv_eval_approxinvcdf(gen,U[i]); }
+    if (ISNAN(U[i]))
+      /* if NA or NaN is given then we simply return the same value */
+      NUMERIC_POINTER(sexp_res)[i] = U[i];
+    else 
+      NUMERIC_POINTER(sexp_res)[i] = unur_hinv_eval_approxinvcdf(gen,U[i]); 
+  }
   UNPROTECT(1);
 
   /* return result to R */
