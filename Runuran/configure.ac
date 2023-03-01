@@ -83,10 +83,15 @@ if test "$ac_cv_c_ieee_comparisons" != no ; then
   AC_SUBST(HAVE_IEEE_COMPARISONS)
 fi
 
+dnl --- Make src/Makevars ----------------------------------------------------
+UNURAN_SRC=`cd ./src; ls -1 unuran-src/*/*.c | tr '\012' ' '`
+AC_SUBST(UNURAN_SRC)
+AC_CONFIG_FILES([src/Makevars])
+
 dnl --- Create output files --------------------------------------------------
 AC_OUTPUT
 
-dnl -----------------------------------------
+dnl --------------------------------------------------------------------------
 AC_MSG_RESULT([
 *========================================================
 *
