@@ -43,7 +43,7 @@ urtdr <- function (n, pdf, dpdf, lb=-Inf, ub=Inf, islog=TRUE, ...) {
         }
         if (! is.function(dpdf) )
                 stop ("argument 'dpdf' must be of class 'function'")
-        ## S4 class for discrete distribution
+        ## S4 class for continuous distribution
         dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, lb=lb, ub=ub, islog=islog)
         ## create UNU.RAN object
         unr <- unuran.new(dist, "tdr")
@@ -115,6 +115,39 @@ urdau <- function (n, probvector, from = 0, by = 1) {
         else
                 from + by * unuran.sample(unr,n)
 }
+
+
+#############################################################################
+##                                                                          #
+## Sampling methods for continuous multivariate Distributions               #
+##                                                                          #
+#############################################################################
+
+
+## -- HITRO: Hit-and-Run sampler with Ratio-of-Uniforms ---------------------
+##
+## Type: MCMC
+##
+## Generate continuous random variates from a given PDF
+##
+
+urhitro <- function (n, dim=1, pdf, mode=NULL, thinning=1, burnin=0, ...) {
+        ## the probability density function is obligatory and must be a function
+        if (missing(pdf))
+                stop ("argument 'pdf' required")
+        if (! is.function(pdf))
+                stop ("argument 'pdf' must be of class 'function'")
+        f <- function(x) pdf(x, ...) 
+        ## S4 class for continuous multivariate distribution
+        dist <- new("unuran.cmv", dim=dim, pdf=pdf, mode=mode)
+        ## create UNU.RAN object
+        method <- paste("hitro;thinning=",thinning,";burnin=",burnin, sep="")
+        cat(method,"\n")
+        unr <- unuran.new(dist, method)
+        ## draw sample
+        unuran.sample(unr,n)
+}
+
 
 ## -- End -------------------------------------------------------------------
 
