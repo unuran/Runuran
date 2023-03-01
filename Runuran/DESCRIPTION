@@ -7,5 +7,6 @@ Author: Josef Leydold and Wolfgang H\"ormann
 Maintainer: Josef Leydold <leydold@statmath.wu-wien.ac.at>
 Depends: R (>= 2.4.0), methods
 Description: Interface to the UNU.RAN library for Universal Non-Uniform RANdom variate generators
+Collate: unuran_cont.R unuran_discr.R Runuran.R distributions.R unuran_methods.R zzz.R
 License: GPL version 2
 URL: http://statistik.wu-wien.ac.at/unuran/
