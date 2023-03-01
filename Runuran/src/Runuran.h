@@ -26,12 +26,14 @@ SEXP Runuran_sample (SEXP sexp_gen, SEXP sexp_n);
 /* Sample from UNU.RAN generator object.                                     */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_discr_init (SEXP sexp_pv);
+SEXP Runuran_discr_init (SEXP sexp_env,
+			 SEXP sexp_pv, SEXP sexp_pmf,
+			 SEXP sexp_domain);
 /*---------------------------------------------------------------------------*/
 /* Create and initialize UNU.RAN object for discrete distribution.           */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_cont_init (SEXP sexp_this, SEXP sexp_env, 
+SEXP Runuran_cont_init (SEXP sexp_env, 
 			SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
 			SEXP sexp_domain);
 /*---------------------------------------------------------------------------*/

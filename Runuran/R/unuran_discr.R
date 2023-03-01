@@ -19,25 +19,46 @@
 ## Class --------------------------------------------------------------------
 
 setClass( "unuran.discr", 
-         representation(), contains = "unuran.distr", sealed = TRUE )
+         ## add slots for discrete distributions
+         representation = representation(
+                 pmf  = "function"     # PMF of distribution
+                 ),
+         ## defaults for slots
+         prototype = list(
+                 pmf  = NULL
+                 ),
+         ## superclass
+         contains = "unuran.distr",
+         ## seal this class
+         sealed = TRUE )
 
 ## Initialize ---------------------------------------------------------------
 
 setMethod( "initialize", "unuran.discr",
-          function(.Object, pv=NULL) {
-                  ## pv ... probability vector
+          function(.Object, pv=NULL, pmf=NULL, lb=0, ub=Inf) {
+                  ## pv ..... probability vector (PV)
+                  ## pmf .... probability mass function (PMF)
+                  ## lb ..... lower bound of domain
+                  ## ub ..... upper bound of domain
 
                   ## Check entries
-                  if (is.null(pv)) {
-                          stop("no probability vector given", call.=FALSE) }
-                  if (!is.double(pv)) {
-                          stop("'pv' must be a double vector", call.=FALSE) }
+                  if(! (is.numeric(lb) && is.numeric(ub) && lb < ub) )
+                          stop("invalid domain ('lb','ub')", call.=FALSE)
+                  if (!(is.double(pv) || is.null(pv) ))
+                          stop("invalid argument 'pv'", call.=FALSE)
+                  if(! (is.function(pmf) || is.null(pmf)) )
+                          stop("invalid argument 'pmf'", call.=FALSE)
 
-                  ## Store informations 
-                  ## (currently nothing to do)
-
+                  ## Store informations (if provided)
+                  if (is.function(pmf)) .Object@pmf  <- pmf
+                  ## (There is no need to store the PV)
+                  
                   ## Create UNUR_DISTR object
-                  .Object@distr <-.Call("Runuran_discr_init", pv, PACKAGE="Runuran")
+                  .Object@distr <-.Call("Runuran_discr_init",
+                                        new.env(),
+                                        pv, .Object@pmf,
+                                        c(lb,ub),
+                                        PACKAGE="Runuran")
 
                   ## Check UNU.RAN object
                   if (is.null(.Object@distr)) {

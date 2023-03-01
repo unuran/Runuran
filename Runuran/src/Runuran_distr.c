@@ -44,6 +44,11 @@
 /*---------------------------------------------------------------------------*/
 
 /* structure for storing pointers to R objects                               */
+struct Runuran_distr_discr {
+  SEXP env;                 /* R environment                                 */
+  SEXP pmf;                 /* PMF of distribution                           */
+};
+
 struct Runuran_distr_cont {
   SEXP env;                 /* R environment                                 */
   SEXP cdf;                 /* CDF of distribution                           */
@@ -53,6 +58,9 @@ struct Runuran_distr_cont {
 
 /*---------------------------------------------------------------------------*/
 /*  Discrete Distributions (DISCR)                                           */
+
+static double _Runuran_discr_eval_pmf( int k, const struct unur_distr *distr );
+/* Evaluate PMF function.                                                    */
 
 /*---------------------------------------------------------------------------*/
 /*  Continuous Univariate Distributions (CONT)                               */
@@ -95,33 +103,73 @@ static SEXP _Runuran_distr_tag = NULL;
 /*****************************************************************************/
 
 SEXP
-Runuran_discr_init (SEXP sexp_pv)
+Runuran_discr_init (SEXP sexp_env,
+		    SEXP sexp_pv, SEXP sexp_pmf,
+		    SEXP sexp_domain)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for discrete distribution.      */
+     /*                                                                      */
+     /* Parameters:                                                          */
+     /*   env    ... R environment                                           */
+     /*   pv     ... PV of distribution                                      */
+     /*   pmf    ... PMF of distribution                                     */
+     /*   domain ... domain of distribution                                  */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
+  struct Runuran_distr_discr *Rdistr;
   struct unur_distr *distr;
   const double *pv;
   int n_pv;
+  const double *domain;
+  int lb, ub;
+  unsigned int error = 0u;
 
   /* make tag for R object */
   if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
 
-  /* check argument */
-  if (!sexp_pv || TYPEOF(sexp_pv) != REALSXP)
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
-
-  /* get probability vector */
-  pv = REAL(sexp_pv);
-  n_pv = length(sexp_pv);
+  /* domain of distribution */
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+  domain = REAL(sexp_domain);
+  lb = (domain[0] < (double) INT_MIN) ? INT_MIN : (int) domain[0]; 
+  ub = (domain[1] > (double) INT_MAX) ? INT_MAX : (int) domain[1];
+  if (lb >= ub)
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid domain: lb >= ub");
 
   /* create distribution object */
   distr = unur_distr_discr_new();
-  if (unur_distr_discr_set_pv(distr,pv,n_pv) != UNUR_SUCCESS) {
-    unur_distr_free(distr);
-    _Runuran_fatal();
+  if (distr == NULL) _Runuran_fatal();
+
+  /* set domain */
+  error |= unur_distr_discr_set_domain( distr, lb, ub );
+
+  /* set probability vector */
+  if (!isNull(sexp_pv)) {
+    if (TYPEOF(sexp_pv) != REALSXP)
+      errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
+    pv = REAL(sexp_pv);
+    n_pv = length(sexp_pv);
+    error |= unur_distr_discr_set_pv(distr,pv,n_pv);
   }
+
+  /* store pointers to R objects */
+  Rdistr = Calloc(1,struct Runuran_distr_discr);
+  Rdistr->env = sexp_env;
+  Rdistr->pmf = sexp_pmf;
+
+  /* set function pointers */
+  error |= unur_distr_set_extobj(distr, Rdistr);
+  if (!isNull(sexp_pmf)) {
+    error |= unur_distr_discr_set_pmf(distr, _Runuran_discr_eval_pmf);
+  }
+
+  /* check return codes */
+  if (error) {
+    Free(Rdistr);
+    unur_distr_free (distr); 
+    _Runuran_fatal();
+  } 
 
   /* make R external pointer and store pointer to structure */
   PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, R_NilValue));
@@ -135,6 +183,28 @@ Runuran_discr_init (SEXP sexp_pv)
 
 } /* end of Runuran_discr_init() */
 
+/*---------------------------------------------------------------------------*/
+
+double
+_Runuran_discr_eval_pmf( int k, const struct unur_distr *distr )
+     /*----------------------------------------------------------------------*/
+     /* Evaluate PMF function.                                               */
+     /*----------------------------------------------------------------------*/
+{
+  const struct Runuran_distr_discr *Rdistr;
+  SEXP R_fcall, arg;
+  double y;
+
+  Rdistr = unur_distr_get_extobj(distr);
+  PROTECT(arg = NEW_NUMERIC(1));
+  NUMERIC_POINTER(arg)[0] = (double)k;
+  PROTECT(R_fcall = lang2(Rdistr->pmf, R_NilValue));
+  SETCADR(R_fcall, arg);
+  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  UNPROTECT(2);
+  return y;
+} /* end of _Runuran_discr_eval_pmf() */
+
 
 /*****************************************************************************/
 /*                                                                           */
@@ -143,14 +213,13 @@ Runuran_discr_init (SEXP sexp_pv)
 /*****************************************************************************/
 
 SEXP
-Runuran_cont_init (SEXP sexp_this, SEXP sexp_env, 
+Runuran_cont_init (SEXP sexp_env, 
 		   SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
 		   SEXP sexp_domain)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for continuous distribution.    */
      /*                                                                      */
      /* Parameters:                                                          */
-     /*   this   ... pointer to S4 class containing this object              */
      /*   env    ... R environment                                           */
      /*   cdf    ... CDF of distribution                                     */
      /*   pdf    ... PDF of distribution                                     */
@@ -170,9 +239,9 @@ Runuran_cont_init (SEXP sexp_this, SEXP sexp_env,
   if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
 
 #ifdef RUNURAN_DEBUG
-  /* 'this' must be an S4 class */
-  if (!IS_S4_OBJECT(sexp_this))
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object");
+  /*   /\* 'this' must be an S4 class *\/ */
+  /*   if (!IS_S4_OBJECT(sexp_this)) */
+  /*     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object"); */
 
   /* all other variables are tested in the R routine */
   /* TODO: add checks in DEBUGging mode */
@@ -221,6 +290,7 @@ Runuran_cont_init (SEXP sexp_this, SEXP sexp_env,
 
   /* check return codes */
   if (error) {
+    Free(Rdistr);
     unur_distr_free (distr); 
     _Runuran_fatal();
   } 

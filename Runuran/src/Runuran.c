@@ -272,6 +272,8 @@ _Runuran_error_handler(
      /* Error handler for UNU.RAN routines                                   */
      /*----------------------------------------------------------------------*/
 {
+#ifdef RUNURAN_DEBUG
+#else
   /* we suppress some warnings */
   if (errortype[0] == 'w') {
     switch (errorcode) {
@@ -283,6 +285,7 @@ _Runuran_error_handler(
       break;
     }
   }
+#endif
 
   /* print warning or error message */
   Rprintf("[UNU.RAN - %s] %s",errortype,unur_get_strerror(errorcode));
@@ -291,7 +294,7 @@ _Runuran_error_handler(
   else
     Rprintf("\n");
   
-#ifdef DEBUG
+#ifdef RUNURAN_DEBUG
   /* print file and line number */
   Rprintf("\tfile: %s, line: %d\n",file,line);
 #endif
