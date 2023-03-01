@@ -15,7 +15,28 @@
 #############################################################################
 
 #############################################################################
+##                                                                          #
+## Sampling methods for continuous univariate Distributions                 #
+##                                                                          #
+#############################################################################
+
+## -- TDR: Transformed Density Rejection ------------------------------------
+##
+## Type: Acceptance-Rejection
+##
+## Generate continuous random variates from a given PDF
+##
+
+urtdr <- function (n, pdf, dpdf, lb=-Inf, ub=Inf) {
+        dist <- new("unuran.cont", pdf=pdf, dpdf=dpdf, lb=lb, ub=ub)
+        unr <- unuran.new(dist, "tdr")
+        unuran.sample(unr,n)
+}
+
+#############################################################################
+##                                                                          #
 ## Sampling methods for discrete univariate Distributions                   #
+##                                                                          #
 #############################################################################
 
 ## -- DGT: Guide Table Method -----------------------------------------------
@@ -23,7 +44,7 @@
 ## Type: Inversion
 ##
 ## Generate discrete random variates from a given probability vector
-## useing the Guide-Table Method for discrete inversion
+## using the Guide-Table Method for discrete inversion
 ##
 
 urdgt <- function (n, probvector, from = 0, by = 1) {
@@ -40,7 +61,7 @@ urdgt <- function (n, probvector, from = 0, by = 1) {
 ## Type: Patchwork
 ##
 ## Generate discrete random variates from a given probability vector
-## useing the Alias-Urn Method
+## using the Alias-Urn Method
 ##
 
 urdau <- function (n, probvector, from = 0, by = 1) {

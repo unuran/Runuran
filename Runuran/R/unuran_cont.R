@@ -42,7 +42,7 @@ setMethod( "initialize", "unuran.cont",
                           stop("argument 'islog' must be boolean", call.=FALSE)
 
                   ## Store informations 
-                  ## (currently nothing to do)
+                  ## TODO: WE HAVE TO STORE PDF, etc IN CLASS "unuran.cont" !!!!
 
                   ## Create UNUR_DISTR object
                   .Object@distr <-.Call("Runuran_cont_init",
