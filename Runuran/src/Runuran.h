@@ -26,6 +26,11 @@ SEXP Runuran_sample (SEXP sexp_unur, SEXP sexp_n);
 /* Sample from UNU.RAN generator object.                                     */
 /*---------------------------------------------------------------------------*/
 
+SEXP Runuran_quantile (SEXP sexp_unur, SEXP sexp_U);
+/*---------------------------------------------------------------------------*/
+/* Quantile for distribution in UNU.RAN generator object.                    */
+/*---------------------------------------------------------------------------*/
+
 SEXP Runuran_print (SEXP sexp_gen, SEXP sexp_help);
 /*---------------------------------------------------------------------------*/
 /* Print information about UNU.RAN generator object.                         */

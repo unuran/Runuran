@@ -98,6 +98,13 @@ setMethod("r", "unuran",
                   .Call("Runuran_sample", unur, n, PACKAGE="Runuran")
           } )
 
+## Quantile -----------------------------------------------------------------
+
+## uq
+uq <- function(unr,U) { 
+        .Call("Runuran_quantile", unr, U, PACKAGE="Runuran")
+}
+
 ## Printing -----------------------------------------------------------------
 
 ## print strings of UNU.RAN object
