@@ -7,83 +7,25 @@
 ##                                                                         ##
 #############################################################################
 ##                                                                         ##
-##   Deprecated functions!                                                 ##
-##                                                                         ##
-##   Interface to the UNU.RAN library for                                  ##
-##   Universal Non-Uniform RANdom variate generators                       ##
+##   DEPRECATED functions!                                                 ##
 ##                                                                         ##
 #############################################################################
 
 #############################################################################
 ##                                                                          #
-## Sampling methods for continuous univariate Distributions                 #
+## Special sampling methods                                                 #
 ##                                                                          #
 #############################################################################
-
-## -- TDR: Transformed Density Rejection ------------------------------------
-##
-## Type: Acceptance-Rejection
-##
-## Generate continuous random variates from a given PDF
-##
-## DEPRECATED!
-## use function 'ur(tdr.new(...),n)' instead.
-
-urtdr <- function (n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=TRUE, ...) {
-        ## create UNU.RAN object
-        unr <- tdr.new(pdf=pdf,dpdf=dpdf,lb=lb,ub=ub,islog=islog,...)
-        ## draw sample
-        unuran.sample(unr,n)
-}
-
 
 ## -- HINV: Hermite interpolation for approximate INVersion -----------------
-##
-## Type: Inversion
-##
-## Generate continuous random variates from a given CDF/PDF
-##
-
 ## DEPRECATED!
 ## use function 'uq' instead.
 
-## Quantile function
 uqhinv <- function (unr, U) { uq(unr,U) }
 
-
-#############################################################################
-##                                                                          #
-## Sampling methods for discrete univariate Distributions                   #
-##                                                                          #
-#############################################################################
-
-## -- DGT: Guide Table Method -----------------------------------------------
-##
-## Type: Inversion
-##
-## Generate discrete random variates from a given probability vector
-## using the Guide-Table Method for discrete inversion
-##
-## DEPRECATED!
-
-urdgt <- function (n, probvector, from = 0, by = 1) {
-        ## create UNU.RAN object
-        unr <- dgt.new(pv=probvector, from=0)
-        ## draw sample
-        if (from==0 && by==1)
-                unuran.sample(unr,n)
-        else
-                from + by * unuran.sample(unr,n)
-}
-
 ## -- DAU: Alias-Urn Method ------------------------------------------------
-##
-## Type: Patchwork
-##
-## Generate discrete random variates from a given probability vector
-## using the Alias-Urn Method
-##
 ## DEPRECATED!
+## use function 'ur(dau.new(...),n)' instead
 
 urdau <- function (n, probvector, from = 0, by = 1) {
         ## create UNU.RAN object
@@ -95,21 +37,23 @@ urdau <- function (n, probvector, from = 0, by = 1) {
                 from + by * unuran.sample(unr,n)
 }
 
+## -- DGT: Guide Table Method -----------------------------------------------
+## DEPRECATED!
+## use function 'ur(dgt.new(...),n)' instead
 
-#############################################################################
-##                                                                          #
-## Sampling methods for continuous multivariate Distributions               #
-##                                                                          #
-#############################################################################
-
+urdgt <- function (n, probvector, from = 0, by = 1) {
+        ## create UNU.RAN object
+        unr <- dgt.new(pv=probvector, from=0)
+        ## draw sample
+        if (from==0 && by==1)
+                unuran.sample(unr,n)
+        else
+                from + by * unuran.sample(unr,n)
+}
 
 ## -- HITRO: Hit-and-Run sampler with Ratio-of-Uniforms ---------------------
-##
-## Type: MCMC
-##
-## Generate continuous random variates from a given PDF
-##
 ## DEPRECATED!
+## use function 'ur(hitro.new(...),n)' instead
 
 urhitro <- function (n, dim=1, pdf, mode=NULL, center=NULL, ll=NULL, ur=NULL, thinning=1, burnin=0, ...) {
         ## create UNU.RAN object
@@ -119,5 +63,48 @@ urhitro <- function (n, dim=1, pdf, mode=NULL, center=NULL, ll=NULL, ur=NULL, th
         unuran.sample(unr,n)
 }
 
+## -- TDR: Transformed Density Rejection ------------------------------------
+## DEPRECATED!
+## use function 'ur(tdr.new(...),n)' instead.
+
+urtdr <- function (n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=TRUE, ...) {
+        ## create UNU.RAN object
+        unr <- tdr.new(pdf=pdf,dpdf=dpdf,lb=lb,ub=ub,islog=islog,...)
+        ## draw sample
+        unuran.sample(unr,n)
+}
+
+
+#############################################################################
+##                                                                          #
+## Create distribution objects                                              #
+##                                                                          #
+#############################################################################
+
+## -- Contiuous Multivariate Distributions ----------------------------------
+## DEPRECATED!
+## use function 'unuran.cmv.new(...)' instead.
+
+unuran.cmv <- function(dim=1, pdf=NULL, mode=NULL, center=NULL, ll=NULL, ur=NULL) {
+        new("unuran.cmv", dim=dim, pdf=pdf, mode=mode, center=center, ll=ll, ur=ur)
+}
+
+## -- Contiuous Distributions -----------------------------------------------
+## DEPRECATED!
+## use function 'unuran.cont.new(...)' instead.
+
+unuran.cont <- function(cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE,
+                        mode=NA, center=NA, lb=-Inf, ub=Inf, area=NA) {
+        new("unuran.cont", cdf=cdf, pdf=pdf, dpdf=dpdf, islog=islog,
+            mode=mode, center=center, lb=lb, ub=ub, area=area)
+}
+
+## -- Discrete Distributions ------------------------------------------------
+## DEPRECATED!
+## use function 'unuran.discr.new(...)' instead.
+
+unuran.discr <- function(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA) {
+        new("unuran.discr", pv=pv, pmf=pmf, mode=mode, lb=lb, ub=ub, sum=sum)
+}
 
 ## -- End -------------------------------------------------------------------

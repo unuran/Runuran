@@ -48,6 +48,8 @@ unuran.details(unr)
 unuran.sample(unr)
 unuran.sample(unr,10)
 x <- unuran.sample(unr, samplesize)
+ur(unr)
+ur(unr,10)
 
 ## Run a chi-square GoF test
 chisq.test( hist(pnorm(x),plot=FALSE,breaks=breaks)$density )
@@ -86,7 +88,7 @@ if (pval < alpha) stop("chisq test FAILED!  p-value=",signif(pval))
 ## use PDF
 gausspdf <- function (x) { exp(-0.5*x^2) }
 gaussdpdf <- function (x) { -x*exp(-0.5*x^2) }
-gauss <- unuran.cont(pdf=gausspdf, dpdf=gaussdpdf, islog=FALSE, center=0.1)
+gauss <- unuran.cont.new(pdf=gausspdf, dpdf=gaussdpdf, islog=FALSE, center=0.1)
 unr <- 0; unr <- unuran.new(gauss, "tdr")
 unr
 x <- unuran.sample(unr, samplesize)

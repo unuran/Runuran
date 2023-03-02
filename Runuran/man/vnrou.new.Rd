@@ -24,16 +24,16 @@ vnrou.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL, ...)
     domain of the \code{pdf}. The domain is only set if both vertices
     are not \code{NULL}. Otherwise, the domain is unbounded by
     default. (numeric vectors)}
-  \item{mode}{location of the mode -- optional. (numeric vector)}
+  \item{mode}{location of the mode. (numeric vector)}
   \item{center}{point in \dQuote{typical} region of distribution,
     e.g. the approximate location of the mode. If omitted the
     \code{mode} is used. If the \code{mode} is not given
-    either, the origin is used. (numeric vector -- optional)}
+    either, the origin is used. (numeric vector)}
   \item{...}{(optional) arguments for \code{pdf}}
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on the naive
+  This function creates an \code{unuran} object based on the naive
   ratio-of-uniforms method (\dQuote{VNROU}), i.e., a bounding rectangle
   for the acceptance region is estimated and use for sampling proposal
   points.
@@ -64,6 +64,7 @@ vnrou.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL, ...)
   W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg.
+  Section 11.1.4.
 }
 
 \author{

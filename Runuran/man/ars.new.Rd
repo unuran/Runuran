@@ -24,31 +24,32 @@ ars.new(logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...)
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on \dQuote{ARS}
+  This function creates an \code{unuran} object based on \dQuote{ARS}
   (Adaptive Rejection Sampling). It can be used to draw samples of a
   continuous random variate with given probability density function
   using \code{\link{ur}}.
   
   The log-density must be provided by a function \code{logpdf} 
-  which need not be normalized (i.e., it can be the log-density plus some
+  which need not be normalized (i.e., it can be a log-density plus some
   arbitrary constant).
   Moreover, the given function must be concave (i.e., the distribution
   must be log-concave).
   
-  The derivative \code{dpdf} is optional. If omitted, numerical
+  The derivative \code{dlogpdf} is optional. If omitted, numerical
   derivation is used. Notice, however, that this might cause some
-  round-off errors such that generation does not work.
+  round-off errors such that the algorithm fails.
 
   The setup time of this method depends on the given PDF, whereas its
   marginal generation times are almost independent of the target
   distribution.
   
   \dQuote{ARS} is a special case of method \dQuote{TDR}
-  (see \code{\link{tdr.new}}). It is a little bit slower and less
-  flexible but numerically more stable, in particular if one wants to
-  sample from truncated distributions with extreme truncation points or
-  the integral of the given density is only known to be extremely larger
-  or small. However, this assumes that the log-density is computed
+  (see \code{\link{tdr.new}}). It is a bit slower and less
+  flexible but numerically more stable. In particular, it is useful if
+  one wants to sample from truncated distributions with extreme
+  truncation points; or when the integral of the given \dQuote{density}
+  function is only known to be extremely large or small.
+  However, this assumes that the log-density is computed
   analytically and not by just using \code{log(pdf(x))}.
 }
 
@@ -61,6 +62,7 @@ ars.new(logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...)
   W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg.
+  See Chapter 4 (Tranformed Density Rejection).
   
   W. R. Gilks and P. Wild (1992):
   Adaptive rejection sampling for Gibbs sampling.

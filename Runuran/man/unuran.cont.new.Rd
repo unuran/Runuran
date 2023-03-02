@@ -1,7 +1,7 @@
-\name{unuran.cont}
+\name{unuran.cont.new}
 \docType{function}
 
-\alias{unuran.cont}
+\alias{unuran.cont.new}
 
 \title{Create a UNU.RAN continuous univariate distribution object}
 
@@ -9,11 +9,13 @@
   Create a new UNU.RAN object for a continuous univariate distribution.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}
+  
+  [Advanced] -- Continuous Distribution.
 }
 
 \usage{
-unuran.cont(cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE, mode=NA,
-center=NA, lb=-Inf, ub=Inf, area=NA)
+unuran.cont.new( cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE, mode=NA,
+                 center=NA, lb=-Inf, ub=Inf, area=NA, name=NA)
 }
 \arguments{
   \item{cdf}{cumulative distribution function. (\R function)}
@@ -28,11 +30,11 @@ center=NA, lb=-Inf, ub=Inf, area=NA)
   \item{lb, ub}{lower and upper bound of domain. (numeric)}
   \item{area}{area below \code{pdf}; used for computing normalization
     constants if required. (numeric)}
+  \item{name}{name of distribution. (string)}
 }
 
 \details{
   Creates an instance of class \code{\linkS4class{unuran.cont}}.
-  For more details see also \code{\link{unuran.new}}.
 
   The user is responsible that the given informations are consistent.
   It depends on the chosen method which information must be given / are
@@ -40,12 +42,13 @@ center=NA, lb=-Inf, ub=Inf, area=NA)
 }
 
 \note{
-  \code{unuran.cont(\ldots)} is an alias for 
-  \code{new("unuran.cont", \ldots)}.
+  \code{unuran.cont.new(...)} is an alias for 
+  \code{new("unuran.cont", ...)}.
 }
 
 \seealso{
-  \code{\linkS4class{unuran.cont}}, \code{\link{unuran.new}}.
+  \code{\linkS4class{unuran.cont}}, \code{\link{unuran.new}},
+  \code{\linkS4class{unuran}}.
 }
 
 \references{
@@ -62,7 +65,7 @@ center=NA, lb=-Inf, ub=Inf, area=NA)
 \examples{
 ## Get a distribution object with given pdf, domain and mode
 mypdf <- function (x) { exp(-x) }
-distr <- unuran.cont(pdf=mypdf, islog=FALSE, mode=0, lb=0, ub=Inf)
+distr <- unuran.cont.new(pdf=mypdf, islog=FALSE, mode=0, lb=0, ub=Inf)
 
 }
 

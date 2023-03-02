@@ -35,13 +35,14 @@ setClass( "unuran.discr",
 ## Initialize ---------------------------------------------------------------
 
 setMethod( "initialize", "unuran.discr",
-          function(.Object, pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA) {
+          function(.Object, pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA, name=NA) {
                   ## pv ..... probability vector (PV)
                   ## pmf .... probability mass function (PMF)
                   ## mode ... mode of distribution
                   ## lb ..... lower bound of domain
                   ## ub ..... upper bound of domain
                   ## sum .... sum over PV / PMF
+                  ## name ... name of distribution
                   
                   ## Check entries
                   if(! (is.numeric(lb) && is.numeric(ub) && lb < ub) )
@@ -52,6 +53,7 @@ setMethod( "initialize", "unuran.discr",
                           stop("invalid argument 'pmf'", call.=FALSE)
 
                   ## Store informations (if provided)
+                  if (!is.na(name))     .Object@name <- name
                   if (is.function(pmf)) .Object@pmf  <- pmf
                   ## (There is no need to store the PV)
 
@@ -62,7 +64,7 @@ setMethod( "initialize", "unuran.discr",
                   .Object@distr <-.Call("Runuran_discr_init",
                                         .Object, .Object@env,
                                         pv, .Object@pmf,
-                                        mode, c(lb,ub), sum,
+                                        mode, c(lb,ub), sum, name,
                                         PACKAGE="Runuran")
 
                   ## Check UNU.RAN object
@@ -75,9 +77,8 @@ setMethod( "initialize", "unuran.discr",
           } )
 
 ## Shortcut
-unuran.discr <- function(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA) {
-        new("unuran.discr", pv=pv, pmf=pmf, mode=mode, lb=lb, ub=ub, sum=sum)
+unuran.discr.new <- function(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA, name=NA) {
+        new("unuran.discr", pv=pv, pmf=pmf, mode=mode, lb=lb, ub=ub, sum=sum,name=name)
 }
-
 
 ## End ----------------------------------------------------------------------

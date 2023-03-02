@@ -14,21 +14,21 @@
 }
 
 \usage{
-srou.new(pdf, lb=-Inf, ub=Inf, islog=FALSE, mode=NA, area=NA, r=1, ...)
+srou.new(pdf, mode, area, lb=-Inf, ub=Inf, islog=FALSE, r=1, ...)
 }
 \arguments{
   \item{pdf}{probability density function. (\R function)}
+  \item{mode}{location of the mode. (numeric)}
+  \item{area}{area below \code{pdf}. (numeric)}
   \item{lb, ub}{lower and upper bound of domain. (numeric)}
   \item{islog}{whether \code{pdf} is given as log-density (the
     \code{dpdf} must then be the derivative of the log-density). (boolean)}
-  \item{mode}{location of the mode. (numeric)}
-  \item{area}{area below \code{pdf}. (numeric)}
   \item{r}{adjust algorithm to heavy-tailed distribution. (numeric)}
   \item{...}{(optional) arguments for \code{pdf}}
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on \dQuote{SROU}
+  This function creates an \code{unuran} object based on \dQuote{SROU}
   (Simple Ratio-Of-Uniforms Method). It can be used to draw samples of a
   continuous random variate with given probability density function
   using \code{\link{ur}}.
@@ -36,9 +36,8 @@ srou.new(pdf, lb=-Inf, ub=Inf, islog=FALSE, mode=NA, area=NA, r=1, ...)
   The density must be provided by a function \code{pdf} which must
   return non-negative numbers and which need not be normalized (i.e., it
   can be any multiple of a density function).
-  However, the (exact) location of the \code{mode} and the area below
+  The (exact) location of the \code{mode} and the area below
   the \code{pdf} are essential.
-  
   Moreover, the given function must be \eqn{T_c}{T_c}-concave
   for \eqn{c = -r/(r+1)}{c = -r/(r+1)};
   this includes all log-concave distributions).
@@ -46,7 +45,7 @@ srou.new(pdf, lb=-Inf, ub=Inf, islog=FALSE, mode=NA, area=NA, r=1, ...)
   The acceptance probability decreases with increasing parameter
   \code{r}. Thus it should be as small as possible. On the other hand it
   must be sufficiently large for heavy tailed distributions.
-  If possible use the default \code{r=1}.
+  If possible, use the default \code{r=1}.
 
   Compared to \code{\link{tdr.new}} it has much slower marginal
   generation times but has a faster setup and is numerically more
@@ -62,6 +61,7 @@ srou.new(pdf, lb=-Inf, ub=Inf, islog=FALSE, mode=NA, area=NA, r=1, ...)
   W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg.
+  Sections 6.3 and 6.4.
 }
 
 \author{

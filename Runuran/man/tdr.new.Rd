@@ -26,7 +26,7 @@ tdr.new(pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on \dQuote{TDR}
+  This function creates an \code{unuran} object based on \dQuote{TDR}
   (Transformed Density Rejection). It can be used to draw samples of a
   continuous random variate with given probability density function
   using \code{\link{ur}}.
@@ -52,7 +52,7 @@ tdr.new(pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
   distribution.
 
   There exists a variant of \dQuote{TDR} which is numerically more
-  stable (albeit a little bit slower and less flexible) which is avaible
+  stable (albeit a bit slower and less flexible) which is avaible
   via the \code{\link{ars.new}} function.
 }
 
@@ -65,6 +65,7 @@ tdr.new(pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
   W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg.
+  See Chapter 4 (Tranformed Density Rejection).
 }
 
 \author{

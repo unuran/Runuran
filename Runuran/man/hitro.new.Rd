@@ -25,11 +25,11 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
     domain of the \code{pdf}. The domain is only set if both vertices
     are not \code{NULL}. Otherwise, the domain is unbounded by
     default. (numeric vectors)}
-  \item{mode}{location of the mode -- optional. (numeric vector)}
+  \item{mode}{location of the mode. (numeric vector)}
   \item{center}{point in \dQuote{typical} region of distribution,
     e.g. the approximate location of the mode. If omitted the
     \code{mode} is used. If the \code{mode} is not given
-    either, the origin is used. (numeric vector -- optional)}
+    either, the origin is used. (numeric vector)}
   \item{thinning}{thinning factor. (positive integer)}
   \item{burnin}{lenght of burin-in phase. (positive integer)}
   \item{...}{(optional) arguments for \code{pdf}}
@@ -38,7 +38,7 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
 \details{
   \strong{Beware: MCMC sampling can be dangerous!}
   
-  This function creates an \dQuote{unuran} object based on the
+  This function creates an \code{unuran} object based on the
   Hit-and-Run algorithm in combinaton with the Ratio-of-Uniforms method
   (\dQuote{HITRO}).
   It can be used to draw samples of a continuous random vector with
@@ -48,7 +48,7 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
   distributions work as well but convergence can be slower.
   
   The density must be provided by a function \code{pdf} which must
-  return non-negative numbers and which need not be normalized (i.e., it
+  return non-negative numbers and but need not be normalized (i.e., it
   can be any multiple of a density function).
   
   The \code{center} is used as starting point of the Hit-and-Run
@@ -58,22 +58,24 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
   \code{mode}. However, this requires its exact position whereas
   \code{center} allows any point in the \dQuote{typical} region of the
   distribution.
-  
-  The \code{mode} is used to obtain an upper bound of the \code{pdf} and
-  thus its location should be given sufficiently accurate.
+
+  If the \code{mode} is given, then it is used to obtain an upper bound
+  of the \code{pdf} and thus its location should be given sufficiently
+  accurate.
   
   The HITRO algorithm is a MCMC samplers and thus it does not produce a
   sequence of independent variates. The drawn sample follows the target
   distribution only approximately.
-  The dependence of between consecutive vectors can be decreased when
+  The dependence between consecutive vectors can be decreased when
   only a subsequence is returned (and the other elements are erased).
   This is called \dQuote{thinning} of the Markov chain and can be
   controlled by the \code{thinning} factor. A thinning factor \eqn{k}
-  means that every \eqn{k}-th element is returned.
+  means that only every \eqn{k}-th element is returned.
 
   Markov chains also depend on the chosen starting point (i.e., the
-  \code{center}). This dependence can be decreased by erasing the first
-  part of the chain. This called the \dQuote{burn-in} of the Markov
+  \code{center} in this implementation of the algorithmus).
+  This dependence can be decreased by erasing the first
+  part of the chain. This is called the \dQuote{burn-in} of the Markov
   chain and its length is controlled by the argument \code{burnin}.
 }
 

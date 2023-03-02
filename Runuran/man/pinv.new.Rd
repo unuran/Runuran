@@ -29,7 +29,7 @@ pinv.new(pdf, cdf, lb=-Inf, ub=Inf, islog=FALSE, center=0, uresolution=1.e-10, .
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on \dQuote{PINV}
+  This function creates an \code{unuran} object based on \dQuote{PINV}
   (Polynomial interpolation of INVerse CDF). It can be used to draw
   samples of a continuous random variate with given probability density
   function \code{pdf} or cumulative distribution function \code{cdf}
@@ -56,9 +56,11 @@ pinv.new(pdf, cdf, lb=-Inf, ub=Inf, islog=FALSE, center=0, uresolution=1.e-10, .
   u-error, i.e., \eqn{|CDF(G(U)) - U|},
   where \eqn{G} denotes the approximation of the inverse CDF.
   The error can be controlled by means of argument \code{uresolution}.
-  
-  %% It is recommended to use the log-density (instead of the density
-  %% function) as this is numerically more stable.
+
+  When sampling from truncated distributions with extreme
+  truncation points, it is recommended to provide the log-density
+  by setting \code{islog=TRUE}. Then the algorithm is numerically more
+  stable.
   
   The setup time of this method depends on the given PDF, whereas its
   marginal generation times are independent of the target
@@ -71,9 +73,8 @@ pinv.new(pdf, cdf, lb=-Inf, ub=Inf, islog=FALSE, center=0, uresolution=1.e-10, .
 }
 
 \references{
-  W. H\"ormann, J. Leydold, and G. Derflinger (2004):
-  Automatic Nonuniform Random Variate Generation.
-  Springer-Verlag, Berlin Heidelberg.
+  G. Derflinger, W. H\"ormann, and J. Leydold (2009):
+  in preparation.
 }
 
 \author{

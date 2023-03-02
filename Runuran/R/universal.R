@@ -83,7 +83,7 @@ ars.new <- function (logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...) {
 ## Generate continuous random variates from a given PDF
 ##
 
-itdr.new <- function (pdf, dpdf, lb=0, ub=Inf, islog=FALSE, pole, ...) {
+itdr.new <- function (pdf, dpdf, pole, lb=0, ub=Inf, islog=FALSE, ...) {
 
         ## check arguments 
         if (missing(pdf) || !is.function(pdf))
@@ -162,7 +162,7 @@ pinv.new <- function (pdf, cdf, lb=-Inf, ub=Inf, islog=FALSE, center=0, uresolut
 ## Generate continuous random variates from a given PDF
 ##
 
-srou.new <- function (pdf, lb=-Inf, ub=Inf, islog=FALSE, mode=NA, area=NA, r=1, ...) {
+srou.new <- function (pdf, mode, area, lb=-Inf, ub=Inf, islog=FALSE, r=1, ...) {
 
         ## check arguments
         if (missing(pdf) || !is.function(pdf))

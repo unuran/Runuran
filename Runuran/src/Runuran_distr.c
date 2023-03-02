@@ -116,7 +116,8 @@ static SEXP _Runuran_distr_tag = NULL;
 SEXP
 Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 		    SEXP sexp_pv, SEXP sexp_pmf,
-		    SEXP sexp_mode, SEXP sexp_domain, SEXP sexp_sum)
+		    SEXP sexp_mode, SEXP sexp_domain,
+		    SEXP sexp_sum, SEXP sexp_name)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for discrete distribution.      */
      /*                                                                      */
@@ -128,6 +129,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
      /*   mode   ... mode of distribution                                    */
      /*   domain ... domain of distribution                                  */
      /*   sum    ... sum over PV / PMF                                       */
+     /*   name   ... name of distribution                                    */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
@@ -138,6 +140,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   const double *domain;
   double mode, sum;
   int lb, ub;
+  const char *name;
   unsigned int error = 0u;
 
   /* make tag for R object */
@@ -188,6 +191,12 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   if (!ISNAN(sum))
     error |= unur_distr_discr_set_pmfsum(distr, sum);
 
+  /* set name of distribution */
+  if (sexp_name && TYPEOF(sexp_name) == STRSXP) {
+    name = CHAR(STRING_ELT(sexp_name,0));
+    unur_distr_set_name(distr,name);
+  }
+  /* else we simply ignore the 'name' argument */
 
   /* check return codes */
   if (error) {
@@ -240,7 +249,8 @@ _Runuran_discr_eval_pmf( int k, const struct unur_distr *distr )
 SEXP
 Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env, 
 		   SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
-		   SEXP sexp_mode, SEXP sexp_center, SEXP sexp_domain, SEXP sexp_area)
+		   SEXP sexp_mode, SEXP sexp_center, SEXP sexp_domain,
+		   SEXP sexp_area, SEXP sexp_name)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for continuous distribution.    */
      /*                                                                      */
@@ -255,6 +265,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
      /*   center ... "center" (typical point) of distribution                */
      /*   domain ... domain of distribution                                  */
      /*   area   ... area below PDF                                          */
+     /*   name   ... name of distribution                                    */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
@@ -262,6 +273,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
   struct unur_distr *distr;
   const double *domain;
   double mode, center, area;
+  const char *name;
   int islog;
   unsigned int error = 0u;
 
@@ -329,6 +341,13 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
     error |= unur_distr_cont_set_center(distr, center);
   if (!ISNAN(area))
     error |= unur_distr_cont_set_pdfarea(distr, area);
+
+  /* set name of distribution */
+  if (sexp_name && TYPEOF(sexp_name) == STRSXP) {
+    name = CHAR(STRING_ELT(sexp_name,0));
+    unur_distr_set_name(distr,name);
+  }
+  /* else we simply ignore the 'name' argument */
 
   /* check return codes */
   if (error) {
@@ -426,7 +445,7 @@ SEXP
 Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env, 
 		  SEXP sexp_dim, SEXP sexp_pdf,
 		  SEXP sexp_mode, SEXP sexp_center,
-		  SEXP sexp_ll, SEXP sexp_ur)
+		  SEXP sexp_ll, SEXP sexp_ur, SEXP sexp_name)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for continuous multivariate     */
      /* distribution.                                                        */
@@ -439,6 +458,7 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
      /*   mode   ... mode of distribution                                    */
      /*   center ... center of distribution                                  */
      /*   ll, ur ... lower left and upper right vertex of rectangular domain */
+     /*   name   ... name of distribution                                    */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
@@ -447,6 +467,7 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
   const int *dim;
   const double *mode, *center;
   const double *ll, *ur;
+  const char *name;
   unsigned int error = 0u;
 
   /* make tag for R object */
@@ -496,6 +517,13 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
     center = REAL(sexp_center);
     error |= unur_distr_cvec_set_center(distr, center);
   }
+
+  /* set name of distribution */
+  if (sexp_name && TYPEOF(sexp_name) == STRSXP) {
+    name = CHAR(STRING_ELT(sexp_name,0));
+    unur_distr_set_name(distr,name);
+  }
+  /* else we simply ignore the 'name' argument */
 
   /* check return codes */
   if (error) {

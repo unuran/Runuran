@@ -12,7 +12,8 @@
   It applies the Guide-Table Method (\code{urdgt}) for discrete
   inversion or the Alias-Urn Method (\code{urdau}).
   
-  [Deprecated. Use \code{\link{dgt.new}} or \code{\link{dau.new}} instead.]
+  [ \strong{Deprecated}.
+  Use \code{\link{dgt.new}} or \code{\link{dau.new}} instead. ]
 }
 
 \usage{

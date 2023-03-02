@@ -10,7 +10,8 @@
   given probability density function (PDF).
   It is based on the Transformed Density Rejection method (TDR).
 
-  [Deprecated. Use \code{\link{tdr.new}} instead.]
+  [ \strong{Deprecated}.
+  Use \code{\link{tdr.new}} instead. ]
 }
 
 \usage{

@@ -6,20 +6,22 @@
 \alias{show,unuran.cont-method}
 \alias{initialize,unuran.cont-method}
 
-\title{Experimental class "unuran.cont"}
+\title{Class "unuran.cont" for Continuous Distribution}
 
 \description{%
-  The class "unuran.cont" provides am interface to UNU.RAN objects for
+  Class \code{unuran.cont} provides am interface to UNU.RAN objects for
   continuous distributions.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}
+  
+  [Advanced] -- Continuous Distribution Object.
 }
 
 \details{
-  Create a new instance of an "unuran.cont" object using
+  Create a new instance of a \code{unuran.cont} object using
 
-  \code{new ("unuran.cont", cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE,
-    mode=NA, center=NA, lb=-Inf, ub=Inf, area=NA)}.
+  \code{new ("unuran.cont", cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE,
+    mode=NA, center=NA, lb=-Inf, ub=Inf, area=NA, name=NA)}.
 
   \describe{
     \item{cdf}{cumulative distribution function. (\R function)}
@@ -34,6 +36,7 @@
     \item{lb, ub}{lower and upper bound of domain. (numeric)}
     \item{area}{area below \code{pdf}; used for computing normalization
       constants if required. (numeric)}
+    \item{name}{name of distribution. (string)}
   }
 
   The user is responsible that the given informations are consistent.
@@ -42,14 +45,10 @@
 } 
 
 \examples{
-## Create discrete distribution with given probability density function
+## Create discrete distribution with given PDF and its derivative
 pdf <- function (x) { -0.5*x^2 }
 dpdf <- function (x) { -x }
 distpdf <- new("unuran.cont", pdf=pdf, dpdf=dpdf)
-## Make generator (using method TDR)
-unr <- unuran.new(distpdf, "tdr")
-## Draw sample of size 100
-x <- unuran.sample(unr, 100)
 
 }
 
@@ -65,7 +64,8 @@ x <- unuran.sample(unr, 100)
 }
 
 \seealso{
-  \code{\linkS4class{unuran}}, \code{\link{unuran.new}}.
+  \code{\link{unuran.cont.new}}, \code{\link{unuran.new}},
+  \code{\linkS4class{unuran}}.
 }
 
 \keyword{classes}

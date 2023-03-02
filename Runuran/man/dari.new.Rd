@@ -14,7 +14,7 @@
 }
 
 \usage{
-dari.new(pmf,lb=0, ub=Inf, mode=NA, sum=1, ...)
+dari.new(pmf, lb=0, ub=Inf, mode=NA, sum=1, ...)
 }
 \arguments{
   \item{pmf}{probability mass function. (\R function)}
@@ -25,18 +25,18 @@ dari.new(pmf,lb=0, ub=Inf, mode=NA, sum=1, ...)
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on \dQuote{DARI}
+  This function creates an \code{unuran} object based on \dQuote{DARI}
   (Discrete Automatic Rejection Inversion). It can be used to draw
   samples of a discrete random variate with given probability mass function
   using \code{\link{ur}}.
   
-  The probabilities must be provided by a function \code{pmf} which must
-  return non-negative numbers and which need not be normalized (i.e., it
-  can be any multiple of a PMF).
+  The probabilities must be provided by a probability mass function
+  \code{pmf} which must return non-negative numbers and which need not
+  be normalized (i.e., it can be any multiple of a PMF).
   Moreover, the given function must be \eqn{T_{-0.5}}{T_(-0.5)}-concave;
   this includes all log-concave distributions.
 
-  The algorithms requires the location of the \code{mode}.
+  In addition the algorithm requires the location of the \code{mode}.
   If omitted then it is computed by a slow numerical search.
 
   If the sum over all probabilities is different from 1 then a rough
@@ -51,6 +51,8 @@ dari.new(pmf,lb=0, ub=Inf, mode=NA, sum=1, ...)
   W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg.
+  See Section 10.2 (Tranformed Probability Rejection).
+
 }
 
 \author{

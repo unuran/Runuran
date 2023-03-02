@@ -1,7 +1,7 @@
-\name{unuran.discr}
+\name{unuran.discr.new}
 \docType{function}
 
-\alias{unuran.discr}
+\alias{unuran.discr.new}
 
 \title{Create a UNU.RAN discrete univariate distribution object}
 
@@ -9,10 +9,13 @@
   Create a new UNU.RAN object for a discrete univariate distribution.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}
+  
+  [Advanced] -- Discrete Distribution.
 }
 
 \usage{
-unuran.discr(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA)
+unuran.discr.new(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf,
+                 sum=NA, name=NA)
 }
 \arguments{
     \item{pv}{probability vector. (numeric vector)}
@@ -21,6 +24,7 @@ unuran.discr(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA)
     \item{lb, ub}{lower and upper bound of domain. (numeric, integers)}
     \item{sum}{sum over \code{pv} / \code{pmf}; used for computing
       normalization constants if required. (numeric)}
+    \item{name}{name of distribution. (string)}
 }
 
 \details{
@@ -33,12 +37,13 @@ unuran.discr(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA)
 }
 
 \note{
-  \code{unuran.discr(\ldots)} is an alias for 
-  \code{new("unuran.discr", \ldots)}.
+  \code{unuran.discr.new(...)} is an alias for 
+  \code{new("unuran.discr", ...)}.
 }
 
 \seealso{
-  \code{\linkS4class{unuran.discr}}, \code{\link{unuran.new}}.
+  \code{\linkS4class{unuran.discr}}, \code{\link{unuran.new}},
+  \code{\linkS4class{unuran}}.
 }
 
 \references{
@@ -53,9 +58,18 @@ unuran.discr(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA)
 }
 
 \examples{
-## Get a distribution object with given PV and mode
+## Create a distribution object with given PV and mode
 mypv <- dbinom(0:100,100,0.3)
-distr <- unuran.discr(pv=mypv, mode=30)
+distr <- new("unuran.discr", pv=mypv, mode=30)
+
+## Create discrete distribution with given probability vector
+## (the PV need not be normalized)
+pv <- c(1.,2.,1.5,0.,3.,1.2)     
+dpv <- new("unuran.discr", pv=pv)
+
+## Create discrete distribution with given PMF
+pmf <- function(x) dbinom(x,100,0.3)
+dpmf <- new("unuran.discr", pmf=pmf, lb=0, ub=100)
 
 }
 

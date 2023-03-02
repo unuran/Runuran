@@ -11,7 +11,8 @@
   It is based on the Hit-and-Run algorithm in combinaton with the
   Ratio-of-Uniforms method (HITRO).
   
-  [Deprecated. Use \code{\link{hitro.new}} instead.]
+  [ \strong{Deprecated}.
+  Use \code{\link{hitro.new}} instead. ]
 }
 
 \usage{

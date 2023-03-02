@@ -14,21 +14,22 @@
 }
 
 \usage{
-itdr.new(pdf, dpdf, lb=0, ub=Inf, islog=FALSE, pole, ...)
+itdr.new(pdf, dpdf, pole, lb=0, ub=Inf, islog=FALSE, ...)
 }
+
 \arguments{
   \item{pdf}{probability density function. (\R function)}
   \item{dpdf}{derivative of \code{pdf}. (\R function)}
+  \item{pole}{pole of distribution. (numeric)}
   \item{lb, ub}{lower and upper bound of domain. (numeric)}
   \item{islog}{whether \code{pdf} is given as log-density (the
     \code{dpdf} must then be the derivative of the
     log-density). (boolean)}
-  \item{pole}{pole of distribution. (numeric)}
   \item{...}{(optional) arguments for \code{pdf}}
 }
 
 \details{
-  This function creates an \dQuote{unuran} object based on \dQuote{ITDR}
+  This function creates an \code{unuran} object based on \dQuote{ITDR}
   (Inverse Transformed Density Rejection). It can be used to draw samples of a
   continuous random variate with given probability density function
   using \code{\link{ur}}.
@@ -38,10 +39,10 @@ itdr.new(pdf, dpdf, lb=0, ub=Inf, islog=FALSE, pole, ...)
   can be any multiple of a density function).
   Moreover, it must be monotone on its domain.
   The algorithm is especially designed for distributions with unbounded
-  densities. One also must provide the position of the \code{pole}.
+  densities. Thus the algorithm need the position of the \code{pole}.
 
-  The derivative \code{dpdf} is essential. (Numerical derivation results
-  in too large round-off errors.)
+  The derivative \code{dpdf} is essential. (Numerical derivation does
+  not work as it results in serious round-off errors.)
   
   The setup time of this method depends on the given PDF, whereas its
   marginal generation times are almost independent of the target

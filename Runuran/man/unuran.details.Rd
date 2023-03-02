@@ -8,13 +8,15 @@
   Prints type of UNU.RAN generator, data used from distribution, 
   parameter for algorithm, performance characteristic, and hints to
   adjust the performance of the generator.
+  
+  [Advanced] -- Print object.
 }
 
 \usage{
 unuran.details(unr)
 }
 \arguments{
-  \item{unr}{an "unuran" object.}
+  \item{unr}{an \code{unuran} object.}
 }
 
 %% \details{ }

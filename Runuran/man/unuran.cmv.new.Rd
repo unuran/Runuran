@@ -1,7 +1,7 @@
-\name{unuran.cmv}
+\name{unuran.cmv.new}
 \docType{function}
 
-\alias{unuran.cmv}
+\alias{unuran.cmv.new}
 
 \title{Create a UNU.RAN continuous multivariate distribution object}
 
@@ -9,10 +9,13 @@
   Create a new UNU.RAN object for a continuous multivariate distribution.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}
+  
+  [Advanced] -- Continuous Multivariate Distribution.
 }
 
 \usage{
-unuran.cmv(dim=1, pdf=NULL, mode=NULL, center=NULL, ll=NULL, ur=NULL)
+unuran.cmv.new(dim=1, pdf=NULL, mode=NULL, center=NULL,
+               ll=NULL, ur=NULL, name=NA)
 }
 \arguments{
   \item{dim}{number of dimensions of the distribution. (integer)}
@@ -28,11 +31,11 @@ unuran.cmv(dim=1, pdf=NULL, mode=NULL, center=NULL, ll=NULL, ur=NULL)
     domain of the \code{pdf}. The domain is only set if both vertices
     are not \code{NULL}. Otherwise, the domain is unbounded by default.
     (numeric vectors)}
+  \item{name}{name of distribution. (string)}
 }
 
 \details{
   Creates an instance of class \code{\linkS4class{unuran.cmv}}.
-  For more details see also \code{\link{unuran.new}}.
 
   The user is responsible that the given informations are consistent.
   It depends on the chosen method which information must be given / are
@@ -40,12 +43,13 @@ unuran.cmv(dim=1, pdf=NULL, mode=NULL, center=NULL, ll=NULL, ur=NULL)
 }
 
 \note{
-  \code{unuran.cmv(\ldots)} is an alias for 
-  \code{new("unuran.cmv", \ldots)}.
+  \code{unuran.cmv.new(...)} is an alias for 
+  \code{new("unuran.cmv", ...)}.
 }
 
 \seealso{
-  \code{\linkS4class{unuran.cont}}, \code{\link{unuran.new}}.
+  \code{\linkS4class{unuran.cmv}}, \code{\link{unuran.new}},
+  \code{\linkS4class{unuran}}.
 }
 
 \references{
@@ -62,7 +66,12 @@ unuran.cmv(dim=1, pdf=NULL, mode=NULL, center=NULL, ll=NULL, ur=NULL)
 \examples{
 ## Get a distribution object with given pdf and mode
 mvpdf <- function (x) { exp(-sum(x^2)) }
-mvd <- unuran.cmv(dim=2, pdf=mvpdf, mode=c(0,0))
+mvd <- unuran.cmv.new(dim=2, pdf=mvpdf, mode=c(0,0))
+
+## Restrict domain to rectangle [0,1]x[0,1] and set
+## mode to (0,0)
+mvpdf <- function (x) { exp(-sum(x^2)) }
+mvd <- unuran.cmv.new(dim=2, pdf=mvpdf, mode=c(0,0), ll=c(0,0), ur=c(1,1))
 
 }
 

@@ -9,7 +9,8 @@
   Evaluates quantile of distribution approximately using
   UNU.RAN method HINV.
   
-  [Deprecated. Use \code{\link{uq}} instead.]
+  [ \strong{Deprecated}.
+  Use \code{\link{uq}} instead. ]
 }
 
 \usage{
