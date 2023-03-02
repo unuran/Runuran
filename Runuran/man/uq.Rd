@@ -7,7 +7,9 @@
 
 \description{
   Evaluates quantile of distribution approximately using
-  a UNU.RAN object that implements an inversion method.}
+  a UNU.RAN object that implements an inversion method.
+  
+  [Universal] -- Quantile Function.
 }
 
 \usage{

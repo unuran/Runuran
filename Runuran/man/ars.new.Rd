@@ -1,0 +1,95 @@
+\name{ars.new}
+\docType{function}
+
+\alias{ars.new}
+
+\title{UNU.RAN generator based on Adaptive Rejection Sampling (ARS)}
+
+\description{
+  UNU.RAN random variate generator for continuous distributions with
+  given probability density function (PDF).
+  It is based on Adaptive Rejection Sampling (ARS).
+
+  [Universal] -- Rejection Method.
+}
+
+\usage{
+ars.new(logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...)
+}
+\arguments{
+  \item{logpdf}{log-density function. (\R function)}
+  \item{dlogpdf}{derivative of \code{logpdf}. (\R function)}
+  \item{lb, ub}{lower and upper bound of domain. (numeric)}
+  \item{...}{(optional) arguments for \code{logpdf}}
+}
+
+\details{
+  This function creates an \dQuote{unuran} object based on \dQuote{ARS}
+  (Adaptive Rejection Sampling). It can be used to draw samples of a
+  continuous random variate with given probability density function
+  using \code{\link{ur}}.
+  
+  The log-density must be provided by a function \code{logpdf} 
+  which need not be normalized (i.e., it can be the log-density plus some
+  arbitrary constant).
+  Moreover, the given function must be concave (i.e., the distribution
+  must be log-concave).
+  
+  The derivative \code{dpdf} is optional. If omitted, numerical
+  derivation is used. Notice, however, that this might cause some
+  round-off errors such that generation does not work.
+
+  The setup time of this method depends on the given PDF, whereas its
+  marginal generation times are almost independent of the target
+  distribution.
+  
+  \dQuote{ARS} is a special case of method \dQuote{TDR}
+  (see \code{\link{tdr.new}}). It is a little bit slower and less
+  flexible but numerically more stable, in particular if one wants to
+  sample from truncated distributions with extreme truncation points or
+  the integral of the given density is only known to be extremely larger
+  or small. However, this assumes that the log-density is computed
+  analytically and not by just using \code{log(pdf(x))}.
+}
+
+\seealso{
+  \code{\link{ur}}, \code{\link{tdr.new}}, 
+  \code{\link{unuran.new}}, \code{\linkS4class{unuran}}.
+}
+
+\references{
+  W. H\"ormann, J. Leydold, and G. Derflinger (2004):
+  Automatic Nonuniform Random Variate Generation.
+  Springer-Verlag, Berlin Heidelberg.
+}
+
+\author{
+  Josef Leydold and Wolfgang H\"ormann
+  \email{unuran@statmath.wu-wien.ac.at}.
+}
+
+\examples{
+## Create a sample of size 100 for a 
+## Gaussian distribution (use logPDF)
+lpdf <- function (x) { -0.5*x^2 }
+gen <- ars.new(logpdf=lpdf)
+x <- ur(gen,100)
+
+## Same example but additionally provide derivative of log-density
+## to prevent possible round-off errors
+lpdf <- function (x) { -0.5*x^2 }
+dlpdf <- function (x) { -x }
+gen <- ars.new(logpdf=lpdf, dlogpdf=dlpdf)
+x <- ur(gen,100)
+
+## Draw a sample from a truncated Gaussian distribution
+## on domain [100,Inf)
+lpdf <- function (x) { -0.5*x^2 }
+gen <- ars.new(logpdf=lpdf, lb=50, ub=Inf)
+x <- ur(gen,100)
+
+}
+
+\keyword{distribution}
+\keyword{datagen}
+

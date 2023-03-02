@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Hyperbolic distribution with
   with parameters \code{shape} and \code{scale}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Hyperbolic.  %% Continuous
 }
 
 \usage{

@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Logistic distribution with
   parameters \code{location} and \code{scale}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Logistic.  %% Continuous
 }
 
 \usage{

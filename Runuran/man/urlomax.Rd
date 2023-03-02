@@ -10,6 +10,8 @@
   distribution of second kind) with
   shape parameter \code{shape} and scale parameter code{scale}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Lomax.  %% Continuous
 }
 
 \usage{

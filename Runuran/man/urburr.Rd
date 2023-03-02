@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Burr distribution with
   \code{shape1} and \code{shape2}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Burr.  %% Continuous
 }
 
 \usage{

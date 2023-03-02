@@ -10,6 +10,8 @@
   (Frechet-type) distribution with shape parameter \code{shape},
   location parameter \code{location} and scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Frechet (extreme value type II).  %% Continuous
 }
 
 \usage{

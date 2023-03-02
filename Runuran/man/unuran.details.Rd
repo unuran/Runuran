@@ -11,10 +11,10 @@
 }
 
 \usage{
-unuran.details(unur)
+unuran.details(unr)
 }
 \arguments{
-  \item{unur}{an "unuran" object.}
+  \item{unr}{an "unuran" object.}
 }
 
 %% \details{ }

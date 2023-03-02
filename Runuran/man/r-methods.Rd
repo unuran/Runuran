@@ -1,10 +1,6 @@
-\name{unuran.sample-methods}
+\name{r-methods}
 \docType{methods}
 
-\alias{unuran.sample-methods}
-\alias{unuran.sample}
-\alias{unuran.sample,unuran-method}
-\alias{unuran.sample,unuran,numeric-method}
 \alias{r}
 \alias{r,unuran-method}
 \alias{r,unuran,numeric-method}
@@ -13,14 +9,15 @@
 \description{
   Get random sample from an UNU.RAN object in package
   \pkg{Runuran}.
+  
+  [Universal] -- Sampling Function.
 }
 
 \usage{
-\S4method{unuran.sample}{unuran,numeric}(unur,n=1)
 \S4method{r}{unuran,numeric}(unur,n=1)
 }
 \arguments{
-  \item{unur}{an "unuran" object.}
+  \item{unur}{an \dQuote{unuran} object.}
   \item{n}{sample size.}
 }
 
@@ -29,10 +26,9 @@
 }
 
 \note{
-  For performance reasons \code{unuran.sample} is implemented as a
-  simple \code{function}.
-
-  \code{r} is an S4 method and equivalent to \code{unuran.sample}.
+  This S4 method is equivalent to the function
+  \code{\link{ur}}. However, it is (slightly) slower due to some
+  overhead for the S4 mechanism.
 }
 
 \author{

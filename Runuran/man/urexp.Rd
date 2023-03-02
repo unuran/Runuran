@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Exponential distribution with
   rate \code{rate} (i.e., mean \code{1/rate}).
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Exponential.  %% Continuous
 }
 
 \usage{

@@ -12,13 +12,14 @@ exportMethods(initialize)
 exportMethods(print)
 exportMethods(show)
 
-export(unuran.new)
-export(unuran.sample)
-export(unuran.details)
-
 export(unuran.cont)
 export(unuran.cmv)
 export(unuran.discr)
 
+export(unuran.new)
+export(unuran.sample)
+export(unuran.details)
+
+exportPattern("\\.new$")
 exportPattern("^ur")
 exportPattern("^uq")

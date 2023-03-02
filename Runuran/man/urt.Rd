@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Student t distribution with
   with \code{df} degrees of freedom.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: t (Student).  %% Continuous
 }
 
 \usage{

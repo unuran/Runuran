@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Geometric distribution
   with parameter \code{prob}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Geometric.  %% Discrete
 }
 
 \usage{

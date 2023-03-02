@@ -8,6 +8,8 @@
 \description{
   UNU.RAN random variate generator for the Hypergeometric distribution.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Hypergeometric.  %% Discrete
 }
 
 \usage{

@@ -82,8 +82,13 @@ unuran.new <- function(distr,method="auto") {
 
 ## Sampling -----------------------------------------------------------------
 
-## unuran.sample
+## ur
 ## ( We avoid using a method as this has an expensive overhead. )
+ur <- function(unr,n=1) { 
+        .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
+}
+
+## unuran.sample: deprecated name or ur()
 unuran.sample <- function(unr,n=1) { 
         .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
 }
@@ -122,11 +127,11 @@ setMethod( "show", "unuran",
 
 ## unuran.details
 ## (print for information and hints)
-unuran.details <- function(unur) {
+unuran.details <- function(unr) {
         cat("\nObject is UNU.RAN object:\n")
-        cat("\tmethod: ",unur@method.str,"\n")
-        cat("\tdistr:  ",unur@distr.str,"\n\n")
-        .Call("Runuran_print", unur@unur, TRUE, PACKAGE="Runuran")
+        cat("\tmethod: ",unr@method.str,"\n")
+        cat("\tdistr:  ",unr@distr.str,"\n\n")
+        .Call("Runuran_print", unr@unur, TRUE, PACKAGE="Runuran")
         cat("")
 }
 

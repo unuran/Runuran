@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Normal distribution with mean
   equal to \code{mean} and standard deviation to \code{sd}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Normal (Gaussian).  %% Continuous
 }
 
 \usage{

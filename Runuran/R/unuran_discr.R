@@ -46,7 +46,7 @@ setMethod( "initialize", "unuran.discr",
                   ## Check entries
                   if(! (is.numeric(lb) && is.numeric(ub) && lb < ub) )
                           stop("invalid domain ('lb','ub')", call.=FALSE)
-                  if (!(is.double(pv) || is.null(pv) ))
+                  if (!(is.numeric(pv) || is.null(pv) ))
                           stop("invalid argument 'pv'", call.=FALSE)
                   if(! (is.function(pmf) || is.null(pmf)) )
                           stop("invalid argument 'pmf'", call.=FALSE)
@@ -54,7 +54,7 @@ setMethod( "initialize", "unuran.discr",
                   ## Store informations (if provided)
                   if (is.function(pmf)) .Object@pmf  <- pmf
                   ## (There is no need to store the PV)
-                  
+
                   ## We need an evironment for evaluating R expressions
                   .Object@env <- new.env()
                   

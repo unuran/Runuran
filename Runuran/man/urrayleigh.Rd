@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Rayleigh distribution with
   scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Rayleigh.  %% Continuous
 }
 
 \usage{

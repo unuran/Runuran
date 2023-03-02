@@ -161,9 +161,9 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 
   /* set probability vector */
   if (!isNull(sexp_pv)) {
-    if (TYPEOF(sexp_pv) != REALSXP)
+    pv = REAL(AS_NUMERIC(sexp_pv));
+    if (ISNAN(pv[0]))
       errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
-    pv = REAL(sexp_pv);
     n_pv = length(sexp_pv);
     error |= unur_distr_discr_set_pv(distr,pv,n_pv);
   }

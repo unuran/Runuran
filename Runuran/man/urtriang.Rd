@@ -9,6 +9,8 @@
   UNU.RAN random variate generator for the Triangular distribution with
   shape parameters \code{a}, \code{m} and \code{b}.
   It also allows sampling from the truncated distribution.
+  
+  [Distribution] -- Sampling Function: Triangular.  %% Continuous
 }
 
 \usage{

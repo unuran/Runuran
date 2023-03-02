@@ -7,7 +7,7 @@
 ##                                                                         ##
 #############################################################################
 ##                                                                         ##
-##   Wrapper for special UNU.RAN sampling methods                          ##
+##   Deprecated functions!                                                 ##
 ##                                                                         ##
 ##   Interface to the UNU.RAN library for                                  ##
 ##   Universal Non-Uniform RANdom variate generators                       ##
@@ -26,42 +26,16 @@
 ##
 ## Generate continuous random variates from a given PDF
 ##
+## DEPRECATED!
+## use function 'ur(tdr.new(...),n)' instead.
 
-urtdr <- function (n, pdf, dpdf, lb=-Inf, ub=Inf, islog=TRUE, ...) {
-        ## the probability density function is obligatory and must be a function
-
-        if (missing(pdf))
-                stop ("argument 'pdf' required")
-        if (! is.function(pdf))
-                stop ("argument 'pdf' must be of class 'function'")
-        f <- function(x) pdf(x, ...) 
-
-        ## we also need the derivative of the PDF
-        if (missing(dpdf)) {
-                ## use numerical derivative
-                df <- function(x) {
-                        numerical.derivative(x,f)
-                }
-        }
-        else{ 
-          if (! is.function(dpdf) )
-               stop ("argument 'dpdf' must be of class 'function'")
-          else df <- function(x) dpdf(x,...)
-	}	
-        
-
-        ## S4 class for continuous distribution
-        dist <- new("unuran.cont", pdf=f, dpdf=df, lb=lb, ub=ub, islog=islog)
+urtdr <- function (n, pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=TRUE, ...) {
         ## create UNU.RAN object
-        unr <- unuran.new(dist, "tdr")
+        unr <- tdr.new(pdf=pdf,dpdf=dpdf,lb=lb,ub=ub,islog=islog,...)
         ## draw sample
         unuran.sample(unr,n)
 }
 
-numerical.derivative <- function (x, func, lb=-Inf, ub=Inf, xmin=1, delta=1.e-7) {
-        h <- pmax(x*delta,delta)
-        df <- (func(x+h)-func(x-h))/(2*h)
-}
 
 ## -- HINV: Hermite interpolation for approximate INVersion -----------------
 ##
@@ -74,22 +48,7 @@ numerical.derivative <- function (x, func, lb=-Inf, ub=Inf, xmin=1, delta=1.e-7)
 ## use function 'uq' instead.
 
 ## Quantile function
-uqhinv <- function (unur, U) {
-        ## 'unur' ... generator object of type HINV
-
-        ## check arguments
-        if (missing(unur))
-                stop ("argument 'unur' required")
-        if (!is(unur,"unuran"))
-                stop ("argument 'unur' must be  UNU.RAN object")
-        
-        if (missing(U))
-                stop ("argument 'U' required")
-        U <- as.double(U)
-
-        ## compute quantile
-        .Call("Runuran_quantile", unur, U, PACKAGE="Runuran")
-}
+uqhinv <- function (unr, U) { uq(unr,U) }
 
 
 #############################################################################
@@ -105,19 +64,11 @@ uqhinv <- function (unur, U) {
 ## Generate discrete random variates from a given probability vector
 ## using the Guide-Table Method for discrete inversion
 ##
-## Remark: we do not pass the domain to UNU.RAN
-##
+## DEPRECATED!
 
 urdgt <- function (n, probvector, from = 0, by = 1) {
-        ## the probability vector is obligatory
-        if (missing(probvector))
-                stop ("argument 'probvector' required")
-        if (!is.numeric(probvector))
-                stop ("argument 'probvector' must be of class 'numeric'")
-        ## S4 class for discrete distribution
-        distr <- new("unuran.discr",pv=probvector)
         ## create UNU.RAN object
-        unr <- new("unuran", distr, "DGT")
+        unr <- dgt.new(pv=probvector, from=0)
         ## draw sample
         if (from==0 && by==1)
                 unuran.sample(unr,n)
@@ -132,19 +83,11 @@ urdgt <- function (n, probvector, from = 0, by = 1) {
 ## Generate discrete random variates from a given probability vector
 ## using the Alias-Urn Method
 ##
-## Remark: we do not pass the domain to UNU.RAN
-##
+## DEPRECATED!
 
 urdau <- function (n, probvector, from = 0, by = 1) {
-        ## the probability vector is obligatory
-        if (missing(probvector))
-                stop ("argument 'probvector' required")
-        if (!is.numeric(probvector))
-                stop ("argument 'probvector' must be of class 'numeric'")
-        ## S4 class for discrete distribution
-        distr <- new("unuran.discr",pv=probvector)
         ## create UNU.RAN object
-        unr <- new("unuran", distr, "DAU")
+        unr <- dau.new(pv=probvector, from=0)
         ## draw sample
         if (from==0 && by==1)
                 unuran.sample(unr,n)
@@ -166,25 +109,15 @@ urdau <- function (n, probvector, from = 0, by = 1) {
 ##
 ## Generate continuous random variates from a given PDF
 ##
+## DEPRECATED!
 
 urhitro <- function (n, dim=1, pdf, mode=NULL, center=NULL, ll=NULL, ur=NULL, thinning=1, burnin=0, ...) {
-        ## the probability density function is obligatory and must be a function
-        if (missing(pdf))
-                stop ("argument 'pdf' required")
-        if (! is.function(pdf))
-                stop ("argument 'pdf' must be of class 'function'")
-        f <- function(x) pdf(x, ...) 
-        ## S4 class for continuous multivariate distribution
-        dist <- new("unuran.cmv", dim=dim, pdf=f, mode=mode, center=center, ll=ll, ur=ur)
         ## create UNU.RAN object
-        method <- paste("hitro;thinning=",thinning,";burnin=",burnin, sep="")
-        cat(method,"\n")
-        unr <- unuran.new(dist, method)
+        unr <- hitro.new(dim=dim, pdf=pdf, mode=mode, center=center, ll=ll, ur=ur,
+                         thinning=thinning, burnin=burnin, ...)
         ## draw sample
         unuran.sample(unr,n)
 }
 
 
 ## -- End -------------------------------------------------------------------
-
-
