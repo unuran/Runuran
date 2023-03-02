@@ -65,6 +65,12 @@ SEXP Runuran_qhinv (SEXP sexp_unur, SEXP sexp_U);
 /* is given.                                                                 */
 /*---------------------------------------------------------------------------*/
 
+SEXP Runuran_qpinv (SEXP sexp_unur, SEXP sexp_U);
+/*---------------------------------------------------------------------------*/
+/* Evaluate approximate quantile function when a UNU.RAN object of type PINV */
+/* is given.                                                                 */
+/*---------------------------------------------------------------------------*/
+
 
 /*---------------------------------------------------------------------------*/
 /* Registering native routines */

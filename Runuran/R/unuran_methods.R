@@ -89,6 +89,32 @@ uqhinv <- function (unur, U) {
 }
 
 
+## -- PINV: Polynomial interpolation for approximate INVersion ---------------
+##
+## Type: Inversion
+##
+## Generate continuous random variates from a given PDF
+##
+
+## Quantile function
+uqpinv <- function (unur, U) {
+        ## 'unur' ... generator object of type HINV
+
+        ## check arguments
+        if (missing(unur))
+                stop ("argument 'unur' required")
+        if (!is(unur,"unuran"))
+                stop ("argument 'unur' must be  UNU.RAN object")
+        
+        if (missing(U))
+                stop ("argument 'U' required")
+        U <- as.double(U)
+
+        ## compute quantile
+        .Call("Runuran_qpinv", unur, U, PACKAGE="Runuran")
+}
+
+
 #############################################################################
 ##                                                                          #
 ## Sampling methods for discrete univariate Distributions                   #

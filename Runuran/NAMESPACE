@@ -17,4 +17,4 @@ export(unuran.sample)
 export(unuran.details)
 
 exportPattern("^ur")
-export(uqhinv)
+exportPattern("^uq")
