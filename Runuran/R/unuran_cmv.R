@@ -82,4 +82,10 @@ setMethod( "initialize", "unuran.cmv",
                   .Object
           } )
 
+
+## Shortcut
+unuran.cmv <- function(dim=1, pdf=NULL, mode=NULL, center=NULL, ll=NULL, ur=NULL) {
+        new("unuran.cmv", dim=dim, pdf=pdf, mode=mode, center=center, ll=ll, ur=ur)
+}
+
 ## End ----------------------------------------------------------------------
