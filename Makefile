@@ -1,22 +1,35 @@
 
+
+# --- Constants -------------------------------------------------------------
+
+# name of R program
+R = R
+
 # --- Default target --------------------------------------------------------
 
 all: help
 
+# --- Help ------------------------------------------------------------------
+
 help:
-	@echo "clean ... clear working space"
+	@echo ""
+	@echo "unuran-build  ... build Runuran package"
+	@echo "unuran-check  ... check Runuran package"
+	@echo ""
+	@echo "clean         ... clear working space"
+	@echo ""
 
 # --- Phony targets ---------------------------------------------------------
 
-.PHONY: all help clean clean-runuran unuran-src unuran-check unuran-build
+.PHONY: all help clean unuran-clean unuran-src unuran-check unuran-build
 
 # --- Runuran ---------------------------------------------------------------
 
 unuran-build: unuran-src
-	R CMD build Runuran
+	$(R) CMD build Runuran
 
 unuran-check: unuran-src
-	(unset TEXINPUTS; R CMD check Runuran)
+	(unset TEXINPUTS; $(R) CMD check Runuran)
 
 unuran-src:
 	(cd Runuran; autoheader; autoconf)
@@ -37,12 +50,7 @@ unuran-src:
 		done; \
 	fi
 
-# --- Clear working space ---------------------------------------------------
-
-clean: clean-runuran
-	find . -type f -name "*~" -exec rm -v {} ';'
-
-clean-runuran:
+unuran-clean:
 	rm -rf Runuran.Rcheck
 	rm -f Runuran_*
 	(cd Runuran; \
@@ -50,7 +58,16 @@ clean-runuran:
 	(cd Runuran/src; \
 		rm -f Makevars; \
 		rm -f config.h*; \
-		rm -f Runuran.so Runuran.o Runuran_distr.o; \
-		rm -rf unuran-src/* )
+		rm -f Runuran.so Runuran.o Runuran_distr.o )
+	(cd Runuran/src/unuran-src; \
+		rm -rf * )
+	(cd Runuran/inst/doc; \
+		rm -f *.aux *.bbl *.blg *.log *.out *.toc; \
+		rm -f Runuran.R Runuran.pdf Runuran.tex )
+
+# --- Clear working space ---------------------------------------------------
+
+clean: unuran-clean 
+	find . -type f -name "*~" -exec rm -v {} ';'
 
 # --- End -------------------------------------------------------------------
