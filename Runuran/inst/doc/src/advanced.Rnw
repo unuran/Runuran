@@ -114,7 +114,7 @@ object.
   \code{uq(gen,u)} computes quantiles (inverse CDF's) for the $u$ values
   given in vector \code{u}.
   However, this requires that the method (\code{gen}) we are using implements 
-  an inversion method like PINV.
+  an inversion method like PINV or DGT.
 \end{itemize}
 
 In addition it is possible to get some information about the generator

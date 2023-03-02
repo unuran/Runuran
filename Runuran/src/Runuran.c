@@ -399,12 +399,13 @@ _Runuran_quantile_unur (struct unur_gen *gen, SEXP sexp_U)
 
   /* check whether UNU.RAN object implements inversion method */
   switch (gen->method) {
+  case UNUR_METH_DGT:
   case UNUR_METH_HINV:
   case UNUR_METH_NINV:
   case UNUR_METH_PINV:
     break;
   default:
-    error("[UNU.RAN - error] invalid UNU.RAN object: inversion method required!\n\tUse methods 'HINV', 'NINV', or 'PINV'");
+    error("[UNU.RAN - error] invalid UNU.RAN object: inversion method required!\n\tUse methods 'HINV', 'NINV', 'PINV'; or 'DGT'");
   }
 
   /* evaluate inverse CDF */
@@ -531,7 +532,7 @@ _Runuran_free (SEXP sexp_gen)
 #ifdef RUNURAN_DEBUG
   /* check pointer */
   CHECK_UNUR_PTR(sexp_gen);
-  printf("Runuran_free called!\n");
+  Rprintf("Runuran_free called!\n");
 #endif
 
   /* Extract pointer to generator */
