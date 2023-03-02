@@ -1,17 +1,64 @@
 
-Version ?:
+Version 0.8: 2008-11-26
 
-	- new function uq() for computing quantiles
-          (this also replaces uqhinv() which is now deprecated).
+	- reorganized functions into three groups:
+
+	  * Runuran-Distribution:
+	    easy-to-use sampling algorithms for particular
+	    distributions.
+
+	  * Runuran-Universal:
+	    interface to a carefully selected collection of UNU.RAN
+	    methods with their most important variants.
+
+	  * Runuran-Advanced:
+	    wrapper to the UNU.RAN string API.
+
+	- improved documentation,
+	  added vignette
+
+	- new function uq() for computing quantiles apprimately.
+
+	- new functions for directly creating generator objects
+	  for selected UNU.RAN methods:
+	    ars.new()
+	        dari.new()
+	    dau.new()
+	    dgt.new()
+	    hitro.new()
+	    itdr.new()
+	    pinv.new()
+	    srou.new()
+	    tdr.new()
+	    vnrou.new()
+
+	- new functions for creating UNU.RAN distribution 
+	  objects: 
+
+	    unuran.cmv.new(...)    replaces  unuran.cmv()
+	    unuran.cont.new(...)   replaces  unuran.cont()
+	    unuran.discr.new(...)  replaces  unuran.discr()
+
+	  Remark: The default for argument 'islog' has been changed to 
+	  'islog=FALSE'.
+
+	- deprecated functions:
+	     uqhinv()
+	     urdau()
+	     urdgt()	
+	     urhitro()
+	     urtdr()
+
+	- contains UNU.RAN version 1.3.0
 
 
 Version 0.7: 2008-04-21
 
 	- print() now shows some information about a generator
-          object.
+	  object.
 
-	- new function unuran.details() for printing detailed 
-	  information about a generator object.
+	- new function unuran.details() for printing detailed
+	  information about a generator object. 
 
 	- new function uqhinv() for compting quantiles approximately
 	  using UNU.RAN method 'HINV'.
@@ -19,18 +66,16 @@ Version 0.7: 2008-04-21
 
 Version 0.6: 2007-12-10
 
-        - added slots for a rectangular domain and the center 
-          (point in main region of distribution) for multivariate 
-          distribution class 'distr.cmv'.
+	- added slots for a rectangular domain and the center 
+	  (point in main region of distribution) for multivariate 
+	  distribution class 'distr.cmv'.
 
-        - new method 'MVTDR' in UNU.RAN.
+	- new method 'MVTDR' in UNU.RAN.
 
-        - fixed broken optional arguments in routines urtdr() and
-          urhitro().
-
-            (The optional arguments were not passed to the given
-            density function in contradiction to the help page of
-	    these routines.)
+	- fixed broken optional arguments in routines urtdr() and urhitro()
+	  (The optional arguments were not passed to the given
+	  density function in contradiction to the help page of
+	  these routines.)
 
 
 Version 0.5: 2007-08-01
@@ -49,3 +94,31 @@ Version 0.5: 2007-08-01
 Version 0.4: 2007-05-16
 
         - First public release.
+
+	- new function unuran.new() for creating a UNU.RAN object.
+
+	- new class "unuran.discr" for dicrete distributions.
+
+	- new functions ur...() for sampling from various standard
+	  distributions.
+
+	- unuran.sample() is now a function and not an S4 method any more.
+
+	- internal: added test suite for generation method.
+
+	- internal: d fixed possible leak in R's PROTECT stack.
+
+
+Version 0.3: 2007-05-03
+
+        - added support for Windows.
+
+
+Version 0.2: 2007-05-02
+
+        - R CMD check now does not report any warnings or errors.
+
+
+Version 0.1: 2007-04-30
+
+        - First pre-alpha release.
