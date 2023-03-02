@@ -25,6 +25,7 @@ uq(unr, U)
   Currently these are
   \itemize{
     \item \sQuote{HINV}
+    \item \sQuote{NINV}
     \item \sQuote{PINV}
   }
 }

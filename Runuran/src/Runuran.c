@@ -273,10 +273,11 @@ Runuran_quantile (SEXP sexp_unur, SEXP sexp_U)
   /* check whether UNU.RAN object implements inversion method */
   switch (gen->method) {
   case UNUR_METH_HINV:
+  case UNUR_METH_NINV:
   case UNUR_METH_PINV:
     break;
   default:
-    error("[UNU.RAN - error] invalid UNU.RAN object: inversion method required!\n\tUse methods 'HINV' or 'PINV'");
+    error("[UNU.RAN - error] invalid UNU.RAN object: inversion method required!\n\tUse methods 'HINV', 'NINV', or 'PINV'");
   }
 
   /* evaluate inverse CDF */

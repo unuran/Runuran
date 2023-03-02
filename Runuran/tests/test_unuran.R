@@ -214,4 +214,9 @@ if( ! is.error( uq(unr,"a") ) )
    stop("'uq' does not detect invalid argument 'U'")
         
 
+## test deprecated function 'uqhinv'
+unr <- unuran.new("normal()","hinv")
+uqhinv(unr,(0:20)/20)
+
+
 ## --- End ------------------------------------------------------------------

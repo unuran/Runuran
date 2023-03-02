@@ -70,6 +70,9 @@ numerical.derivative <- function (x, func, lb=-Inf, ub=Inf, xmin=1, delta=1.e-7)
 ## Generate continuous random variates from a given CDF/PDF
 ##
 
+## DEPRECATED!
+## use function 'uq' instead.
+
 ## Quantile function
 uqhinv <- function (unur, U) {
         ## 'unur' ... generator object of type HINV
@@ -85,33 +88,7 @@ uqhinv <- function (unur, U) {
         U <- as.double(U)
 
         ## compute quantile
-        .Call("Runuran_qhinv", unur, U, PACKAGE="Runuran")
-}
-
-
-## -- PINV: Polynomial interpolation for approximate INVersion ---------------
-##
-## Type: Inversion
-##
-## Generate continuous random variates from a given PDF
-##
-
-## Quantile function
-uqpinv <- function (unur, U) {
-        ## 'unur' ... generator object of type HINV
-
-        ## check arguments
-        if (missing(unur))
-                stop ("argument 'unur' required")
-        if (!is(unur,"unuran"))
-                stop ("argument 'unur' must be  UNU.RAN object")
-        
-        if (missing(U))
-                stop ("argument 'U' required")
-        U <- as.double(U)
-
-        ## compute quantile
-        .Call("Runuran_qpinv", unur, U, PACKAGE="Runuran")
+        .Call("Runuran_quantile", unur, U, PACKAGE="Runuran")
 }
 
 

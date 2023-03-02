@@ -8,6 +8,7 @@
 \description{
   Evaluates quantile of distribution approximately using
   UNU.RAN method HINV.
+  (Deprecated. Use \code{\link{uq}} instead.) 
 }
 
 \usage{
@@ -23,10 +24,13 @@ uqhinv(unur, U)
   (vector of) probabilities approximately.
   It requires a "unuran" object that uses method \dQuote{HINV} and thus
   contains the information about the target distribution.
+
+  This method is \strong{deprecated}. Please use 
+  \code{\link{uq}} instead.
 }
 
 \seealso{
-  \code{\linkS4class{unuran}}.
+  \code{\link{uq}}.
 }
 
 \references{
