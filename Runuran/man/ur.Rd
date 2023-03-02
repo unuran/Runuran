@@ -4,7 +4,7 @@
 \alias{ur}
 \alias{unuran.sample}
 
-\title{Sample from a distribution specified by an UNU.RAN object}
+\title{Sample from a distribution specified by a UNU.RAN object}
 
 \description{
   Get random sample from a UNU.RAN object in package
@@ -18,7 +18,7 @@ ur(unr, n=1)
 unuran.sample(unr, n=1)
 }
 \arguments{
-  \item{unr}{an \dQuote{unuran} object.}
+  \item{unr}{a \dQuote{unuran} object.}
   \item{n}{sample size.}
 }
 

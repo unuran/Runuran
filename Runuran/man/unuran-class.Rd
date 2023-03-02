@@ -9,7 +9,7 @@
 \title{Class "unuran" -- Universal Non-Uniform RANdom variate generators}
 
 \description{%
-  The class "unuran" provides am interface to the UNU.RAN
+  The class "unuran" provides an interface to the UNU.RAN
   library for universal non-uniform random number generators.
   It uses the \R built-in uniform random number generator.
   

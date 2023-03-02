@@ -22,7 +22,7 @@ dau.new(pv, from=1)
 }
 
 \details{
-  This function creates an \code{unuran} object based on \dQuote{DAU}
+  This function creates a \code{unuran} object based on \dQuote{DAU}
   (Discrete Alias-Urn method). It can be used to draw samples of a
   discrete random variate with given probability vector
   using \code{\link{ur}}.

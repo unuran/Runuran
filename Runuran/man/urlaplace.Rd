@@ -63,7 +63,7 @@ urlaplace(n, location=0, scale=1, lb = -Inf, ub = Inf)
 }
 
 \note{
-  This function is wrapper for the UNU.RAN class in \R.
+  This function is a wrapper for the UNU.RAN class in \R.
 }
 
 \examples{

@@ -24,7 +24,7 @@ urplanck(n, a, lb = 1.e-12, ub = Inf)
 }
 
 \details{
-  The Planck distribution with parameters \code{a}
+  The Planck distribution with parameter \code{a}
   has density proportional to 
   \deqn{
     f(x) \sim \frac{x^a}{\exp(x)-1}}{%

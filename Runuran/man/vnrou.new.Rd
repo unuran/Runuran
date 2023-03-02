@@ -33,7 +33,7 @@ vnrou.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL, ...)
 }
 
 \details{
-  This function creates an \code{unuran} object based on the naive
+  This function creates a \code{unuran} object based on the naive
   ratio-of-uniforms method (\dQuote{VNROU}), i.e., a bounding rectangle
   for the acceptance region is estimated and use for sampling proposal
   points.

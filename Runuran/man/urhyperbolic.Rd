@@ -6,7 +6,7 @@
 \title{UNU.RAN Hyperbolic random variate generator}
 
 \description{
-  UNU.RAN random variate generator for the Hyperbolic distribution with
+  UNU.RAN random variate generator for the Hyperbolic distribution
   with parameters \code{shape} and \code{scale}.
   It also allows sampling from the truncated distribution.
   
@@ -64,7 +64,7 @@ urhyperbolic(n, shape, scale=1, lb = -Inf, ub = Inf)
 }
 
 \examples{
-## Create a sample of size 1000
+## Create a sample of size 1000 from Hyperbolic distribution with shape=3
 x <- urhyperbolic(n=1000,shape=3)
 }
 

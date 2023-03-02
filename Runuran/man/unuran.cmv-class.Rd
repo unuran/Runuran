@@ -9,7 +9,7 @@
 \title{Class "unuran.cmv" for Continuous Multivariate Distribution}
 
 \description{%
-  Class \code{unuran.cmv} provides am interface to UNU.RAN objects
+  Class \code{unuran.cmv} provides an interface to UNU.RAN objects
   for continuous multivariate distributions.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}

@@ -9,7 +9,7 @@
 \title{Class "unuran.discr" for Discrete Distribution}
 
 \description{%
-  Class \code{unuran.discr} provides am interface to UNU.RAN objects for
+  Class \code{unuran.discr} provides an interface to UNU.RAN objects for
   discrete distributions.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}

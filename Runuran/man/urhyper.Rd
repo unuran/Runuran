@@ -57,7 +57,7 @@ urhyper(nn, m, n, k, lb=max(0,k-n), ub=min(k,m))
 }
 
 \note{
-  This function is wrapper for the UNU.RAN class in \R.
+  This function is a wrapper for the UNU.RAN class in \R.
   Compared to \code{rhyper}, \code{urhyper} is faster, especially for
   larger sample sizes.
   However, in opposition to \code{rhyper} vector arguments are ignored,

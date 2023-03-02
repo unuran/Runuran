@@ -28,7 +28,7 @@ dgt.new(pv, from=1)
   using \code{\link{ur}}.
   
   The probabilities must be provided by a vector \code{pv} which must
-  contain non-negative numbers and which need not necessarily sum up to
+  contain non-negative numbers and need not necessarily sum up to
   1.
 
   The method runs fast in constant time, i.e., marginal sampling

@@ -57,7 +57,7 @@ urt(n, df, lb = -Inf, ub = Inf)
 }
 
 \note{
-  This function is wrapper for the UNU.RAN class in \R.
+  This function is a wrapper for the UNU.RAN class in \R.
   Compared to \code{rt}, \code{urt} is faster, especially for
   larger sample sizes.
   However, in opposition to \code{rt} vector arguments are ignored,

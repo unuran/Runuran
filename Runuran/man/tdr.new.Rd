@@ -3,7 +3,7 @@
 
 \alias{tdr.new}
 
-\title{UNU.RAN generator based on Transformend Density Rejection (TDR)}
+\title{UNU.RAN generator based on Transformed Density Rejection (TDR)}
 
 \description{
   UNU.RAN random variate generator for continuous distributions with
@@ -42,7 +42,7 @@ tdr.new(pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
   function) as this is numerically more stable.
   
   The derivative \code{dpdf} is optional. If omitted, numerical
-  derivation is used. Notice, however, that this might cause some
+  differentiation is used. Notice, however, that this might cause some
   round-off errors such that generation does not work. This is in
   particular the case when the density function is provided instead of
   the log-density.

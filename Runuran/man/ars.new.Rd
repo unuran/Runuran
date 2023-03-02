@@ -24,9 +24,9 @@ ars.new(logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...)
 }
 
 \details{
-  This function creates an \code{unuran} object based on \dQuote{ARS}
-  (Adaptive Rejection Sampling). It can be used to draw samples of a
-  continuous random variate with given probability density function
+  This function creates a \code{unuran} object based on \dQuote{ARS}
+  (Adaptive Rejection Sampling). It can be used to draw samples from
+  continuous distributions with given probability density function
   using \code{\link{ur}}.
   
   The log-density must be provided by a function \code{logpdf} 
@@ -36,7 +36,7 @@ ars.new(logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...)
   must be log-concave).
   
   The derivative \code{dlogpdf} is optional. If omitted, numerical
-  derivation is used. Notice, however, that this might cause some
+  differentiation is used. Notice, however, that this might cause some
   round-off errors such that the algorithm fails.
 
   The setup time of this method depends on the given PDF, whereas its

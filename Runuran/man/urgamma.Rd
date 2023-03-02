@@ -59,7 +59,7 @@ urgamma(n, shape, scale=1, lb=0, ub=Inf)
 }
 
 \note{
-  This function is wrapper for the UNU.RAN class in \R.
+  This function is a wrapper for the UNU.RAN class in \R.
   Compared to \code{rgamma}, \code{urgamma} is faster, especially for
   larger sample sizes.
   However, in opposition to \code{rgamma} vector arguments are ignored,

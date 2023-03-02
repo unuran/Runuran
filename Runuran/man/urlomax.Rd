@@ -63,7 +63,7 @@ urlomax(n, shape, scale=1, lb=0, ub=Inf)
 }
 
 \note{
-  This function is wrapper for the UNU.RAN class in \R.
+  This function is a wrapper for the UNU.RAN class in \R.
 }
 
 \examples{

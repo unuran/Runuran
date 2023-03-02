@@ -28,7 +28,7 @@ srou.new(pdf, mode, area, lb=-Inf, ub=Inf, islog=FALSE, r=1, ...)
 }
 
 \details{
-  This function creates an \code{unuran} object based on \dQuote{SROU}
+  This function creates a \code{unuran} object based on \dQuote{SROU}
   (Simple Ratio-Of-Uniforms Method). It can be used to draw samples of a
   continuous random variate with given probability density function
   using \code{\link{ur}}.
@@ -49,7 +49,7 @@ srou.new(pdf, mode, area, lb=-Inf, ub=Inf, islog=FALSE, r=1, ...)
 
   Compared to \code{\link{tdr.new}} it has much slower marginal
   generation times but has a faster setup and is numerically more
-  robust. Moreover, I also works for unimodal distributions with tails
+  robust. Moreover, It also works for unimodal distributions with tails
   that are heavier than those of the Cauchy distribution.
 }
 

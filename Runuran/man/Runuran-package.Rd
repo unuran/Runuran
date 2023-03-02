@@ -123,7 +123,7 @@
 }
 
 \section{[Universal]}{
-  These functions allow access to a selection collection of UNU.RAN
+  These functions allow access to a selected collection of UNU.RAN
   methods. They require some data about the target distribution as
   arguments and return an instance of a UNU.RAN generator object that is
   implementd as an S4 class \code{\linkS4class{unuran}}. These can then
@@ -139,10 +139,10 @@
   \tabular{lcl}{ 
     \emph{Function}         \tab        \tab \emph{Method} \cr
     \code{\link{ars.new}}   \tab \ldots \tab Adaptive Rejection Sampling \cr
-    \code{\link{itdr.new}}  \tab \ldots \tab Inverse Transformend Density Rejection \cr
+    \code{\link{itdr.new}}  \tab \ldots \tab Inverse Transformed Density Rejection \cr
     \code{\link{pinv.new}}  \tab \ldots \tab Polynomial interpolation of INVerse CDF \cr
     \code{\link{srou.new}}  \tab \ldots \tab Simple Ratio-Of-Uniforms method \cr
-    \code{\link{tdr.new}}   \tab \ldots \tab Transformend Density Rejection \cr
+    \code{\link{tdr.new}}   \tab \ldots \tab Transformed Density Rejection \cr
   }
   
   Discrete Distributions:
@@ -210,7 +210,7 @@
 
 \section{Warning}{
   \code{unuran} objects cannot be saved and restored in later \R
-  sessions. Nor is it possible to copy such objects to different nodes
+  sessions, nor is it possible to copy such objects to different nodes
   in a computer cluster.  
   They must be newly created!
 }

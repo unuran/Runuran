@@ -9,7 +9,7 @@
 \title{Class "unuran.cont" for Continuous Distribution}
 
 \description{%
-  Class \code{unuran.cont} provides am interface to UNU.RAN objects for
+  Class \code{unuran.cont} provides an interface to UNU.RAN objects for
   continuous distributions.
   The interface might be changed in future releases.
   \strong{Do not use unnamed arguments!}

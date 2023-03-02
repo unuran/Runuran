@@ -48,19 +48,19 @@ uq(unr, U)
 }
 
 \examples{
-## Compute quantiles of normal distribution, method HINV
+## Compute quantiles of normal distribution using method HINV
 unr <- unuran.new("normal()","hinv")
 uq(unr,0.975)
 uq(unr,c(0.025,0.975))
 
-## Compute quantiles of user-defined distribution, method HINV
+## Compute quantiles of user-defined distributio using method HINV
 cdf <- function (x) { 1.-exp(-x) }
 pdf <- function (x) { exp(-x) }
 dist <- new("unuran.cont", cdf=cdf, pdf=pdf, lb=0, islog=FALSE)
 unr <- unuran.new(dist, "hinv; u_resolution=1.e-12")
 uq(unr,seq(0,1,0.05))
 
-## Compute quantiles of user-defined distribution, method PINV
+## Compute quantiles of user-defined distribution using method PINV
 pdf <- function (x) { exp(-x) }
 dist <- new("unuran.cont", pdf=pdf, lb=0, islog=FALSE)
 unr <- unuran.new(dist, "pinv; u_resolution=1.e-12")

@@ -94,7 +94,7 @@ d <- unuran.cont.new(pdf=lf,dpdf=dlf,islog=TRUE,lb=-1,ub=2)
 gen <- unuran.new(distr=d, method="tdr; variant_ia; c=0")
 
 ## Now we can use this object to draw the sample.
-## (Of course we can repeate this step as often as required.)
+## (Of course we can repeat this step as often as required.)
 ur(gen,10)
 
 ## Here is some information about our generator object.

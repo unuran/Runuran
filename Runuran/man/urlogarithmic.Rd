@@ -60,7 +60,7 @@ urlogarithmic(n, shape, lb = 1, ub = Inf)
 }
 
 \note{
-  This function is wrapper for the UNU.RAN class in \R.
+  This function is a wrapper for the UNU.RAN class in \R.
 }
 
 \examples{

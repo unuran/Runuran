@@ -3,7 +3,7 @@
 
 \alias{itdr.new}
 
-\title{UNU.RAN generator based on Inverse Transformend Density Rejection (ITDR)}
+\title{UNU.RAN generator based on Inverse Transformed Density Rejection (ITDR)}
 
 \description{
   UNU.RAN random variate generator for continuous distributions with
@@ -29,7 +29,7 @@ itdr.new(pdf, dpdf, pole, lb=0, ub=Inf, islog=FALSE, ...)
 }
 
 \details{
-  This function creates an \code{unuran} object based on \dQuote{ITDR}
+  This function creates a \code{unuran} object based on \dQuote{ITDR}
   (Inverse Transformed Density Rejection). It can be used to draw samples of a
   continuous random variate with given probability density function
   using \code{\link{ur}}.

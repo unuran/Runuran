@@ -38,7 +38,7 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
 \details{
   \strong{Beware: MCMC sampling can be dangerous!}
   
-  This function creates an \code{unuran} object based on the
+  This function creates a \code{unuran} object based on the
   Hit-and-Run algorithm in combinaton with the Ratio-of-Uniforms method
   (\dQuote{HITRO}).
   It can be used to draw samples of a continuous random vector with
@@ -54,13 +54,13 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
   The \code{center} is used as starting point of the Hit-and-Run
   algorithm. It is thus important, that the \code{center} is contained
   in the (interior of the) domain. 
-  Alternatively, one could provide the location the
+  Alternatively, one could provide the location of the
   \code{mode}. However, this requires its exact position whereas
   \code{center} allows any point in the \dQuote{typical} region of the
   distribution.
 
   If the \code{mode} is given, then it is used to obtain an upper bound
-  of the \code{pdf} and thus its location should be given sufficiently
+  on the \code{pdf} and thus its location should be given sufficiently
   accurate.
   
   The HITRO algorithm is a MCMC samplers and thus it does not produce a
@@ -73,7 +73,7 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
   means that only every \eqn{k}-th element is returned.
 
   Markov chains also depend on the chosen starting point (i.e., the
-  \code{center} in this implementation of the algorithmus).
+  \code{center} in this implementation of the algorithm).
   This dependence can be decreased by erasing the first
   part of the chain. This is called the \dQuote{burn-in} of the Markov
   chain and its length is controlled by the argument \code{burnin}.

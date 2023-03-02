@@ -9,7 +9,7 @@
 \title{Virtual class "unuran.distr"}
 
 \description{%
-  The virtual class \code{unuran.distr} provides am interface to UNU.RAN
+  The virtual class \code{unuran.distr} provides an interface to UNU.RAN
   objects for distributions.
 
   The following classes extend this class:
