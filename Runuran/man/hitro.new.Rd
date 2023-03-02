@@ -15,21 +15,21 @@
 }
 
 \usage{
-hitro.new(dim=1, pdf, mode=NULL, center=NULL, ll=NULL, ur=NULL,
+hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
           thinning=1, burnin = 0, ...)
 }
 \arguments{
   \item{dim}{number of dimensions of the distribution. (integer)}
   \item{pdf}{probability density function. (\R function)}
+  \item{ll,ur}{lower left and upper right vertex of a rectangular
+    domain of the \code{pdf}. The domain is only set if both vertices
+    are not \code{NULL}. Otherwise, the domain is unbounded by
+    default. (numeric vectors)}
   \item{mode}{location of the mode -- optional. (numeric vector)}
   \item{center}{point in \dQuote{typical} region of distribution,
     e.g. the approximate location of the mode. If omitted the
     \code{mode} is used. If the \code{mode} is not given
     either, the origin is used. (numeric vector -- optional)}
-  \item{ll,ur}{lower left and upper right vertex of a rectangular
-    domain of the \code{pdf}. The domain is only set if both vertices
-    are not \code{NULL}. Otherwise, the domain is unbounded by
-    default. (numeric vectors)}
   \item{thinning}{thinning factor. (positive integer)}
   \item{burnin}{lenght of burin-in phase. (positive integer)}
   \item{...}{(optional) arguments for \code{pdf}}

@@ -35,7 +35,7 @@ tdr.new(pdf, dpdf=NULL, lb=-Inf, ub=Inf, islog=FALSE, ...)
   return non-negative numbers and which need not be normalized (i.e., it
   can be any multiple of a density function).
   Moreover, the given function must be \eqn{T_{-0.5}}{T_(-0.5)}-concave
-  distributions (i.e., unimodal densities with tails not higher than
+  (i.e., unimodal densities with tails not higher than
   \eqn{(1/x^2)}; this includes all log-concave distributions).
   
   It is recommended to use the log-density (instead of the density

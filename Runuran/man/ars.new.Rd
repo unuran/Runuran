@@ -61,6 +61,10 @@ ars.new(logpdf, dlogpdf=NULL, lb=-Inf, ub=Inf, ...)
   W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg.
+  
+  W. R. Gilks and P. Wild (1992):
+  Adaptive rejection sampling for Gibbs sampling.
+  Applied Statistics 41(2), pp. 337--348.
 }
 
 \author{
