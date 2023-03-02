@@ -40,7 +40,7 @@ SEXP Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 
 SEXP Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env, 
 			SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
-			SEXP sexp_domain);
+			SEXP sexp_mode, SEXP sexp_center, SEXP sexp_domain, SEXP sexp_area);
 /*---------------------------------------------------------------------------*/
 /* Create and initialize UNU.RAN object for continuous distribution.         */
 /*---------------------------------------------------------------------------*/

@@ -227,7 +227,7 @@ _Runuran_discr_eval_pmf( int k, const struct unur_distr *distr )
 SEXP
 Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env, 
 		   SEXP sexp_cdf, SEXP sexp_pdf, SEXP sexp_dpdf, SEXP sexp_islog,
-		   SEXP sexp_domain)
+		   SEXP sexp_mode, SEXP sexp_center, SEXP sexp_domain, SEXP sexp_area)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for continuous distribution.    */
      /*                                                                      */
@@ -238,13 +238,17 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
      /*   pdf    ... PDF of distribution                                     */
      /*   dpdf   ... derivative of PDF of distribution                       */
      /*   islog  ... boolean: TRUE if logarithms of CDF|PDF|dPDF are given   */
+     /*   mode   ... mode of distribution                                    */
+     /*   center ... "center" (typical point) of distribution                */
      /*   domain ... domain of distribution                                  */
+     /*   area   ... area below PDF                                          */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
   struct Runuran_distr_cont *Rdistr;
   struct unur_distr *distr;
   const double *domain;
+  double mode, center, area;
   int islog;
   unsigned int error = 0u;
 
@@ -300,6 +304,18 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
     if (!isNull(sexp_dpdf))
       error |= unur_distr_cont_set_dpdf(distr, _Runuran_cont_eval_dpdf);
   }
+
+  /* set mode, center and PDFarea of distribution */
+  mode = REAL(AS_NUMERIC(sexp_mode))[0];
+  center = REAL(AS_NUMERIC(sexp_center))[0];
+  area = REAL(AS_NUMERIC(sexp_area))[0];
+
+  if (!ISNAN(mode))
+    error |= unur_distr_cont_set_mode(distr, mode);
+  if (!ISNAN(center))
+    error |= unur_distr_cont_set_center(distr, center);
+  if (!ISNAN(area))
+    error |= unur_distr_cont_set_pdfarea(distr, area);
 
   /* check return codes */
   if (error) {

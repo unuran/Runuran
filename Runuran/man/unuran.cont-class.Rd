@@ -18,7 +18,8 @@
 \details{
   Create a new instance of an "unuran.cont" object using
 
-  \code{new ("unuran.cont", cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE, lb=-Inf, ub=Inf)}.
+  \code{new ("unuran.cont", cdf=NULL, pdf=NULL, dpdf=NULL, islog=TRUE,
+    mode=NA, center=NA, lb=-Inf, ub=Inf, area=NA)}.
 
   \describe{
     \item{cdf}{cumulative distribution function. (\R function)}
@@ -27,7 +28,12 @@
     \item{islog}{whether the given \code{cdf} and \code{pdf} are given
       by their logarithms (the \code{dpdf} is then the derivative of the
       logarithm). (boolean)}
+    \item{mode}{mode of distribution. (numeric)}
+    \item{center}{typical point (\dQuote{center}) of distribution. If
+      not given the \code{mode} is used. (numeric)}
     \item{lb, ub}{lower and upper bound of domain. (numeric)}
+    \item{area}{area below \code{pdf}; used for computing normalization
+      constants if required. (numeric)}
   }
 
   The user is responsible that the given informations are consistent.

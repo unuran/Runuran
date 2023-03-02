@@ -62,7 +62,17 @@ unuran.details(unr)
 ## use PDF
 gausspdf <- function (x) { exp(-0.5*x^2) }
 gaussdpdf <- function (x) { -x*exp(-0.5*x^2) }
-gauss <- new("unuran.cont", pdf=gausspdf, dpdf=gaussdpdf, islog=FALSE)
+gauss <- new("unuran.cont", pdf=gausspdf, dpdf=gaussdpdf, islog=FALSE, center=0.1)
+unr <- 0; unr <- unuran.new(gauss, "tdr")
+unr
+x <- unuran.sample(unr, samplesize)
+pval <- chisq.test( hist(pnorm(x),plot=FALSE,breaks=breaks)$density )$p.value
+if (pval < alpha) stop("chisq test FAILED!  p-value=",signif(pval))
+
+## use PDF
+gausspdf <- function (x) { exp(-0.5*x^2) }
+gaussdpdf <- function (x) { -x*exp(-0.5*x^2) }
+gauss <- unuran.cont(pdf=gausspdf, dpdf=gaussdpdf, islog=FALSE, center=0.1)
 unr <- 0; unr <- unuran.new(gauss, "tdr")
 unr
 x <- unuran.sample(unr, samplesize)
@@ -72,7 +82,7 @@ if (pval < alpha) stop("chisq test FAILED!  p-value=",signif(pval))
 ## use logPDF
 gausspdf <- function (x) { -0.5*x^2 }
 gaussdpdf <- function (x) { -x }
-gauss <- new("unuran.cont", pdf=gausspdf, dpdf=gaussdpdf, islog=TRUE)
+gauss <- new("unuran.cont", pdf=gausspdf, dpdf=gaussdpdf, islog=TRUE, mode=0)
 unr <- 0; unr <- unuran.new(gauss, "tdr")
 unr
 x <- unuran.sample(unr, samplesize)

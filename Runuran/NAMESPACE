@@ -16,5 +16,7 @@ export(unuran.new)
 export(unuran.sample)
 export(unuran.details)
 
+export(unuran.cont)
+
 exportPattern("^ur")
 exportPattern("^uq")
