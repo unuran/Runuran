@@ -76,12 +76,8 @@ _unur_pinv_debug_pdfarea (const struct unur_gen *gen, int approx)
   LOG = unur_get_stream();
   fprintf(LOG,"%s: area below PDF %s = %19.16g\n",gen->genid,
 	  approx ? "(approx.)" : "(accurate)", GEN->area);
-#ifdef PINV_USE_CDFTABLE
-  if (GEN->CDFtable && (GEN->CDFtable->n_values > 0)) {
-    fprintf(LOG,"%s: # subintervals in Lobatto integration = %d\n",gen->genid,
-	    GEN->CDFtable->n_values-1);
-  }
-#endif
+  if (GEN->aCDF)
+    _unur_lobatto_debug_table(GEN->aCDF, gen, (gen->debug & PINV_DEBUG_ITABLE));
   fprintf(LOG,"%s:\n",gen->genid);
   fflush(LOG);
 } 

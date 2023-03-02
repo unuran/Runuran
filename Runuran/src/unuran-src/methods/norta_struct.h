@@ -9,6 +9,4 @@ struct unur_norta_gen {
   double *copula;                      
   struct unur_distr *normaldistr;      
   struct unur_gen **marginalgen_list;  
-  UNUR_URNG *marginal_urng;            
-  double urng_U[1];                    
 };

@@ -39,6 +39,7 @@ unur_distr_cont_new( void )
   DISTR.dlogpdf   = NULL;          
   DISTR.cdf       = NULL;          
   DISTR.logcdf    = NULL;          
+  DISTR.invcdf    = NULL;          
   DISTR.hr        = NULL;          
   DISTR.init      = NULL;          
   DISTR.n_params  = 0;               
@@ -216,6 +217,21 @@ unur_distr_cont_set_cdf( struct unur_distr *distr, UNUR_FUNCT_CONT *cdf )
   if (distr->base) return UNUR_ERR_DISTR_INVALID;
   distr->set &= ~UNUR_DISTR_SET_MASK_DERIVED;
   DISTR.cdf = cdf;
+  return UNUR_SUCCESS;
+} 
+int
+unur_distr_cont_set_invcdf( struct unur_distr *distr, UNUR_FUNCT_CONT *invcdf )
+{
+  _unur_check_NULL( NULL, distr, UNUR_ERR_NULL );
+  _unur_check_NULL( distr->name, invcdf,UNUR_ERR_NULL );
+  _unur_check_distr_object( distr, CONT, UNUR_ERR_DISTR_INVALID );
+  if (DISTR.invcdf != NULL) {
+    _unur_warning(distr->name,UNUR_ERR_DISTR_SET,"Overwriting of inverse CDF not allowed");
+    return UNUR_ERR_DISTR_SET;
+  }
+  if (distr->base) return UNUR_ERR_DISTR_INVALID;
+  distr->set &= ~UNUR_DISTR_SET_MASK_DERIVED;
+  DISTR.invcdf = invcdf;
   return UNUR_SUCCESS;
 } 
 int
@@ -515,6 +531,13 @@ unur_distr_cont_get_cdf( const struct unur_distr *distr )
   return DISTR.cdf;
 } 
 UNUR_FUNCT_CONT *
+unur_distr_cont_get_invcdf( const struct unur_distr *distr )
+{
+  _unur_check_NULL( NULL, distr, NULL );
+  _unur_check_distr_object( distr, CONT, NULL );
+  return DISTR.invcdf;
+} 
+UNUR_FUNCT_CONT *
 unur_distr_cont_get_logcdf( const struct unur_distr *distr )
 {
   _unur_check_NULL( NULL, distr, NULL );
@@ -582,6 +605,22 @@ unur_distr_cont_eval_cdf( double x, const struct unur_distr *distr )
     return INFINITY;
   }
   return _unur_cont_CDF(x,distr);
+} 
+double
+unur_distr_cont_eval_invcdf( double u, const struct unur_distr *distr )
+{
+  _unur_check_NULL( NULL, distr, INFINITY );
+  _unur_check_distr_object( distr, CONT, INFINITY );
+  if (DISTR.invcdf == NULL) {
+    _unur_warning(distr->name,UNUR_ERR_DISTR_DATA,"");
+    return INFINITY;
+  }
+  if (u<=0.)
+    return DISTR.domain[0];
+  if (u>=1.)
+    return DISTR.domain[1];
+  else
+    return _unur_cont_invCDF(u,distr);
 } 
 double
 unur_distr_cont_eval_logcdf( double x, const struct unur_distr *distr )
@@ -682,32 +721,30 @@ unur_distr_cont_get_pdfparams_vec( const struct unur_distr *distr, int par, cons
 int
 unur_distr_cont_set_domain( struct unur_distr *distr, double left, double right )
 {
+  int unsigned is_set = 0u;
   _unur_check_NULL( NULL, distr, UNUR_ERR_NULL );
   _unur_check_distr_object( distr, CONT, UNUR_ERR_DISTR_INVALID );
   if (left >= right) {
     _unur_error(NULL,UNUR_ERR_DISTR_SET,"domain, left >= right");
     return UNUR_ERR_DISTR_SET;
   }
-  if ( (distr->set & UNUR_DISTR_SET_MODE) &&
-       (left  >= DISTR.domain[0]) &&
-       (right <= DISTR.domain[1]) ) {
+  if ( distr->set & UNUR_DISTR_SET_MODE ) {
+    is_set |= UNUR_DISTR_SET_MODE;
     if ( DISTR.mode < left)       DISTR.mode = left;
     else if ( DISTR.mode > right) DISTR.mode = right;
+  }
+  if ( distr->set & UNUR_DISTR_SET_CENTER ) {
+    is_set |= UNUR_DISTR_SET_CENTER;
+    if ( DISTR.center < left)       DISTR.center = left;
+    else if ( DISTR.center > right) DISTR.center = right;
   }
   DISTR.trunc[0] = DISTR.domain[0] = left;
   DISTR.trunc[1] = DISTR.domain[1] = right;
   distr->set |= UNUR_DISTR_SET_DOMAIN;
-  if (distr->set & UNUR_DISTR_SET_MODE) {
-    distr->set &= ~(UNUR_DISTR_SET_STDDOMAIN |
-		    UNUR_DISTR_SET_TRUNCATED | 
-		    UNUR_DISTR_SET_MASK_DERIVED );
-    distr->set |= UNUR_DISTR_SET_MODE;
-  }
-  else {
-    distr->set &= ~(UNUR_DISTR_SET_STDDOMAIN |
-		    UNUR_DISTR_SET_TRUNCATED | 
-		    UNUR_DISTR_SET_MASK_DERIVED );
-  }
+  distr->set &= ~(UNUR_DISTR_SET_STDDOMAIN |
+		  UNUR_DISTR_SET_TRUNCATED | 
+		  UNUR_DISTR_SET_MASK_DERIVED );
+  distr->set |= is_set;
   if (distr->base) {
     BASE.trunc[0] = BASE.domain[0] = left;
     BASE.trunc[1] = BASE.domain[1] = right;

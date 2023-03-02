@@ -19,16 +19,6 @@ struct unur_pinv_interval {
   unsigned cookie;         
 #endif
 };
-struct unur_pinv_CDFvalues {
-  double x;   
-  double u;   
-}; 
-struct unur_pinv_CDFtable {
-  struct unur_pinv_CDFvalues *values; 
-  int n_values;            
-  int cur_iv;              
-  int size;                
-}; 
 struct unur_pinv_gen { 
   int order;               
   int    *guide;            
@@ -48,7 +38,5 @@ struct unur_pinv_gen {
   int sright;              
   double area;              
   double logPDFconstant;   
-#ifdef PINV_USE_CDFTABLE
-  struct unur_pinv_CDFtable *CDFtable; 
-#endif
+  struct unur_lobatto_table *aCDF; 
 };

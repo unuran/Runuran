@@ -416,11 +416,14 @@ unur_ninv_eval_approxinvcdf( struct unur_gen *gen, double u )
     return INFINITY; 
   }
   COOKIE_CHECK(gen,CK_NINV_GEN,INFINITY);
-  if ( u<0. || u>1.) {
-    _unur_warning(gen->genid,UNUR_ERR_DOMAIN,"argument u not in [0,1]");
+  if ( ! (u>0. && u<1.)) {
+    if ( ! (u>=0. && u<=1.)) {
+      _unur_warning(gen->genid,UNUR_ERR_DOMAIN,"U not in [0,1]");
+    }
+    if (u<=0.) return DISTR.domain[0];
+    if (u>=1.) return DISTR.domain[1];
+    return u;  
   }
-  if (u<=0.) return DISTR.domain[0];
-  if (u>=1.) return DISTR.domain[1];
   switch (gen->variant) {
   case NINV_VARFLAG_NEWTON:
     x = _unur_ninv_newton(gen,u);
