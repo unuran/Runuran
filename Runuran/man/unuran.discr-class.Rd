@@ -18,12 +18,15 @@
 \details{
   Create a new instance of an "unuran.discr" object using
 
-  \code{new ("unuran.discr",pv=NULL, pmf=NULL, lb=0, ub=Inf)}.
+  \code{new ("unuran.discr",pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA)}.
 
   \describe{
     \item{pv}{probability vector. (numeric vector)}
     \item{pmf}{probability mass function. (\R function)}
+    \item{mode}{mode of distribution. (numeric, integer)}
     \item{lb, ub}{lower and upper bound of domain. (numeric, integers)}
+    \item{sum}{sum over \code{pv} / \code{pmf}; used for computing
+      normalization constants if required. (numeric)}
   }
 
   The user is responsible that the given informations are consistent.

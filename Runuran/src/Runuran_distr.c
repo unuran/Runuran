@@ -116,7 +116,7 @@ static SEXP _Runuran_distr_tag = NULL;
 SEXP
 Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 		    SEXP sexp_pv, SEXP sexp_pmf,
-		    SEXP sexp_domain)
+		    SEXP sexp_mode, SEXP sexp_domain, SEXP sexp_sum)
      /*----------------------------------------------------------------------*/
      /* Create and initialize UNU.RAN object for discrete distribution.      */
      /*                                                                      */
@@ -125,7 +125,9 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
      /*   env    ... R environment                                           */
      /*   pv     ... PV of distribution                                      */
      /*   pmf    ... PMF of distribution                                     */
+     /*   mode   ... mode of distribution                                    */
      /*   domain ... domain of distribution                                  */
+     /*   sum    ... sum over PV / PMF                                       */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;
@@ -134,6 +136,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   const double *pv;
   int n_pv;
   const double *domain;
+  double mode, sum;
   int lb, ub;
   unsigned int error = 0u;
 
@@ -175,6 +178,16 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   if (!isNull(sexp_pmf)) {
     error |= unur_distr_discr_set_pmf(distr, _Runuran_discr_eval_pmf);
   }
+
+  /* set mode, center and PDFarea of distribution */
+  mode = REAL(AS_NUMERIC(sexp_mode))[0];
+  sum = REAL(AS_NUMERIC(sexp_sum))[0];
+
+  if (!ISNAN(mode))
+    error |= unur_distr_discr_set_mode(distr, (int) mode);
+  if (!ISNAN(sum))
+    error |= unur_distr_discr_set_pmfsum(distr, sum);
+
 
   /* check return codes */
   if (error) {

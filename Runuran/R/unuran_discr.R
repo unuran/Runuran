@@ -35,12 +35,14 @@ setClass( "unuran.discr",
 ## Initialize ---------------------------------------------------------------
 
 setMethod( "initialize", "unuran.discr",
-          function(.Object, pv=NULL, pmf=NULL, lb=0, ub=Inf) {
+          function(.Object, pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA) {
                   ## pv ..... probability vector (PV)
                   ## pmf .... probability mass function (PMF)
+                  ## mode ... mode of distribution
                   ## lb ..... lower bound of domain
                   ## ub ..... upper bound of domain
-
+                  ## sum .... sum over PV / PMF
+                  
                   ## Check entries
                   if(! (is.numeric(lb) && is.numeric(ub) && lb < ub) )
                           stop("invalid domain ('lb','ub')", call.=FALSE)
@@ -60,7 +62,7 @@ setMethod( "initialize", "unuran.discr",
                   .Object@distr <-.Call("Runuran_discr_init",
                                         .Object, .Object@env,
                                         pv, .Object@pmf,
-                                        c(lb,ub),
+                                        mode, c(lb,ub), sum,
                                         PACKAGE="Runuran")
 
                   ## Check UNU.RAN object
@@ -71,5 +73,11 @@ setMethod( "initialize", "unuran.discr",
                   ## return new UNU.RAN object
                   .Object
           } )
+
+## Shortcut
+unuran.discr <- function(pv=NULL, pmf=NULL, mode=NA, lb=0, ub=Inf, sum=NA) {
+        new("unuran.discr", pv=pv, pmf=pmf, mode=mode, lb=lb, ub=ub, sum=sum)
+}
+
 
 ## End ----------------------------------------------------------------------

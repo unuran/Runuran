@@ -3,7 +3,7 @@
 
 \alias{unuran.cont}
 
-\title{Create a UNU.RAN object}
+\title{Create a UNU.RAN continuous univariate distribution object}
 
 \description{
   Create a new UNU.RAN object for a continuous univariate distribution.

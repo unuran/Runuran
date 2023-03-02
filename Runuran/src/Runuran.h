@@ -33,7 +33,7 @@ SEXP Runuran_print (SEXP sexp_gen, SEXP sexp_help);
 
 SEXP Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 			 SEXP sexp_pv, SEXP sexp_pmf,
-			 SEXP sexp_domain);
+			 SEXP sexp_mode, SEXP sexp_domain, SEXP sexp_sum);
 /*---------------------------------------------------------------------------*/
 /* Create and initialize UNU.RAN object for discrete distribution.           */
 /*---------------------------------------------------------------------------*/
