@@ -30,6 +30,10 @@ uq(unr, U)
     \item \sQuote{NINV}
     \item \sQuote{PINV}
   }
+
+  \code{uq} returns the left boundary of the domain of the distribution
+  if argument \code{U} is less than or equal to \code{0} and
+  the right boundary if \code{U} is greater than or equal to \code{1}.
 }
 
 \seealso{
