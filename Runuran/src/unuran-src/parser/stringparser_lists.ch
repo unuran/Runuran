@@ -249,6 +249,14 @@ _unur_str_distr_set( UNUR_DISTR **ptr_distr, const char *key, char *value )
 			 }
 			 break;
 		 case 'l':
+			 if ( !strcmp(key, "logcdf") ) {
+				 result = _unur_str_distr_set_C(distr,key,type_args,args,unur_distr_cont_set_logcdfstr);
+				 break;
+			 }
+			 if ( !strcmp(key, "logcdfstr") ) {
+				 result = _unur_str_distr_set_C(distr,key,type_args,args,unur_distr_cont_set_logcdfstr);
+				 break;
+			 }
 			 if ( !strcmp(key, "logpdf") ) {
 				 result = _unur_str_distr_set_C(distr,key,type_args,args,unur_distr_cont_set_logpdfstr);
 				 break;
@@ -373,6 +381,10 @@ _unur_str_par_new( const char *method, const UNUR_DISTR *distr )
 			 par = unur_arou_new(distr);
 			 break;
 		 }
+		 if ( !strcmp( method, "ars") ) {
+			 par = unur_ars_new(distr);
+			 break;
+		 }
 		 if ( !strcmp( method, "auto") ) {
 			 par = unur_auto_new(distr);
 			 break;
@@ -463,6 +475,10 @@ _unur_str_par_new( const char *method, const UNUR_DISTR *distr )
 			 par = unur_mcorr_new(distr);
 			 break;
 		 }
+		 if ( !strcmp( method, "mvtdr") ) {
+			 par = unur_mvtdr_new(distr);
+			 break;
+		 }
 		 break;
 	 case 'n':
 		 if ( !strcmp( method, "ninv") ) {
@@ -475,6 +491,12 @@ _unur_str_par_new( const char *method, const UNUR_DISTR *distr )
 		 }
 		 if ( !strcmp( method, "nrou") ) {
 			 par = unur_nrou_new(distr);
+			 break;
+		 }
+		 break;
+	 case 'p':
+		 if ( !strcmp( method, "pinv") ) {
+			 par = unur_pinv_new(distr);
 			 break;
 		 }
 		 break;
@@ -495,10 +517,6 @@ _unur_str_par_new( const char *method, const UNUR_DISTR *distr )
 		 }
 		 if ( !strcmp( method, "tdr") ) {
 			 par = unur_tdr_new(distr);
-			 break;
-		 }
-		 if ( !strcmp( method, "tdrgw") ) {
-			 par = unur_tdrgw_new(distr);
 			 break;
 		 }
 		 break;
@@ -591,6 +609,47 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 		 case 'v':
 			 if ( !strcmp(key, "verify") ) {
 				 result = _unur_str_par_set_i(par,key,type_args,args,unur_arou_set_verify);
+				 break;
+			 }
+		 }
+		 break;
+	 case UNUR_METH_ARS:
+		 switch (*key) {
+		 case 'c':
+			 if ( !strcmp(key, "cpoints") ) {
+				 result = _unur_str_par_set_iD(par,key,type_args,args,unur_ars_set_cpoints,mlist);
+				 break;
+			 }
+			 break;
+		 case 'm':
+			 if ( !strcmp(key, "max_intervals") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_ars_set_max_intervals);
+				 break;
+			 }
+			 if ( !strcmp(key, "max_iter") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_ars_set_max_iter);
+				 break;
+			 }
+			 break;
+		 case 'p':
+			 if ( !strcmp(key, "pedantic") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_ars_set_pedantic);
+				 break;
+			 }
+			 break;
+		 case 'r':
+			 if ( !strcmp(key, "reinit_ncpoints") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_ars_set_reinit_ncpoints);
+				 break;
+			 }
+			 if ( !strcmp(key, "reinit_percentiles") ) {
+				 result = _unur_str_par_set_iD(par,key,type_args,args,unur_ars_set_reinit_percentiles,mlist);
+				 break;
+			 }
+			 break;
+		 case 'v':
+			 if ( !strcmp(key, "verify") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_ars_set_verify);
 				 break;
 			 }
 		 }
@@ -910,6 +969,33 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 			 }
 		 }
 		 break;
+	 case UNUR_METH_MVTDR:
+		 switch (*key) {
+		 case 'b':
+			 if ( !strcmp(key, "boundsplitting") ) {
+				 result = _unur_str_par_set_d(par,key,type_args,args,unur_mvtdr_set_boundsplitting);
+				 break;
+			 }
+			 break;
+		 case 'm':
+			 if ( !strcmp(key, "maxcones") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_mvtdr_set_maxcones);
+				 break;
+			 }
+			 break;
+		 case 's':
+			 if ( !strcmp(key, "stepsmin") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_mvtdr_set_stepsmin);
+				 break;
+			 }
+			 break;
+		 case 'v':
+			 if ( !strcmp(key, "verify") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_mvtdr_set_verify);
+				 break;
+			 }
+		 }
+		 break;
 	 case UNUR_METH_NINV:
 		 switch (*key) {
 		 case 'm':
@@ -974,6 +1060,47 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 			 }
 			 if ( !strcmp(key, "verify") ) {
 				 result = _unur_str_par_set_i(par,key,type_args,args,unur_nrou_set_verify);
+				 break;
+			 }
+		 }
+		 break;
+	 case UNUR_METH_PINV:
+		 switch (*key) {
+		 case 'b':
+			 if ( !strcmp(key, "boundary") ) {
+				 result = _unur_str_par_set_dd(par,key,type_args,args,unur_pinv_set_boundary);
+				 break;
+			 }
+			 break;
+		 case 'm':
+			 if ( !strcmp(key, "max_intervals") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_max_intervals);
+				 break;
+			 }
+			 break;
+		 case 'o':
+			 if ( !strcmp(key, "order") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_order);
+				 break;
+			 }
+			 break;
+		 case 's':
+			 if ( !strcmp(key, "searchboundary") ) {
+				 result = _unur_str_par_set_ii(par,key,type_args,args,unur_pinv_set_searchboundary);
+				 break;
+			 }
+			 break;
+		 case 'u':
+			 if ( !strcmp(key, "u_resolution") ) {
+				 result = _unur_str_par_set_d(par,key,type_args,args,unur_pinv_set_u_resolution);
+				 break;
+			 }
+			 if ( !strcmp(key, "usecdf") ) {
+				 result = _unur_str_par_set_void(par,key,type_args,args,unur_pinv_set_usecdf);
+				 break;
+			 }
+			 if ( !strcmp(key, "usepdf") ) {
+				 result = _unur_str_par_set_void(par,key,type_args,args,unur_pinv_set_usepdf);
 				 break;
 			 }
 		 }
@@ -1206,43 +1333,6 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 			 }
 			 if ( !strcmp(key, "verify") ) {
 				 result = _unur_str_par_set_i(par,key,type_args,args,unur_tdr_set_verify);
-				 break;
-			 }
-		 }
-		 break;
-	 case UNUR_METH_TDRGW:
-		 switch (*key) {
-		 case 'c':
-			 if ( !strcmp(key, "cpoints") ) {
-				 result = _unur_str_par_set_iD(par,key,type_args,args,unur_tdrgw_set_cpoints,mlist);
-				 break;
-			 }
-			 break;
-		 case 'm':
-			 if ( !strcmp(key, "max_intervals") ) {
-				 result = _unur_str_par_set_i(par,key,type_args,args,unur_tdrgw_set_max_intervals);
-				 break;
-			 }
-			 break;
-		 case 'p':
-			 if ( !strcmp(key, "pedantic") ) {
-				 result = _unur_str_par_set_i(par,key,type_args,args,unur_tdrgw_set_pedantic);
-				 break;
-			 }
-			 break;
-		 case 'r':
-			 if ( !strcmp(key, "reinit_ncpoints") ) {
-				 result = _unur_str_par_set_i(par,key,type_args,args,unur_tdrgw_set_reinit_ncpoints);
-				 break;
-			 }
-			 if ( !strcmp(key, "reinit_percentiles") ) {
-				 result = _unur_str_par_set_iD(par,key,type_args,args,unur_tdrgw_set_reinit_percentiles,mlist);
-				 break;
-			 }
-			 break;
-		 case 'v':
-			 if ( !strcmp(key, "verify") ) {
-				 result = _unur_str_par_set_i(par,key,type_args,args,unur_tdrgw_set_verify);
 				 break;
 			 }
 		 }

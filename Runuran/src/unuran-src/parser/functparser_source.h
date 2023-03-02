@@ -10,11 +10,5 @@ struct ftreenode *_unur_fstr_dup_tree (const struct ftreenode *functtree_root);
 void _unur_fstr_free ( struct ftreenode *functtree_root );
 char *_unur_fstr_tree2string ( const struct ftreenode *functtree_root,
 			       const char *variable, const char *function, int spaces );
-int _unur_fstr_tree2C ( FILE *out, const struct ftreenode *root,
-			const char *variable, const char *function );
-int _unur_fstr_tree2FORTRAN ( FILE *out, const struct ftreenode *root,
-			      const char *variable, const char *function );
-int _unur_fstr_tree2JAVA ( FILE *out, const struct ftreenode *root,
-			   const char *variable, const char *function );
 struct ftreenode *_unur_fstr_make_derivative ( const struct ftreenode *functtree_root );
 #endif   
