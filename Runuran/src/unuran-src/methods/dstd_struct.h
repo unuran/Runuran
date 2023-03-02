@@ -9,8 +9,8 @@ struct unur_dstd_gen {
   int     n_gen_param;    
   int    *gen_iparam;     
   int     n_gen_iparam;   
-  double  umin;           
-  double  umax;           
+  double  Umin;           
+  double  Umax;           
   int  is_inversion;           
   const char *sample_routine_name; 
 };

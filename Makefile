@@ -58,7 +58,7 @@ unuran-clean:
 	(cd Runuran/src; \
 		rm -f Makevars; \
 		rm -f config.h*; \
-		rm -f Runuran.so Runuran.o Runuran_distr.o )
+		rm -f Runuran.so Runuran.o Runuran_distr.o Runuran_pinv.o )
 	(cd Runuran/src/unuran-src; \
 		rm -rf * )
 	(cd Runuran/inst/doc; \

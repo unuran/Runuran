@@ -68,7 +68,7 @@ static struct ftreenode *_unur_fstr_simplification (const char *symb, int token,
 						    struct ftreenode *left,
 						    struct ftreenode *right);
 static int _unur_fstr_reorganize (struct ftreenode *node);
-static int _unur_fstr_next_token (struct parser_data *pdata, int *token, char **symbol);
+static int _unur_fstr_next_token (struct parser_data *pdata, int *token, char **symb);
 static struct ftreenode *_unur_fstr_create_node (const char *symb, double val, int token,
 						 struct ftreenode *left,
 						 struct ftreenode *right);

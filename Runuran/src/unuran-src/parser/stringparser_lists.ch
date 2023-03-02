@@ -475,6 +475,10 @@ _unur_str_par_new( const char *method, const UNUR_DISTR *distr )
 			 par = unur_mcorr_new(distr);
 			 break;
 		 }
+		 if ( !strcmp( method, "mvstd") ) {
+			 par = unur_mvstd_new(distr);
+			 break;
+		 }
 		 if ( !strcmp( method, "mvtdr") ) {
 			 par = unur_mvtdr_new(distr);
 			 break;

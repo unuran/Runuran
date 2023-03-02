@@ -3,5 +3,5 @@
 
 #ifndef URNG_FVOID_H_SEEN
 #define URNG_FVOID_H_SEEN
-UNUR_URNG *unur_urng_fvoid_new( double (*random)(void *state), void (*reset)(void *state) );
+UNUR_URNG *unur_urng_fvoid_new( double (*urand)(void *state), void (*reset)(void *state) );
 #endif  

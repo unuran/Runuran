@@ -8,8 +8,8 @@ struct unur_cstd_gen {
   double *gen_param;      
   int     n_gen_param;    
   int    flag;            
-  double  umin;           
-  double  umax;           
+  double  Umin;           
+  double  Umax;           
   int  is_inversion;           
   const char *sample_routine_name; 
 };

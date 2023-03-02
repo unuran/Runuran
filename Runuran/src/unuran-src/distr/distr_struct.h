@@ -5,6 +5,7 @@ struct unur_distr_cont {
   UNUR_FUNCT_CONT *pdf;         
   UNUR_FUNCT_CONT *dpdf;        
   UNUR_FUNCT_CONT *cdf;         
+  UNUR_FUNCT_CONT *invcdf;      
   UNUR_FUNCT_CONT *logpdf;      
   UNUR_FUNCT_CONT *dlogpdf;     
   UNUR_FUNCT_CONT *logcdf;      
