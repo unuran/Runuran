@@ -7,7 +7,7 @@
 
 \description{
   UNU.RAN random variate generator for the Binomial distribution
-  with parameters \code{size}and \code{prob}.
+  with parameters \code{size} and \code{prob}.
   It also allows sampling from the truncated distribution.
   
   [Distribution] -- Sampling Function: Binomial.  %% Discrete

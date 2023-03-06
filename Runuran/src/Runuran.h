@@ -81,6 +81,27 @@ SEXP Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 /*---------------------------------------------------------------------------*/
 
 
+SEXP Runuran_std_cont (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_domain);
+/*---------------------------------------------------------------------------*/
+/* Create UNU.RAN object for special continuous distribution.                */
+/*---------------------------------------------------------------------------*/
+
+UNUR_DISTR *_Runuran_get_std_cont( const char *name, const double *params, int n_params );
+/*---------------------------------------------------------------------------*/
+/* Create UNU.RAN object for distribution 'name'.                            */
+/*---------------------------------------------------------------------------*/
+
+SEXP Runuran_std_discr (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_domain);
+/*---------------------------------------------------------------------------*/
+/* Create UNU.RAN object for special discrete distribution.                  */
+/*---------------------------------------------------------------------------*/
+
+UNUR_DISTR *_Runuran_get_std_discr( const char *name, const double *params, int n_params );
+/*---------------------------------------------------------------------------*/
+/* Create UNU.RAN object for distribution 'name'.                            */
+/*---------------------------------------------------------------------------*/
+
+
 /*---------------------------------------------------------------------------*/
 /* Registering native routines */
 /* Not implemented yet (it seems to be slower) */ 
@@ -91,7 +112,6 @@ SEXP Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 /* }; */
 /* Remark: This list has to be updated before usage. */
 /*---------------------------------------------------------------------------*/
-
 
 
 /*****************************************************************************/

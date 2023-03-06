@@ -11,7 +11,7 @@
  *                                                                           *
  *****************************************************************************
  *                                                                           *
- *   Copyright (c) 2007 Wolfgang Hoermann and Josef Leydold                  *
+ *   Copyright (c) 2007-2009 Wolfgang Hoermann and Josef Leydold             *
  *   Dept. for Statistics, University of Economics, Vienna, Austria          *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
@@ -563,6 +563,138 @@ _Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr )
 
   return y;
 } /* end of _Runuran_cmv_eval_pdf() */
+
+
+/*****************************************************************************/
+/*                                                                           */
+/* Special distributions                                                     */
+/*                                                                           */
+/*****************************************************************************/
+
+SEXP
+Runuran_std_cont (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_domain)
+     /*----------------------------------------------------------------------*/
+     /* Create UNU.RAN object for special continuous distribution.           */
+     /*                                                                      */
+     /* Parameters:                                                          */
+     /*   obj    ... S4 class that contains unuran distribution object       */ 
+     /*   name   ... name of special distribution                            */
+     /*   params ... vector of parameter values                              */
+     /*   domain ... domain of distribution                                  */
+     /*----------------------------------------------------------------------*/
+{
+  SEXP sexp_distr;
+  struct unur_distr *distr;
+  const char *name;
+  const double *params;
+  int n_params;
+  const double *domain;
+  unsigned int error = 0u;
+
+  /* name of distribution */
+  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && length(sexp_name)>2)
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
+  name = CHAR(STRING_ELT(sexp_name,0));
+
+  /* parameters */
+  if (! (sexp_params && TYPEOF(sexp_params)==REALSXP && length(sexp_params)>0) )
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
+  params = REAL(sexp_params);
+  n_params = length(sexp_params);
+
+  /* domain of distribution */
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+  domain = REAL(sexp_domain);
+
+  /* create distribution object */
+  distr = _Runuran_get_std_cont( name, params, n_params );
+  if (distr == NULL) { _Runuran_fatal(); }
+  
+  /* set domain */
+  error |= unur_distr_cont_set_domain( distr, domain[0], domain[1] );
+
+  /* check return codes */
+  if (error) {
+    unur_distr_free (distr);
+    _Runuran_fatal();
+  }
+
+  /* make R external pointer and store pointer to structure */
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag(), sexp_obj));
+  
+  /* register destructor as C finalizer */
+  R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
+
+  /* return pointer to R */
+  UNPROTECT(1);
+  return (sexp_distr);
+} /* end of Runuran_std_cont() */
+
+/*---------------------------------------------------------------------------*/
+
+SEXP
+Runuran_std_discr (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_domain)
+     /*----------------------------------------------------------------------*/
+     /* Create UNU.RAN object for special discrete distribution.             */
+     /*                                                                      */
+     /* Parameters:                                                          */
+     /*   obj    ... S4 class that contains unuran distribution object       */ 
+     /*   name   ... name of special distribution                            */
+     /*   params ... vector of parameter values                              */
+     /*   domain ... domain of distribution                                  */
+     /*----------------------------------------------------------------------*/
+{
+  SEXP sexp_distr;
+  struct unur_distr *distr;
+  const char *name;
+  const double *params;
+  int n_params;
+  const double *domain;
+  int lb, ub;
+  unsigned int error = 0u;
+
+  /* name of distribution */
+  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && length(sexp_name)>2)
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
+  name = CHAR(STRING_ELT(sexp_name,0));
+
+  /* parameters */
+  if (! (sexp_params && TYPEOF(sexp_params)==REALSXP && length(sexp_params)>0) )
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
+  params = REAL(sexp_params);
+  n_params = length(sexp_params);
+
+  /* domain of distribution */
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+  domain = REAL(sexp_domain);
+  lb = (domain[0] < (double) INT_MIN) ? INT_MIN : (int) domain[0];
+  ub = (domain[1] > (double) INT_MAX) ? INT_MAX : (int) domain[1];
+
+  /* create distribution object */
+  distr = _Runuran_get_std_discr( name, params, n_params );
+  if (distr == NULL) { _Runuran_fatal(); }
+  
+  /* set domain */
+  error |= unur_distr_discr_set_domain( distr, lb, ub );
+
+  /* check return codes */
+  if (error) {
+    unur_distr_free (distr);
+    _Runuran_fatal();
+  }
+
+  /* make R external pointer and store pointer to structure */
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag(), sexp_obj));
+  
+  /* register destructor as C finalizer */
+  R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
+
+  /* return pointer to R */
+  UNPROTECT(1);
+  return (sexp_distr);
+} /* end of Runuran_std_discr() */
 
 
 /*****************************************************************************/

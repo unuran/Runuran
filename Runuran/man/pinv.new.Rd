@@ -77,7 +77,7 @@ pinv.new(pdf, cdf, lb, ub, islog=FALSE, center=0, uresolution=1.e-10, ...)
 
 \references{
   G. Derflinger, W. H\"ormann, and J. Leydold (2009):
-  in preparation.
+  ACM Trans. Model. Comput. Simul., to appear.
 }
 
 \author{
