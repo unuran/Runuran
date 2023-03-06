@@ -7,18 +7,18 @@
 #include <methods/x_gen.h>
 #include <methods/x_gen_source.h>
 #include <methods/hinv.h>
+#include <methods/ninv.h>
 #include <methods/pinv.h>
 #include "unuran_tests.h"
 static char test_name[] = "InvError";
 static double qrng (int i, int samplesize);
 double
-unur_test_inverror( const UNUR_GEN *gen, 
-		    double *max_error, double *MAE, double threshold,
-		    int samplesize, int randomized, int testtails, 
-		    int verbosity, FILE *out )
+unur_test_u_error( const UNUR_GEN *gen, 
+		   double *max_error, double *MAE, double threshold,
+		   int samplesize, int randomized, int testtails, 
+		   int verbosity, FILE *out )
 {
 #define DISTR   gen->distr->data.cont
-  UNUR_FUNCT_CONT *cdf;      
   double CDFmin, CDFmax;     
   double (*quantile)(const UNUR_GEN *, double);  
   double U, X;               
@@ -36,6 +36,9 @@ unur_test_inverror( const UNUR_GEN *gen,
   case UNUR_METH_HINV:
     quantile = unur_hinv_eval_approxinvcdf;
     break;
+  case UNUR_METH_NINV:
+    quantile = unur_ninv_eval_approxinvcdf;
+    break;
   case UNUR_METH_PINV:
     quantile = unur_pinv_eval_approxinvcdf;
     break;
@@ -47,7 +50,6 @@ unur_test_inverror( const UNUR_GEN *gen,
     _unur_error(test_name,UNUR_ERR_GENERIC,"CDF required");
     return -2.;
   }
-  cdf = DISTR.cdf;
   CDFmin = (DISTR.trunc[0] > -INFINITY) ? _unur_cont_CDF((DISTR.trunc[0]),(gen->distr)) : 0.;
   CDFmax = (DISTR.trunc[1] < INFINITY)  ? _unur_cont_CDF((DISTR.trunc[1]),(gen->distr)) : 1.;
   umax = 0.;

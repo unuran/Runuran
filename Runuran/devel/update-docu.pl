@@ -66,8 +66,8 @@ if ($increment) {
     $version = "$major.$minor.".($rev+1);
 
     my $year = 1900 + (localtime(time))[5];
-    my $month = 1 + (localtime(time))[4];
-    my $day = (localtime(time))[3];
+    my $month = sprintf("%02d", 1 + (localtime(time))[4]);
+    my $day = sprintf("%02d", (localtime(time))[3]);
 
     $date = "$year-$month-$day";
     $longdate = "$mnames[$month-1] $day, $year";

@@ -231,6 +231,11 @@ _unur_pinv_cut( struct unur_gen *gen, double dom, double w, double dw, double cr
 	break;
     }
     df = (fr-fl)/(2.*dx);
+    if (! _unur_isfinite(df)) {
+      _unur_error(gen->genid,UNUR_ERR_GEN_CONDITION,
+		  "numerical problems with cut-off point, PDF too steep");
+      return INFINITY;
+    }
     lc = fl/(fl-fx)+fr/(fr-fx) - 1;
     area = fabs(fx*fx / ((lc+1.) * df));
     if (_unur_isnan(area)) {
@@ -250,8 +255,8 @@ _unur_pinv_cut( struct unur_gen *gen, double dom, double w, double dw, double cr
       xnew = x + fx/(lc*df) * ( pow(crit*fabs(df)*(lc+1.)/(fx*fx),lc/(lc+1.)) - 1.);
     }
     if (! _unur_isfinite(xnew)) {
-      _unur_warning(gen->genid,UNUR_ERR_NAN,"numerical problems with cut-off point");
-      return x;
+      _unur_error(gen->genid,UNUR_ERR_NAN,"numerical problems with cut-off point");
+      return INFINITY;
     }
     if (sgn*dom < sgn*x) {
       return dom;
@@ -264,7 +269,6 @@ int
 _unur_pinv_computational_domain_CDF (struct unur_gen *gen)
 {
   double tailcut_error;    
-  double range;            
   double fl, fr;
   fl = CDF(DISTR.domain[0]);
   fr = CDF(DISTR.domain[1]);
@@ -276,7 +280,6 @@ _unur_pinv_computational_domain_CDF (struct unur_gen *gen)
   tailcut_error = _unur_min( tailcut_error, PINV_TAILCUTOFF_MAX );
   tailcut_error = _unur_max( tailcut_error, 2*DBL_EPSILON );
   tailcut_error *= GEN->area * PINV_UERROR_CORRECTION;
-  range = GEN->bright-GEN->bleft;
   if(GEN->sleft) {
     GEN->bleft = _unur_pinv_cut_CDF( gen, GEN->dleft, DISTR.center, 0.5*tailcut_error, tailcut_error);
     if ( !_unur_isfinite(GEN->bleft) ) {
