@@ -48,6 +48,9 @@ AC_PROG_CPP
 
 dnl --- Enable Rmath library in UNU.RAN -------------------------------------
 AH_BOTTOM([/* Use R functions in UNU.RAN. */
+#define HAVE_LIBRMATH 1])
+
+AH_BOTTOM([/* Tell UNU.RAN that we are within R. */
 #define R_UNURAN 1])
 
 dnl --- Checks for libraries -------------------------------------------------

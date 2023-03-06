@@ -137,6 +137,9 @@
 /* #undef size_t */
 
 /* Use R functions in UNU.RAN. */
+#define HAVE_LIBRMATH 1
+
+/* Tell UNU.RAN that we are within R. */
 #define R_UNURAN 1
 
 #if !HAVE_DECL_LOG1P
