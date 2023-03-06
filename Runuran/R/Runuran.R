@@ -108,8 +108,9 @@ uq <- function(unr,U) {
 
 ## ud
 ud <- function(distr,x) {
-  if ( is(distr,"unuran.cont") || is(distr,"unuran.discr") )
-    .Call("Runuran_PDF", distr@distr, x, PACKAGE="Runuran")
+  if ( ! (is(distr,"unuran.cont") || is(distr,"unuran.discr")) )
+    stop("argument 'distr' must be UNU.RAN distribution object")
+  .Call("Runuran_PDF", distr@distr, x, PACKAGE="Runuran")
 }
 
 ## Packing ------------------------------------------------------------------
