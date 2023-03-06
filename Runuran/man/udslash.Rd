@@ -23,11 +23,8 @@ udslash(lb=-Inf, ub=Inf)
 \details{
   The slash distribution has density
   \deqn{
-    f(x) =
-    \frac{1}{\sqrt{2 \pi}} (1 - exp(-x^2/2)) / x^2}{
-    f(x) =
-    1/sqrt(2*pi) (1 - exp(-x^2/2)) / x^2
-  }
+    f(x) = \frac{1}{\sqrt{2 \pi}} (1 - exp(-x^2/2)) / x^2
+  }{f(x) = 1/sqrt(2*pi) (1 - exp(-x^2/2)) / x^2}
   for \eqn{x\not= 0}{x != 0} and
   \eqn{\frac{1}{\sqrt{2 \pi}}}{1/sqrt(2*pi)} otherwise.
   It is the distribution of the ratio of a unit normal variable to an

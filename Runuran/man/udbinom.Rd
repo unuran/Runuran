@@ -26,8 +26,8 @@ udbinom(size, prob, lb=0, ub=size)
 \details{
   The Binomial distribution with \code{size} \eqn{= n} and
   \code{prob} \eqn{= p} has probability mass function
-  \deqn{p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}}{
-    p(x) = choose(n,x) p^x (1-p)^(n-x)}
+  \deqn{p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}
+  }{p(x) = choose(n,x) p^x (1-p)^(n-x)}
   for \eqn{x = 0, \ldots, n}.
 
   The domain of the distribution can be truncated to the 

@@ -32,8 +32,8 @@ urextremeI(n, location=0, scale=1, lb=-Inf, ub=Inf)
   The Gumbel distribution with location \eqn{l} and scale \eqn{s} has
   distribution function
   \deqn{
-    F(x) = \exp(-\exp(-\frac{x-l}{s}))}{%
-    F(x) = exp(-exp(-(x-l)/s))}
+    F(x) = \exp(-\exp(-\frac{x-l}{s}))
+  }{F(x) = exp(-exp(-(x-l)/s))}
   for all \eqn{x}.
 
   The generation algorithm uses fast numerical inversion. The parameters

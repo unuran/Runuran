@@ -25,8 +25,8 @@ udexp(rate=1, lb=0, ub=Inf)
 \details{
   The Exponential distribution with rate \eqn{\lambda} has density
   \deqn{
-    f(x) = \lambda {e}^{- \lambda x}}{
-    f(x) = lambda e^(- lambda x)}
+    f(x) = \lambda {e}^{- \lambda x}
+  }{f(x) = lambda exp(-lambda x)}
   for \eqn{x \ge 0}.
 
   The domain of the distribution can be truncated to the 

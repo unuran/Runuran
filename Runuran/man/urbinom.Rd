@@ -27,8 +27,9 @@ urbinom(n, size, prob, lb = 0, ub = size)
 \details{
   The Binomial distribution with \code{size} \eqn{= n} and
   \code{prob} \eqn{= p} has density
-  \deqn{p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}}{
-    p(x) = choose(n,x) p^x (1-p)^(n-x)}
+  \deqn{
+    p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}
+  }{p(x) = choose(n,x) p^x (1-p)^(n-x)}
   for \eqn{x = 0, \ldots, n}.
 
   The generation algorithm uses guide table based inversion. The parameters

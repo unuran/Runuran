@@ -30,8 +30,8 @@ urhyperbolic(n, shape, scale=1, lb = -Inf, ub = Inf)
   The Hyperbolic distribution with parameters \code{shape} \eqn{=\alpha}{= a}
   and \code{scale} \eqn{=\sigma}{= s} has density proportional to
   \deqn{
-    f(x) \sim \exp(-\alpha \sqrt{1+(\frac{x}{s})^2})}{%
-    f(x) ~ exp(-a * sqrt(1+(x/s)^2))}
+    f(x) \sim \exp(-\alpha \sqrt{1+(\frac{x}{s})^2})
+  }{f(x) ~ exp(-a * sqrt(1+(x/s)^2))}
   for all \eqn{x}, \eqn{\alpha > 0}{a > 0} and \eqn{\sigma > 0}{s > 0}.
 
   The generation algorithm uses transformed density rejection \sQuote{TDR}. The

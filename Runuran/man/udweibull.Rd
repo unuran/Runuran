@@ -26,8 +26,9 @@ udweibull(shape, scale=1, lb=0, ub=Inf)
 \details{
   The Weibull distribution with \code{shape} parameter \eqn{a} and
   \code{scale} parameter \eqn{\sigma}{b} has density given by
-  \deqn{f(x) = (a/\sigma) {(x/\sigma)}^{a-1} \exp (-{(x/\sigma)}^{a})}{%
-        f(x) = (a/b) (x/b)^(a-1) exp(- (x/b)^a)}
+  \deqn{
+    f(x) = (a/\sigma) {(x/\sigma)}^{a-1} \exp (-{(x/\sigma)}^{a})
+  }{f(x) = (a/b) (x/b)^(a-1) exp(- (x/b)^a)}
   for \eqn{x \ge 0}.
 
   The domain of the distribution can be truncated to the 

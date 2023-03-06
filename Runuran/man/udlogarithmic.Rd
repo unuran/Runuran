@@ -23,11 +23,11 @@ udlogarithmic(shape, lb = 1, ub = Inf)
 }
 
 \details{
-  The Logarithmic distribution with parameters \code{shape} \eqn{=
-    \theta}{= t} has density
+  The Logarithmic distribution with parameters \code{shape}
+  \eqn{= \theta}{= t} has density
   \deqn{
-    f(x) = -\log(1-\theta) \theta^x / x}{%
-    f(x) = -log(1-t) * t^x / x}
+    f(x) = -\log(1-\theta) \theta^x / x
+  }{f(x) = -log(1-t) * t^x / x}
   for \eqn{x = 1, 2, \ldots} and \eqn{0 < \theta < 1}{0 < t < 1}.
 
   The domain of the distribution can be truncated to the 

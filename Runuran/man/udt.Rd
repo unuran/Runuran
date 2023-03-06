@@ -28,7 +28,7 @@ udt(df, lb=-Inf, ub=Inf)
   freedom has density
   \deqn{
     f(x) = \frac{\Gamma ((\nu+1)/2)}{\sqrt{\pi \nu} \Gamma (\nu/2)}
-    (1 + x^2/\nu)^{-(\nu+1)/2}%
+    (1 + x^2/\nu)^{-(\nu+1)/2}
   }{f(x) = Gamma((n+1)/2) / (sqrt(n pi) Gamma(n/2)) (1 + x^2/n)^-((n+1)/2)}
   for all real \eqn{x}.
   It has mean \eqn{0} (for \eqn{\nu > 1}{n > 1}) and

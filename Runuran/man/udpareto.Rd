@@ -27,8 +27,8 @@ udpareto(k, a, lb=k, ub=Inf)
   The Pareto distribution with parameters \code{k} and \code{a} 
   has density
   \deqn{
-    f(x) = a k^a x^{-(a+1)}}{%
-    f(x) = a * k^a * x^(-a-1)}
+    f(x) = a k^a x^{-(a+1)}
+  }{f(x) = a * k^a * x^(-a-1)}
   for \eqn{x \ge k}, \eqn{k> 0} and \eqn{a>0}.
 
   The domain of the distribution can be truncated to the 

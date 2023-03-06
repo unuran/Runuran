@@ -29,8 +29,8 @@ urexp(n, rate=1, lb=0, ub=Inf)
 
   The Exponential distribution with rate \eqn{\lambda} has density
   \deqn{
-    f(x) = \lambda {e}^{- \lambda x}}{
-    f(x) = lambda e^(- lambda x)}
+    f(x) = \lambda e^{-\lambda x}
+  }{f(x) = lambda * exp(-lambda x)}
   for \eqn{x \ge 0}.
 
   The generation algorithm uses fast numerical inversion. The parameters

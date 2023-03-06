@@ -29,10 +29,8 @@ udgig(theta, psi, chi, lb=0, ub=Inf)
   \eqn{\theta}{theta}, \eqn{\psi}{psi}, and \eqn{\chi}{chi}
   has density proportional to
   \deqn{
-    f(x) =
-    x^{\theta-1} \exp( -\frac{1}{2} (\frac{\chi}{x} + \psi x))}{
-    f(x) = x^(theta-1) * exp( -1/2 * (chi/x + psi*x) )
-  }
+    f(x) = x^{\theta-1} \exp( -\frac{1}{2} (\frac{\chi}{x} + \psi x))
+  }{f(x) = x^(theta-1) * exp( -1/2 * (chi/x + psi*x) )}
   where \eqn{\psi>0}{psi>0} and \eqn{\chi>0}{chi>0}.
 
   The domain of the distribution can be truncated to the 

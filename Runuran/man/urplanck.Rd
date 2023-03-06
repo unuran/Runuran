@@ -27,8 +27,8 @@ urplanck(n, a, lb = 1.e-12, ub = Inf)
   The Planck distribution with parameter \code{a}
   has density proportional to 
   \deqn{
-    f(x) \sim \frac{x^a}{\exp(x)-1}}{%
-    f(x) ~ (x^a)/(exp(x)-1)}
+    f(x) \sim \frac{x^a}{\exp(x)-1}
+  }{f(x) ~ (x^a)/(exp(x)-1)}
   for \eqn{x \ge 0} and \eqn{a\ge 1}{a >= 1}.
 
   The generation algorithm uses transformed density rejection

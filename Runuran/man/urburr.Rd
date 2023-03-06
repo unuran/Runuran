@@ -26,8 +26,8 @@ urburr(n, a, b, lb=0, ub=Inf)
 \details{
  The Burr distribution with parameters \code{a} and \code{b} has density
   \deqn{
-    f(x) = a (b-1) x^{a-1}/(1+x^a)^b}{%
-    f(x) = a * (b-1) * x^(a-1)/(1+x^a)^b}
+    f(x) = a (b-1) x^{a-1}/(1+x^a)^b
+  }{f(x) = a * (b-1) * x^(a-1)/(1+x^a)^b}
   for \eqn{x \ge 0}{x >= 0}, \eqn{a \ge 1}{a >= 1} and \eqn{b \ge 2}{b >= 2}.
 
   The generation algorithm uses transformed density rejection \sQuote{TDR}. The

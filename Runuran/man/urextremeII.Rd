@@ -33,8 +33,8 @@ urextremeII(n, shape, location=0, scale=1, lb=location, ub=Inf)
   The Frechet distribution function with shape \eqn{k}, location \eqn{l}
   and scale \eqn{s} is
   \deqn{
-    F(x) = \exp(-(\frac{x-l}{s})^{-k})}{%
-    f(x) = exp(-((x-l)/s)^(-k))}
+    F(x) = \exp(-(\frac{x-l}{s})^{-k})
+  }{F(x) = exp(-((x-l)/s)^(-k))}
   for \eqn{x \ge l}.
   
   The generation algorithm uses fast numerical inversion. The parameters

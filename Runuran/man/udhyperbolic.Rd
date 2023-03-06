@@ -34,11 +34,8 @@ udhyperbolic(mu, alpha, beta, delta, lb=-Inf, ub=Inf)
   \eqn{\delta}{delta}
   has density proportional to
   \deqn{
-    f(x) =
-    \exp( -\alpha \sqrt(\delta^2 + (x - \mu)^2) + \beta*(x-\mu) )}{
-    f(x) =
-    exp( -alpha * sqrt(delta^2 + (x - mu)^2) + beta*(x-mu) )
-  }
+    f(x) = \exp( -\alpha \sqrt(\delta^2 + (x - \mu)^2) + \beta*(x-\mu) )
+  }{f(x) = exp( -alpha * sqrt(delta^2 + (x - mu)^2) + beta*(x-mu) )}
   where \eqn{\alpha>|\beta|}{alpha > |beta|} and
   \eqn{\delta>0}{delta>0}.
 
@@ -62,7 +59,7 @@ udhyperbolic(mu, alpha, beta, delta, lb=-Inf, ub=Inf)
 }
 
 \examples{
-## Create distribution object for standard normal distribution
+## Create distribution object for hyperbolic distribution
 distr <- udhyperbolic(mu=0,alpha=2,beta=1,delta=1)
 ## Generate generator object; use method PINV (inversion)
 gen <- pinvd.new(distr)

@@ -30,11 +30,8 @@ udig(mu, lambda, lb=0, ub=Inf)
   \deqn{
     f(x) =
     \sqrt{\frac{\lambda}{2 \pi x^3} }
-    \exp( -\frac{\lambda (x-\mu)^2}{2\mu^2 x} ) }{
-    f(x) =
-    sqrt(lambda / (2*pi*x^3)) * 
-    exp( -(lambda*(x-mu)^2) / (2*mu^2*x) )
-  }
+    \exp( -\frac{\lambda (x-\mu)^2}{2\mu^2 x} )
+  }{f(x) = sqrt(lambda / (2*pi*x^3)) * exp( -(lambda*(x-mu)^2) / (2*mu^2*x) )}
   where \eqn{\mu>0}{mu>0} and \eqn{\lambda>0}{lambda>0}.
 
   The domain of the distribution can be truncated to the 

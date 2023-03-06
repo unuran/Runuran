@@ -27,10 +27,8 @@ udnorm(mean=0, sd=1, lb=-Inf, ub=Inf)
   The normal distribution with mean \eqn{\mu}{mu} and standard deviation
   \eqn{\sigma}{sigma} has density
   \deqn{
-    f(x) =
-    \frac{1}{\sqrt{2\pi}\sigma} e^{-(x-\mu)^2/2\sigma^2}}{
-    f(x) = 1/(sqrt(2 pi) sigma) e^-((x - mu)^2/(2 sigma^2))
-  }
+    f(x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-(x-\mu)^2/2\sigma^2}
+  }{f(x) = 1/(sqrt(2 pi) sigma) e^-((x - mu)^2/(2 sigma^2))}
   where \eqn{\mu}{mu} is the mean of the distribution and
   \eqn{\sigma}{sigma} the standard deviation.
 

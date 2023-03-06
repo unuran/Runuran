@@ -31,9 +31,7 @@ urf(n, df1, df2, lb=0, ub=Inf)
     f(x) = \frac{\Gamma(n_1/2 + n_2/2)}{\Gamma(n_1/2)\Gamma(n_2/2)}
     \left(\frac{n_1}{n_2}\right)^{n_1/2} x^{n_1/2 -1}
     \left(1 + \frac{n_1 x}{n_2}\right)^{-(n_1 + n_2) / 2}%
-  }{f(x) = Gamma((n1 + n2)/2) / (Gamma(n1/2) Gamma(n2/2))
-    (n1/n2)^(n1/2) x^(n1/2 - 1)
-    (1 + (n1/n2) x)^-(n1 + n2)/2}
+  }{f(x) = Gamma((n1 + n2)/2) / (Gamma(n1/2) Gamma(n2/2)) * (n1/n2)^(n1/2) x^(n1/2 - 1) * (1 + (n1/n2) x)^-(n1 + n2)/2}
   for \eqn{x > 0}.
 
   The generation algorithm uses fast numerical inversion. The parameters

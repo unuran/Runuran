@@ -27,10 +27,8 @@ urbeta(n, shape1, shape2, lb = 0, ub = 1)
   The Beta distribution with parameters \code{shape1} \eqn{= a} and
   \code{shape2} \eqn{= b} has density
   \deqn{
-    f(x)=
-    \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}{x}^{a} {(1-x)}^{b}}{%
-    Gamma(a+b)/(Gamma(a)Gamma(b))x^(a-1)(1-x)^(b-1)
-  }
+    f(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}{x}^{a} {(1-x)}^{b}
+  }{f(x) = Gamma(a+b)/(Gamma(a)Gamma(b))x^(a-1)(1-x)^(b-1)}
   for \eqn{a > 0}, \eqn{b > 0} and \eqn{0 \le x \le 1}{0 <= x <= 1}.
 
   The generation algorithm uses fast numerical inversion. The parameters

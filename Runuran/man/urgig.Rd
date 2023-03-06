@@ -29,8 +29,8 @@ urgig(n, lambda, omega, lb=1.e-12, ub=Inf)
   \code{lambda} \eqn{=\lambda}{=a} and \code{omega} \eqn{=\omega}{=b}
   has a density proportional to 
   \deqn{
-    f(x)\sim x^{\lambda-1}\exp(-(\omega/2)(x+1/x))}{%
-    f(x) ~ x^(a-1) exp(-(b/2)(x+1/x))}
+    f(x) \sim x^{\lambda-1}\exp(-(\omega/2)(x+1/x))
+  }{f(x) ~ x^(a-1) exp(-(b/2)(x+1/x))}
   for \eqn{x \ge 0}, \eqn{\lambda > 0}{a > 0} and \eqn{\omega > 0}{b > 0}.
 
   The generation algorithm uses transformed density rejection \sQuote{TDR}. The

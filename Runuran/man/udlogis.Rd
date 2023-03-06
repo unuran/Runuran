@@ -27,10 +27,11 @@ udlogis(location=0, scale=1, lb=-Inf, ub=Inf)
   The Logistic distribution with \code{location} \eqn{= \mu}{= m} and
   \code{scale} \eqn{= \sigma}{= s} has distribution function
   \deqn{
-    F(x) = \frac{1}{1 + e^{-(x-\mu)/\sigma}}%
-  }{F(x) = 1 / (1 + exp(-(x-m)/s))}  and density
+    F(x) = \frac{1}{1 + e^{-(x-\mu)/\sigma}}
+  }{F(x) = 1 / (1 + exp(-(x-m)/s))}
+  and density
   \deqn{
-    f(x)= \frac{1}{\sigma}\frac{e^{(x-\mu)/\sigma}}{(1 + e^{(x-\mu)/\sigma})^2}%
+    f(x) = \frac{1}{\sigma}\frac{e^{(x-\mu)/\sigma}}{(1 + e^{(x-\mu)/\sigma})^2}
   }{f(x) = 1/s exp((x-m)/s) (1 + exp((x-m)/s))^-2.}
 
   The domain of the distribution can be truncated to the 

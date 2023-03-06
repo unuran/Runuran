@@ -24,9 +24,9 @@ udpois(lambda, lb = 0, ub = Inf)
 
 \details{
   The Poisson distribution has density
-  %-- please leave the linebreaking for the next two lines ! --
-  \deqn{p(x) = \frac{\lambda^x e^{-\lambda}}{x!}}{%
-        p(x) = lambda^x exp(-lambda)/x!}
+  \deqn{
+    p(x) = \frac{\lambda^x e^{-\lambda}}{x!}
+  }{p(x) = lambda^x exp(-lambda)/x!}
   for \eqn{x = 0, 1, 2, \ldots}.
 
   The domain of the distribution can be truncated to the 

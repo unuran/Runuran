@@ -25,7 +25,7 @@ urgeom(n, prob, lb = 0, ub = Inf)
 
 \details{
   The Geometric distribution with \code{prob} \eqn{= p} has density
-  \deqn{p(x) = p {(1-p)}^{x}}{p(x) = p (1-p)^x}
+  \deqn{p(x) = p (1-p)^x}
   for \eqn{x = 0, 1, 2, \ldots}{x = 0, 1, 2, ...}, \eqn{0 < p \le 1}.
 
   The generation algorithm uses guide table based inversion for

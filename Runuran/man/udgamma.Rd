@@ -27,8 +27,8 @@ udgamma(shape, scale=1, lb=0, ub=Inf)
   The Gamma distribution with parameters \code{shape} \eqn{=\alpha}{= a}
   and \code{scale} \eqn{=\sigma}{= s} has density
   \deqn{
-    f(x)= \frac{1}{{\sigma}^{\alpha}\Gamma(\alpha)} {x}^{\alpha-1} e^{-x/\sigma}}{%
-    f(x)= 1/(s^a Gamma(a)) x^(a-1) e^-(x/s)}
+    f(x) = \frac{1}{{\sigma}^{\alpha}\Gamma(\alpha)} {x}^{\alpha-1} e^{-x/\sigma}
+  }{f(x) = 1/(s^a Gamma(a)) x^(a-1) exp(-x/s)}
   for \eqn{x \ge 0}, \eqn{\alpha > 0}{a > 0} and \eqn{\sigma > 0}{s > 0}.
   (Here \eqn{\Gamma(\alpha)}{Gamma(a)} is the function implemented by \R's
   \code{\link{gamma}()} and defined in its help.)

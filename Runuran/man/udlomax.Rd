@@ -28,8 +28,8 @@ udlomax(shape, scale=1, lb=0, ub=Inf)
   The Lomax distribution with parameters \code{shape} \eqn{=\alpha}{=a}
   and \code{scale} \eqn{=\sigma}{= s} has density
   \deqn{
-    f(x) = \alpha \sigma^\alpha (x+\sigma)^{-(\alpha+1)}}{%
-    f(x) = a s^a (x+s)^(-a-1)}
+    f(x) = \alpha \sigma^\alpha (x+\sigma)^{-(\alpha+1)}
+  }{f(x) = a s^a (x+s)^(-a-1)}
   for \eqn{x \ge 0}, \eqn{\alpha > 0}{a > 0} and \eqn{\sigma > 0}{s > 0}.
 
   The domain of the distribution can be truncated to the 

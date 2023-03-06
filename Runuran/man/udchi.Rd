@@ -27,8 +27,8 @@ udchi(df, lb=0, ub=Inf)
   The Chi distribution with \code{df}\eqn{= n > 0} degrees of
   freedom has density
   \deqn{
-    f(x) = x^{n-1} e^{-x^2/2}}{%
-    f(x) = x^(n-1) * exp(-x^2/2)}
+    f(x) = x^{n-1} e^{-x^2/2}
+  }{f(x) = x^(n-1) * exp(-x^2/2)}
   for \eqn{x > 0}.
   
   The domain of the distribution can be truncated to the 

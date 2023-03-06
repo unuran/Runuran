@@ -167,37 +167,39 @@
   This interface provides the most flexible access to UNU.RAN.
   It requires three steps:
   
-  \itemize{
-    \item{1.}{
-      Create a \code{\linkS4class{unuran.distr}} object that contains
-      all required information about the \emph{target distribution}.
-      We have three types of distribuions:}
-  }
-  \tabular{lcl}{ 
-    \emph{Function}                \tab        \tab \emph{Type of distribution} \cr
-    \code{\link{unuran.cont.new}}  \tab \ldots \tab continuous distributions \cr
-    \code{\link{unuran.discr.new}} \tab \ldots \tab discrete distributions \cr
-    \code{\link{unuran.cmv.new}}   \tab \ldots \tab multivariate continuous distributions \cr
-  }
-  \itemize{
-    \item{2.}{
-      Choose a \emph{generation method} and create a
-      \code{\linkS4class{unuran}} object using function
-      \code{\link{unuran.new}}.
-      This function takes two argument: the distribution object created
-      in Step 1, and a string that contains the chosen UNU.RAN method
-      and (optional) some parameters to adjust this method to the given
-      target distribution. We refer to the UNU.RAN for more details on
-      this \dQuote{method string}.}
-    \item{3.}{
-      Use this object to \emph{draw samples} from the target
-      distribution using \code{\link{ur}} or \code{\link{uq}}.}
-  }
-  \tabular{lcl}{ 
-    \emph{Function}              \tab        \tab \cr
-    \code{\link{ur}}             \tab \ldots \tab draw sample \cr
-    \code{\link{uq}}             \tab \ldots \tab compute quantile (inverse CDF) \cr
-    \code{\link{unuran.details}} \tab \ldots \tab show \code{unuran} object \cr
+  \enumerate{
+    \item
+    Create a \code{\linkS4class{unuran.distr}} object that contains
+    all required information about the \emph{target distribution}.
+    We have three types of distribuions:
+  
+    \tabular{lcl}{ 
+      \emph{Function}                \tab        \tab \emph{Type of distribution} \cr
+      \code{\link{unuran.cont.new}}  \tab \ldots \tab continuous distributions \cr
+      \code{\link{unuran.discr.new}} \tab \ldots \tab discrete distributions \cr
+      \code{\link{unuran.cmv.new}}   \tab \ldots \tab multivariate continuous distributions \cr
+    }
+    
+    \item
+    Choose a \emph{generation method} and create a
+    \code{\linkS4class{unuran}} object using function
+    \code{\link{unuran.new}}.
+    This function takes two argument: the distribution object created
+    in Step 1, and a string that contains the chosen UNU.RAN method
+    and (optional) some parameters to adjust this method to the given
+    target distribution. We refer to the UNU.RAN for more details on
+    this \dQuote{method string}.
+
+    \item
+    Use this object to \emph{draw samples} from the target
+    distribution using \code{\link{ur}} or \code{\link{uq}}.
+  
+    \tabular{lcl}{ 
+      \emph{Function}              \tab        \tab \cr
+      \code{\link{ur}}             \tab \ldots \tab draw sample \cr
+      \code{\link{uq}}             \tab \ldots \tab compute quantile (inverse CDF) \cr
+      \code{\link{unuran.details}} \tab \ldots \tab show \code{unuran} object \cr
+    }
   }
 }
 

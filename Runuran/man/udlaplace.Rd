@@ -28,8 +28,8 @@ udlaplace(location=0, scale=1, lb = -Inf, ub = Inf)
   The Laplace distribution with location \eqn{l} and scale \eqn{s} has
   density
   \deqn{
-    f(x) = \exp( -\frac{|x-l|}{s} )}{%
-    f(x) = exp( -|x-l|/s )}
+    f(x) = \exp( -\frac{|x-l|}{s} )
+  }{f(x) = exp( -|x-l|/s )}
   for all \eqn{x}.
 
   The domain of the distribution can be truncated to the 

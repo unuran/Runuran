@@ -28,12 +28,12 @@ urtriang(n, a, m, b, lb=a, ub=b)
   The Triangular distribution with domain \eqn{(a,b)} and mode \eqn{m}
   has a density proportional to 
   \deqn{
-    f(x) \sim (x-a)/(m-a)}{%
-    f(x) ~ (x-a)/(m-a)}
+    f(x) \sim (x-a)/(m-a)
+  }{f(x) ~ (x-a)/(m-a)}
   for \eqn{a \le x \le m}{a <= x <= m}, and
   \deqn{
-    f(x) \sim (b-x)/(b-m)}{%
-    f(x) ~ (b-x)/(b-m)}
+    f(x) \sim (b-x)/(b-m)
+  }{f(x) ~ (b-x)/(b-m)}
   for \eqn{m \le x \le b}{m <= x <= b}.
   
   The generation algorithm uses fast numerical inversion. The parameters

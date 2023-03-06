@@ -27,11 +27,9 @@ udlnorm(meanlog=0, sdlog=1, lb=0, ub=Inf)
 \details{
   The log normal distribution has density
   \deqn{
-    f(x) = 
-    \frac{1}{\sqrt{2 \pi} \sigma x} \exp{- (\log(x)-\mu)^2 / (2 sigma^2)}}{
     f(x) =
-    1/(sqrt(2 pi) sigma x) e^-((log x - mu)^2 / (2 sigma^2))
-  }
+    \frac{1}{\sqrt{2 \pi} \sigma x} \exp{- (\log(x)-\mu)^2 / (2 sigma^2)}
+  }{f(x) = 1/(sqrt(2 pi) sigma x) e^-((log x - mu)^2 / (2 sigma^2))}
   where \eqn{\mu}{mu} is the mean and \eqn{\sigma}{sigma} the standard
   deviation of the logarithm.
   
@@ -60,7 +58,7 @@ udlnorm(meanlog=0, sdlog=1, lb=0, ub=Inf)
 }
 
 \examples{
-## Create distribution object for standard normal distribution
+## Create distribution object for log normal distribution
 distr <- udlnorm()
 ## Generate generator object; use method PINV (inversion)
 gen <- pinvd.new(distr)

@@ -26,8 +26,8 @@ udpowerexp(shape, lb=-Inf, ub=Inf)
   The Powerexponential distribution with parameter \code{shape}
   \eqn{=\tau}{= t} has density
   \deqn{
-    f(x) = \frac{1}{2\Gamma(1+1/\tau)} \exp(-|x|^\tau)}{%
-    f(x) = 1/(2 * Gamma(1+1/t)) * exp(-|x|^t )}
+    f(x) = \frac{1}{2\Gamma(1+1/\tau)} \exp(-|x|^\tau)
+  }{f(x) = 1/(2 * Gamma(1+1/t)) * exp(-|x|^t )}
   for all \eqn{x} and \eqn{\tau > 0}{t > 0}.
   (Here \eqn{\Gamma(\alpha)}{Gamma(a)} is the function implemented by \R's
   \code{\link{gamma}()} and defined in its help.)
