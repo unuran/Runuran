@@ -183,7 +183,7 @@ library("Runuran")
 \clearpage
 \SweaveInput{src/universal.Rnw}
 \clearpage
-\SweaveInput{src/distr.Rnw}
+\SweaveInput{src/distributions.Rnw}
 \clearpage
 \SweaveInput{src/advanced.Rnw}
 
