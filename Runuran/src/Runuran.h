@@ -91,3 +91,51 @@ SEXP Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 /* }; */
 /* Remark: This list has to be updated before usage. */
 /*---------------------------------------------------------------------------*/
+
+
+
+/*****************************************************************************/
+/*                                                                           */
+/* Internal functions (not used by .Call from R)                             */
+/*                                                                           */
+/*****************************************************************************/
+
+/*---------------------------------------------------------------------------*/
+/* define macros for GCC attributes                                          */
+
+/* #ifdef __GNUC__ */
+/* #  define ATTRIBUTE__UNUSED        __attribute__ ((unused)) */
+/* #else */
+/* #  define ATTRIBUTE__UNUSED */
+/* #endif */
+
+/*****************************************************************************/
+
+#define _Runuran_fatal() \
+  errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN distribution object")
+/*---------------------------------------------------------------------------*/
+/* Handle fatal error: print error message and exit.                         */
+/*---------------------------------------------------------------------------*/
+
+void _Runuran_distr_free(SEXP sexp_distr);
+/*---------------------------------------------------------------------------*/
+/* Free UNU.RAN distribution object.                                         */
+/*---------------------------------------------------------------------------*/
+
+/*****************************************************************************/
+/* Special packing functions                                                 */
+
+void _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur);
+/*---------------------------------------------------------------------------*/
+/* Pack Runuran generator object for method PINV into R list                 */
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_sample_pinv (SEXP sexp_data, int n);
+/*---------------------------------------------------------------------------*/
+/* Sample from generator object: use R data list (packed object)             */
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_quantile_pinv (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur);
+/*---------------------------------------------------------------------------*/
+/* Evaluate approximate quantile function:  use R data list (packed object)  */
+/*---------------------------------------------------------------------------*/

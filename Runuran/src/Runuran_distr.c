@@ -38,8 +38,8 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
-#include "Runuran.h"
 #include <unuran.h>
+#include "Runuran.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -86,25 +86,19 @@ static double _Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr )
 /* Evaluate PDF function.                                                    */
 
 /*---------------------------------------------------------------------------*/
-/*  Common Routines                                                          */
 
-static void _Runuran_distr_free(SEXP sexp_distr);
-/* Free UNU.RAN distribution object.                                         */
-
+static SEXP _Runuran_distr_tag(void); 
+/*---------------------------------------------------------------------------*/
+/* Make tag for R object [Contains static variable!]                         */
 /*---------------------------------------------------------------------------*/
 
-#define _Runuran_fatal()  errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN distribution object")
-
+#define CHECK_UNUR_PTR(s) do { \
+    if (TYPEOF(s) != EXTPTRSXP || R_ExternalPtrTag(s) != _Runuran_distr_tag()) \
+      error("[UNU.RAN - error] invalid UNU.RAN distribution object");	\
+  } while (0)
 /*---------------------------------------------------------------------------*/
-
-/* Check pointer to generator object */
-#define CHECK_PTR(s) do { \
-    if (TYPEOF(s) != EXTPTRSXP || R_ExternalPtrTag(s) != _Runuran_distr_tag) \
-        error("[UNU.RAN - error] invalid UNU.RAN distribution object"); \
-    } while (0)
-
-/* Use an external reference to store the UNU.RAN generator objects */
-static SEXP _Runuran_distr_tag = NULL;
+/* Check pointer to R UNU.RAN distribution object.                           */
+/*---------------------------------------------------------------------------*/
 
 
 /*****************************************************************************/
@@ -142,9 +136,6 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   int lb, ub;
   const char *name;
   unsigned int error = 0u;
-
-  /* make tag for R object */
-  if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
 
   /* domain of distribution */
   if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
@@ -206,7 +197,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   } 
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, sexp_obj));
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag(), sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
@@ -276,9 +267,6 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
   const char *name;
   int islog;
   unsigned int error = 0u;
-
-  /* make tag for R object */
-  if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
 
 #ifdef RUNURAN_DEBUG
   /*   /\* 'this' must be an S4 class *\/ */
@@ -357,7 +345,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
   } 
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, sexp_obj));
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag(), sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
@@ -470,9 +458,6 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
   const char *name;
   unsigned int error = 0u;
 
-  /* make tag for R object */
-  if (!_Runuran_distr_tag) _Runuran_distr_tag = install("R_UNURAN_DISTR_TAG");
-
 #ifdef RUNURAN_DEBUG
   /*   /\* 'this' must be an S4 class *\/ */
   /*   if (!IS_S4_OBJECT(sexp_this)) */
@@ -533,7 +518,7 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
   } 
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag, sexp_obj));
+  PROTECT(sexp_distr = R_MakeExternalPtr(distr, _Runuran_distr_tag(), sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_distr, _Runuran_distr_free);
@@ -614,5 +599,25 @@ _Runuran_distr_free (SEXP sexp_distr)
   R_ClearExternalPtr(sexp_distr);
 
 } /* end of _Runuran_distr_free() */
+
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_distr_tag(void) 
+     /*----------------------------------------------------------------------*/
+     /* Make tag for R UNU.RAN distribution object                           */
+     /*                                                                      */
+     /* Parameters: none                                                     */
+     /*                                                                      */
+     /* Return:                                                              */
+     /*   tag (R object)                                                     */ 
+     /*----------------------------------------------------------------------*/
+{
+  static SEXP tag = NULL;
+
+  /* make tag for R object */
+  if (!tag) tag = install("R_UNURAN_DISTR_TAG");
+
+  return tag;
+} /* end _Runuran_distr_tag() */
 
 /*---------------------------------------------------------------------------*/

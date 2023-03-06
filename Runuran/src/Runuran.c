@@ -38,13 +38,11 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
-#include "Runuran.h"
 #include <unuran.h>
+#include "Runuran.h"
 
 #include <unur_source.h>
 #include <methods/unur_methods_source.h>
-
-#include "Runuran_source.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,16 +83,18 @@ static double _Runuran_R_unif_rand (void *unused);
 /* Wrapper for R built-in uniform random number generator.                   */
 /*---------------------------------------------------------------------------*/
 
+static SEXP _Runuran_tag(void); 
+/*---------------------------------------------------------------------------*/
+/* Make tag for R generator object [Contains static variable!]               */
 /*---------------------------------------------------------------------------*/
 
-/* check pointer to generator object */
 #define CHECK_UNUR_PTR(s) do { \
-    if (TYPEOF(s) != EXTPTRSXP || R_ExternalPtrTag(s) != _Runuran_tag) \
-        error("[UNU.RAN - error] invalid UNU.RAN object"); \
-    } while (0)
-
-/* Use an external reference to store the UNU.RAN generator objects */
-static SEXP _Runuran_tag = NULL;
+    if (TYPEOF(s) != EXTPTRSXP || R_ExternalPtrTag(s) != _Runuran_tag()) \
+      error("[UNU.RAN - error] invalid UNU.RAN object");		\
+  } while (0)
+/*---------------------------------------------------------------------------*/
+/* Check pointer to R UNU.RAN generator object.                              */
+/*---------------------------------------------------------------------------*/
 
 /*****************************************************************************/
 
@@ -115,9 +115,6 @@ Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
   SEXP sexp_gen;
   struct unur_gen *gen;
   const char *method;
-
-  /* make tag for R object */
-  if (!_Runuran_tag) _Runuran_tag = install("R_UNURAN_TAG");
 
   /* check argument */
   if (!sexp_method || TYPEOF(sexp_method) != STRSXP)
@@ -155,7 +152,7 @@ Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
   }
 
   /* make R external pointer and store pointer to structure */
-  PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag, sexp_obj));
+  PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag(), sexp_obj));
   
   /* register destructor as C finalizer */
   R_RegisterCFinalizer(sexp_gen, _Runuran_free);
@@ -728,5 +725,25 @@ _Runuran_R_unif_rand (void *unused  ATTRIBUTE__UNUSED)
 
   return unif_rand();
 } /* end _Runuran_R_unif_rand() */
+
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_tag(void) 
+     /*----------------------------------------------------------------------*/
+     /* Make tag for R UNU.RAN generator object                              */
+     /*                                                                      */
+     /* Parameters: none                                                     */
+     /*                                                                      */
+     /* Return:                                                              */
+     /*   tag (R object)                                                     */ 
+     /*----------------------------------------------------------------------*/
+{
+  static SEXP tag = NULL;
+
+  /* make tag for R object */
+  if (!tag) tag = install("R_UNURAN_TAG");
+
+  return tag;
+} /* end _Runuran_tag() */
 
 /*---------------------------------------------------------------------------*/
