@@ -456,6 +456,77 @@ _Runuran_quantile_data (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
 /*---------------------------------------------------------------------------*/
 
 SEXP
+Runuran_PDF (SEXP sexp_distr, SEXP sexp_x)
+     /*----------------------------------------------------------------------*/
+     /* Evaluate PDF for UNU.RAN distribution object.   [EXPERIMENTAL]       */
+     /*                                                                      */
+     /* Parameters:                                                          */
+     /*   distr ... 'Runuran' distribution object (S4 class)                 */ 
+     /*   x     ... x-value (numeric array)                                  */
+     /*                                                                      */
+     /* Return:                                                              */
+     /*   PDF in UNU.RAN distribution object for given 'x' values            */
+     /*----------------------------------------------------------------------*/
+{
+  struct unur_distr *distr;
+  double *x;
+  int n = 1;
+  int i;
+  SEXP sexp_res = R_NilValue;
+
+  /* check argument */
+  if (! (sexp_distr && TYPEOF(sexp_distr) == EXTPTRSXP) )
+    /* this error should not happen. But we add it just in case. */
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument");
+
+  /* Extract x */
+  x = REAL(AS_NUMERIC(sexp_x));
+  n = length(sexp_x);
+
+  /* extract distribution */
+  distr = R_ExternalPtrAddr(sexp_distr);
+
+  /* create array for results */
+  PROTECT(sexp_res = NEW_NUMERIC(n));
+
+  /* which type of distribution */
+  switch (unur_distr_get_type(distr)) {
+  case UNUR_DISTR_CONT:
+    /* univariate continuous distribution  --> evaluate PDF */
+    for (i=0; i<n; i++) {
+      if (ISNAN(x[i]))
+	/* if NA or NaN is given then we simply return the same value */
+	NUMERIC_POINTER(sexp_res)[i] = x[i];
+      else 
+	NUMERIC_POINTER(sexp_res)[i] = unur_distr_cont_eval_pdf(x[i], distr);
+    }
+    break;
+
+  case UNUR_DISTR_DISCR:
+    /* discrete univariate distribution  --> evaluate PMF */
+    for (i=0; i<n; i++) {
+      if (ISNAN(x[i]))
+	/* if NA or NaN is given then we simply return the same value */
+	NUMERIC_POINTER(sexp_res)[i] = x[i];
+      else 
+	NUMERIC_POINTER(sexp_res)[i] = unur_distr_discr_eval_pmf ((int) x[i], distr);
+    }
+    break;
+
+  default:
+    UNPROTECT(1);
+    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid distribution type");
+  }
+
+  /* return result to R */
+  UNPROTECT(1);
+  return sexp_res;
+
+} /* end of Runuran_PDF() */
+
+/*---------------------------------------------------------------------------*/
+
+SEXP
 Runuran_print (SEXP sexp_unur, SEXP sexp_help)
      /*----------------------------------------------------------------------*/
      /* Print information about UNU.RAN generator object.                    */

@@ -104,6 +104,14 @@ uq <- function(unr,U) {
         .Call("Runuran_quantile", unr, U, PACKAGE="Runuran")
 }
 
+## PDF & PMF -- [EXPERIMENTAL] ----------------------------------------------
+
+## ud
+ud <- function(distr,x) {
+  if ( is(distr,"unuran.cont") || is(distr,"unuran.discr") )
+    .Call("Runuran_PDF", distr@distr, x, PACKAGE="Runuran")
+}
+
 ## Packing ------------------------------------------------------------------
 
 ## We have the following two situtations for
