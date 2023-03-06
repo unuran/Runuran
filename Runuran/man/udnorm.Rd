@@ -65,17 +65,18 @@ udnorm(mean = 0, sd = 1, lb = -Inf, ub = Inf)
 
 \examples{
 ## Create distribution object for standard normal distribution
-dist <- udnorm()
+distr <- udnorm()
 ## Generate generator object; use method PINV (inversion)
-gen <- unuran.new(dist,"pinv")
+gen <- unuran.new(distr,"pinv")
 ## Draw a sample of size 1000
 x <- ur(gen,1000)
 
 ## Create distribution object for positive normal distribution
-dist <- udnorm(lb=0, ub=Inf)
+distr <- udnorm(lb=0, ub=Inf)
 ## ... and draw a sample
-gen <- unuran.new(dist,"pinv")
+gen <- unuran.new(distr,"pinv")
 x <- ur(gen,1000)
+
 }
 
 \keyword{distribution}
