@@ -1,7 +1,7 @@
 % ---------------------------------------------------------------------------
 
-\section{{\Runuran} -- Distributions}
-\label{sec:distribution}
+\section{{\Runuran} -- Special Generator}
+\label{sec:generator}
  
 There are generation functions for approximately 30 standard
 distributions to facilitate the use of the package.
@@ -46,9 +46,9 @@ urnorm(10, mean = 1, sd = 0.5, lb = 2, ub = Inf)
 @
 
 The \code{ur...} functions can be used as-is. But they also are
-examples how the more advanced functions in \autoref{sec:universal}
-and \autoref{sec:advanced} can be used. Just type the name of such a
-function to display its source.
+examples how the more advanced functions in 
+\autoref{sec:universal}--\ref{sec:advanced} can be used. 
+Just type the name of such a function to display its source.
 <<>>=
 urnorm
 @ 
@@ -58,7 +58,7 @@ Currently the following distributions are available (see the
 corresponding help page for details):
 
 %% Table of functions
-\SweaveInput{tab-distributions.tex}
+\SweaveInput{tab-generators.tex}
 
 \paragraph{Uniform random numbers.}
 All UNU.RAN methods use the \R\ built-in random number generator as

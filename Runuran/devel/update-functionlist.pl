@@ -8,7 +8,8 @@ use Getopt::Std;
 
 # --- Constants -------------------------------------------------------------
 
-##my $ur_Vignette = "./inst/doc/src/tab-distributions.tex";
+my $ur_Vignette = "./inst/doc/src/tab-generators.tex";
+my $ud_Vignette = "./inst/doc/src/tab-distributions.tex";
 my $generators_Rd_file = "./man/Runuran.special.generators.Rd";
 my $distributions_Rd_file = "./man/Runuran.distributions.Rd";
 
@@ -130,6 +131,36 @@ print "#   discrete distributions   = $n_urdiscr\n";
 
 # --- Print list of distributions into vignette -----------------------------
 
+my $udheader = 
+    "\\begin{tabbing}\n" .
+    "\t\\hspace*{1em}\n" .
+    "\t\\= \\code{$udmax}~~\\=\\ldots~~\\=  Distribution \\kill\n" .
+    "\t\\> \\emph{Function} \\> \\> \\emph{Distribution} \\\\[1ex]\n";
+my $udbottom = 
+    "\\end{tabbing}\n";
+
+my $udcont_list = "";
+foreach my $ud (sort keys %udcont) {
+    $udcont_list .= "\t\\> \\code{$ud}\t\\> \\ldots \\> $udcont{$ud} \\\\\n";
+}
+
+my $uddiscr_list = "";
+foreach my $ud (sort keys %uddiscr) {
+    $uddiscr_list .= "\t\\> \\code{$ud}\t\\> \\ldots \\> $uddiscr{$ud} \\\\\n";
+}
+
+open DISTR, ">$ud_Vignette"
+    or die "Cannot open file '$ud_Vignette' for writing: $!";
+print DISTR
+    "\\paragraph{Continuous Univariate Distributions ($n_udcont)}\n\n" .
+    $udheader . $udcont_list . $udbottom . "\n";
+print DISTR
+    "\\paragraph{Discrete Univariate Distributions ($n_uddiscr)}\n\n".
+    $udheader . $uddiscr_list . $udbottom . "\n";
+close DISTR;
+
+# --- Print list of special generators into vignette ------------------------
+
 my $urheader = 
     "\\begin{tabbing}\n" .
     "\t\\hspace*{1em}\n" .
@@ -148,16 +179,15 @@ foreach my $ur (sort keys %urdiscr) {
     $urdiscr_list .= "\t\\> \\code{$ur}\t\\> \\ldots \\> $urdiscr{$ur} \\\\\n";
 }
 
-## FIXME
-#open DISTR, ">$ur_Vignette"
-#    or die "Cannot open file '$ur_Vignette' for writing: $!";
-#print DISTR
-#    "\\paragraph{Continuous Univariate Distributions ($n_urcont)}\n\n" .
-#    $urheader . $urcont_list . $urbottom . "\n";
-#print DISTR
-#    "\\paragraph{Discrete Univariate Distributions ($n_urdiscr)}\n\n".
-#    $urheader . $urdiscr_list . $urbottom . "\n";
-#close DISTR;
+open DISTR, ">$ur_Vignette"
+    or die "Cannot open file '$ur_Vignette' for writing: $!";
+print DISTR
+    "\\paragraph{Continuous Univariate Distributions ($n_urcont)}\n\n" .
+    $urheader . $urcont_list . $urbottom . "\n";
+print DISTR
+    "\\paragraph{Discrete Univariate Distributions ($n_urdiscr)}\n\n".
+    $urheader . $urdiscr_list . $urbottom . "\n";
+close DISTR;
 
 # --- Print list of distributions into distributions Rd file ----------------
 

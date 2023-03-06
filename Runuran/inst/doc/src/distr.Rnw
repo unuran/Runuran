@@ -1,0 +1,43 @@
+% ---------------------------------------------------------------------------
+
+\section{{\Runuran} -- Distributions}
+\label{sec:distribution}
+
+Coding the required functions for the routines in
+\autoref{sec:universal} can sometimes a bit tedious especially if the
+target distribution has a more complex density function. Thus we have
+compiled a set of functions that provides ready-to-use distribution
+objects. These objects can either be used as argument for
+\code{unuran.new} (see \autoref{sec:advanced}) or an alternative form
+of the functions from \autoref{sec:universal}.
+
+These functions share a similar syntax and naming scheme 
+(only \code{ud} is prefixed) with analogous \R built-in functions that
+provide density, distribution function and quantile:
+
+\begin{center}
+  \code{ud\ldots(distribution parameters, lb , ub)}
+\end{center}
+
+<<>>=
+## Create an object for a gamma distribution with shape parameter 5.
+distr <- udgamma(shape=5)
+
+## Create the UNU.RAN generator object. use method PINV (inversion).
+gen <- pinvd.new(distr)
+
+## Draw a sample of size 100
+x <- ur(gen,100)
+
+## Compute some quantiles for Monte Carlo methods
+x <- uq(gen, (1:9)/10)
+@
+
+\noindent
+Currently the following distributions are available (see the
+corresponding help page for details):
+
+%% Table of functions
+\SweaveInput{tab-distributions.tex}
+
+% ---------------------------------------------------------------------------
