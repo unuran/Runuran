@@ -60,7 +60,7 @@ udgig(theta, psi, chi, lb=0, ub=Inf)
 }
 
 \examples{
-## Create distribution object for standard normal distribution
+## Create distribution object for GIG distribution
 distr <- udgig(theta=3, psi=1, chi=1)
 ## Generate generator object; use method PINV (inversion)
 gen <- pinvd.new(distr)

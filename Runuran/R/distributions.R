@@ -180,6 +180,15 @@ udhyperbolic <- function (mu,alpha,beta,delta, lb=-Inf,ub=Inf) {
   distr
 }
 
+## -- Inverse Gaussian ------------------------------------------------------
+udig <- function (mu,lambda, lb=0,ub=Inf) {
+  if (missing (mu) || missing (lambda) )
+    stop ("argument 'mu' or 'lambda' missing")
+  distr <- new ("unuran.cont",empty=TRUE)
+  distr@distr <-.Call("Runuran_std_cont", distr, "ig", c(mu,lambda), c(lb,ub), PACKAGE="Runuran")
+  distr
+}
+
 ## -- Laplace (double exponential) distribution -----------------------------
 urlaplace <- function (n,location=0,scale=1,lb=-Inf,ub=Inf) {
         unr <- new("unuran", paste("laplace(",location,",",scale,"); domain=(",lb,",",ub,")"), "HINV")
@@ -292,6 +301,13 @@ urrayleigh <- function (n,scale=1,lb=0,ub=Inf) {
 udrayleigh <- function (scale=1,lb=0,ub=Inf) {
   distr <- new ("unuran.cont",empty=TRUE)
   distr@distr <-.Call("Runuran_std_cont", distr, "rayleigh", c(scale), c(lb,ub), PACKAGE="Runuran")
+  distr
+}
+
+## -- Slash distribution ----------------------------------------------------
+udslash <- function (lb=-Inf,ub=Inf) {
+  distr <- new ("unuran.cont",empty=TRUE)
+  distr@distr <-.Call("Runuran_std_cont", distr, "slash", numeric(0), c(lb,ub), PACKAGE="Runuran")
   distr
 }
 

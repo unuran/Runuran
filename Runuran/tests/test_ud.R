@@ -34,13 +34,17 @@ discr.max.xerror.of <- function (distr, args) {
 cont.just.run <- function (distr, args) {
   uddist <- paste("ud",distr,"(",args,")", sep="")
   qfunct <- eval(parse(text=paste("function(u) { uq(pinvd.new(",uddist,",uresolution=1e-12),u) }", sep="")))
-  x <- qfunct(runif(1000))
+  x <- qfunct(runif(samplesize))
+  if (! is.finite(sum(x)))
+    stop(paste("inverse CDF for '",uddist,"': 'Inf' or 'NaN' occured\n",sep=""))
 }
 
 discr.just.run <- function (distr, args) {
   uddist <- paste("ud",distr,"(",args,",ub=10000)", sep="")
   qfunct <- eval(parse(text=paste("function(u) { uq(dgtd.new(",uddist,"),u) }", sep="")))
-  x <- qfunct(runif(1000))
+  x <- qfunct(runif(samplesize))
+  if (! is.finite(sum(x)))
+    stop(paste("inverse CDF for '",uddist,"': 'Inf' or 'NaN' occured\n",sep=""))
 }
 
 
@@ -64,6 +68,7 @@ cont.just.run     ("frechet","shape=3,location=2,scale=5")
 cont.just.run     ("gumbel","location=2,scale=5")
 cont.just.run     ("gig","theta=3,psi=1,chi=1")
 cont.just.run     ("hyperbolic","mu=0,alpha=2,beta=1,delta=1")
+cont.just.run     ("ig","mu=3,lambda=2")
 cont.just.run     ("laplace","location=2,scale=5")
 cont.max.uerror.of("logis","location=2,scale=5")
 cont.just.run     ("lomax","shape=2,scale=5")
@@ -73,6 +78,7 @@ cont.just.run     ("pareto","k=3,a=1")
 ## just.run     ("planck","a=3")  -- not implemented
 cont.just.run     ("powerexp","shape=3")
 cont.just.run     ("rayleigh","scale=3")
+cont.just.run     ("slash","")
 cont.max.uerror.of("t","df=2.5")
 ## max.uerror.of("triang","df=2.5") -- not implemented
 cont.max.uerror.of("weibull","shape=3,scale=2")

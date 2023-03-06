@@ -91,10 +91,6 @@ _Runuran_get_std_cont( const char *distribution, const double *params, int n_par
     DISTRIBUTION (hyperbolic);
     break;
       
-  case 'n':
-    DISTRIBUTION (normal);
-    break;
-
   case 'i':
     DISTRIBUTION (ig);
     break;
@@ -104,6 +100,10 @@ _Runuran_get_std_cont( const char *distribution, const double *params, int n_par
     DISTRIBUTION (logistic);
     DISTRIBUTION (lomax);
     DISTRIBUTION (lognormal);
+    break;
+
+  case 'n':
+    DISTRIBUTION (normal);
     break;
 
   case 'p':
@@ -116,6 +116,7 @@ _Runuran_get_std_cont( const char *distribution, const double *params, int n_par
     break;
 
   case 's':
+    DISTRIBUTION (slash);
     DISTRIBUTION (student);
     break;
 
