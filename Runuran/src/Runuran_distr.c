@@ -597,7 +597,7 @@ Runuran_std_cont (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_dom
   name = CHAR(STRING_ELT(sexp_name,0));
 
   /* parameters */
-  if (! (sexp_params && TYPEOF(sexp_params)==REALSXP && length(sexp_params)>0) )
+  if (! (sexp_params && TYPEOF(sexp_params)==REALSXP) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
   params = REAL(sexp_params);
   n_params = length(sexp_params);
