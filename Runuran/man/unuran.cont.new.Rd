@@ -62,7 +62,7 @@ unuran.cont.new( cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE,
 
 \author{
   Josef Leydold and Wolfgang H\"ormann
-  \email{unuran@statmath.wu-wien.ac.at}.
+  \email{unuran@statmath.wu.ac.at}.
 }
 
 \examples{

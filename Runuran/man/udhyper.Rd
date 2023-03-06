@@ -51,7 +51,7 @@ udhyper(m, n, k, lb=max(0,k-n), ub=min(k,m))
 
 \author{
   Josef Leydold and Wolfgang H\"ormann
-  \email{unuran@statmath.wu-wien.ac.at}.
+  \email{unuran@statmath.wu.ac.at}.
 }
 
 \examples{

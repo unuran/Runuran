@@ -230,13 +230,13 @@
 
 \author{
   Josef Leydold and Wolfgang H\"ormann
-  \email{unuran@statmath.wu-wien.ac.at}.
+  \email{unuran@statmath.wu.ac.at}.
 }
 
 \references{
   J. Leydold and W. H\"ormann (2000-2008):
   UNU.RAN User Manual, see
-  \url{http://statmath.wu-wien.ac.at/unuran/}.
+  \url{http://statmath.wu.ac.at/unuran/}.
   
   W.~H\"ormann, J.~Leydold, and G.~Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.

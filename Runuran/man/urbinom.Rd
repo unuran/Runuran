@@ -50,7 +50,7 @@ urbinom(n, size, prob, lb = 0, ub = size)
 
 \author{
   Josef Leydold and Wolfgang H\"ormann
-  \email{unuran@statmath.wu-wien.ac.at}.
+  \email{unuran@statmath.wu.ac.at}.
 }
 
 \note{

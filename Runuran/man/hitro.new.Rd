@@ -90,12 +90,12 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
   Research Report Series / Department of Statistics and Mathematics,
   Nr. 27, December 2005 Department of Statistics and Mathematics,
   Wien, Wirtschaftsuniv., 2005.
-  \url{http://epub.wu-wien.ac.at/dyn/virlib/wp/showentry?ID=epub-wu-01_8cb}
+  \url{http://epub.wu.ac.at/dyn/virlib/wp/showentry?ID=epub-wu-01_8cb}
 }
 
 \author{
   Josef Leydold and Wolfgang H\"ormann
-  \email{unuran@statmath.wu-wien.ac.at}.
+  \email{unuran@statmath.wu.ac.at}.
 }
 
 \examples{

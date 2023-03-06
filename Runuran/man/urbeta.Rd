@@ -52,7 +52,7 @@ urbeta(n, shape1, shape2, lb = 0, ub = 1)
 
 \author{
   Josef Leydold and Wolfgang H\"ormann
-  \email{unuran@statmath.wu-wien.ac.at}.
+  \email{unuran@statmath.wu.ac.at}.
 }
 
 \note{
