@@ -30,10 +30,10 @@ urextremeI(n, location=0, scale=1, lb=-Inf, ub=Inf)
   the default values of \code{0} and \code{1} respectively.
 
   The Gumbel distribution with location \eqn{l} and scale \eqn{s} has
-  density
+  distribution function
   \deqn{
-    f(x) = \exp(-\exp(-\frac{x-l}{s}) - \frac{x-l}{s})}{%
-    f(x) = exp(-exp(-(x-l)/s) - (x-l)/s)}
+    F(x) = \exp(-\exp(-\frac{x-l}{s}))}{%
+    F(x) = exp(-exp(-(x-l)/s))}
   for all \eqn{x}.
 
   The generation algorithm uses fast numerical inversion. The parameters

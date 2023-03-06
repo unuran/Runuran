@@ -7,7 +7,7 @@
 
 \description{
   UNU.RAN random variate generator for the Beta distribution with
-  \code{shape1} and \code{shape2}.
+  parameters \code{shape1} and \code{shape2}.
   It also allows sampling from the truncated distribution.
   
   [Distribution] -- Sampling Function: Beta.  %% Continuous

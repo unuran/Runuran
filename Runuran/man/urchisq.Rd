@@ -10,7 +10,7 @@
   (\eqn{\chi^2}{chi^2}) distribution with \code{df} degrees of freedom.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Chi-square.  %% Continuous
+  [Distribution] -- Sampling Function: Chi-squared.  %% Continuous
 }
 
 \usage{

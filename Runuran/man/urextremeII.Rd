@@ -30,11 +30,11 @@ urextremeII(n, shape, location=0, scale=1, lb=location, ub=Inf)
   If \code{location} or \code{scale} are not specified, they assume
   the default values of \code{0} and \code{1} respectively.
 
-  The Frechet distribution with shape \eqn{k}, location \eqn{l} and
-  scale \eqn{s} has density
+  The Frechet distribution function with shape \eqn{k}, location \eqn{l}
+  and scale \eqn{s} is
   \deqn{
-    f(x) = \exp(-(\frac{x-l}{s})^{-k})\,(\frac{x-l}{s})^{-k-1}}{%
-    f(x) = exp(-((x-l)/s)^(-k))*((x-l)/s)^(-k-1)}
+    F(x) = \exp(-(\frac{x-l}{s})^{-k})}{%
+    f(x) = exp(-((x-l)/s)^(-k))}
   for \eqn{x \ge l}.
   
   The generation algorithm uses fast numerical inversion. The parameters

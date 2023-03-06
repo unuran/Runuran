@@ -17,8 +17,8 @@
   \tabular{ll}{
     Package: \tab Runuran       \cr
     Type:    \tab Package       \cr
-    Version: \tab 0.10.902      \cr
-    Date:    \tab 2009-10-15    \cr
+    Version: \tab 0.10.903      \cr
+    Date:    \tab 2009-10-19    \cr
     License: \tab GPL 2 or later\cr
   }
   \pkg{Runuran} provides an interface to the UNU.RAN library for
@@ -59,19 +59,19 @@
   Compared to the corresponding \R functions these \code{ur} functions
   have a different behavior:
   \itemize{
-    \item{--}{\code{ur} functions are often much faster for large
+    \item \code{ur} functions are often much faster for large
       samples (e.g., a factor of about 5 for the \eqn{t} distribution).
-      For small samples they are slow.}
-    \item{--}{All \code{ur} functions allow to sample from truncated
+      For small samples they are slow.
+    \item All \code{ur} functions allow to sample from truncated
       versions of the original distributions. Therefore the arguments
       \code{lb} (lower border) and \code{ub} (upper border) are
-      available for all these functions.}
-    \item{--}{Allmost all \code{ur} functions are based on fast numerical
+      available for all these functions.
+    \item Allmost all \code{ur} functions are based on fast numerical
       inversion algorithms. This is important for example for generating
-      order statistics or random vectors from copulas.}
-    \item{--}{All \code{ur} functions do \strong{not} allow vectors as
+      order statistics or random vectors from copulas.
+    \item All \code{ur} functions do \strong{not} allow vectors as
       arguments (to be more precise: they only use the first element of
-      the vector).}
+      the vector).
   }
   
   Currently generators for the following distributions are implemented.

@@ -6,15 +6,16 @@
 \title{UNU.RAN object for Binomial distribution}
 
 \description{
-  Create UNU.RAN object for the Binomial distribution
+  Create UNU.RAN object for a Binomial distribution
   with parameters \code{size} and \code{prob}.
   
   [Distribution] -- Object: Binomial.  %% Discrete
 }
 
 \usage{
-udbinom(size, prob, lb = 0, ub = size)
+udbinom(size, prob, lb=0, ub=size)
 }
+
 \arguments{
   \item{size}{number of trials (one or more).}
   \item{prob}{probability of success on each trial.}
@@ -24,10 +25,13 @@ udbinom(size, prob, lb = 0, ub = size)
 
 \details{
   The Binomial distribution with \code{size} \eqn{= n} and
-  \code{prob} \eqn{= p} has density
+  \code{prob} \eqn{= p} has probability mass function
   \deqn{p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}}{
     p(x) = choose(n,x) p^x (1-p)^(n-x)}
   for \eqn{x = 0, \ldots, n}.
+
+  The domain of the distribution can be truncated to the 
+  interval (\code{lb},\code{ub}).
 }
 
 \value{
@@ -39,9 +43,10 @@ udbinom(size, prob, lb = 0, ub = size)
 }
 
 \references{
-  W. H\"ormann, J. Leydold, and G. Derflinger (2004):
-  Automatic Nonuniform Random Variate Generation.
-  Springer-Verlag, Berlin Heidelberg
+  N.L. Johnson, S. Kotz, and A.W. Kemp (1992):
+  Univariate Discrete Distributions.
+  2nd edition, John Wiley & Sons, Inc., New York.
+  Chap. 3, p. 105.
 }
 
 \author{
@@ -50,12 +55,13 @@ udbinom(size, prob, lb = 0, ub = size)
 }
 
 \examples{
-## Create distribution object for binomial distribution
+## Create distribution object for Binomial distribution
 dist <- udbinom(size=100, prob=0.33)
 ## Generate generator object; use method DGT (inversion)
-gen <- unuran.new(dist,"dgt")
-## Draw a sample of size 1000
-x <- ur(gen,1000)
+gen <- dgtd.new(dist)
+## Draw a sample of size 100
+x <- ur(gen,100)
+
 }
 
 \keyword{distribution}

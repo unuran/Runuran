@@ -1,39 +1,40 @@
-\name{udnorm}
+\name{udlnorm}
 \docType{function}
 
-\alias{udnorm}
+\alias{udlnorm}
 
-\title{UNU.RAN object for Normal distribution}
+\title{UNU.RAN object for Log Normal distribution}
 
 \description{
-  Create UNU.RAN object for a Normal (Gaussian) distribution with mean
-  equal to \code{mean} and standard deviation to \code{sd}.
+  Create UNU.RAN object for a Log Normal distribution
+  whose logarithm has mean equal to \code{meanlog} and standard
+  deviation equal to \code{sdlog}.
   
-  [Distribution] -- Object: Normal (Gaussian).  %% Continuous
+  [Distribution] -- Object: Log Normal.  %% Continuous
 }
 
 \usage{
-udnorm(mean=0, sd=1, lb=-Inf, ub=Inf)
+udlnorm(meanlog=0, sdlog=1, lb=0, ub=Inf)
 }
 
 \arguments{
-  \item{mean}{mean of distribution.}
-  \item{sd}{standard deviation.}
+  \item{meanlog}{mean of the distribution on the log scale.}
+  \item{sdlog}{standard deviation of the distribution on the log scale.}
   \item{lb}{lower bound of (truncated) distribution.}
   \item{ub}{upper bound of (truncated) distribution.}
 }
 
 \details{
-  The normal distribution with mean \eqn{\mu}{mu} and standard deviation
-  \eqn{\sigma}{sigma} has density
+  The log normal distribution has density
   \deqn{
+    f(x) = 
+    \frac{1}{\sqrt{2 \pi} \sigma x} \exp{- (\log(x)-\mu)^2 / (2 sigma^2)}}{
     f(x) =
-    \frac{1}{\sqrt{2\pi}\sigma} e^{-(x-\mu)^2/2\sigma^2}}{
-    f(x) = 1/(sqrt(2 pi) sigma) e^-((x - mu)^2/(2 sigma^2))
+    1/(sqrt(2 pi) sigma x) e^-((log x - mu)^2 / (2 sigma^2))
   }
-  where \eqn{\mu}{mu} is the mean of the distribution and
-  \eqn{\sigma}{sigma} the standard deviation.
-
+  where \eqn{\mu}{mu} is the mean and \eqn{\sigma}{sigma} the standard
+  deviation of the logarithm.
+  
   The domain of the distribution can be truncated to the 
   interval (\code{lb},\code{ub}).
 }
@@ -50,7 +51,7 @@ udnorm(mean=0, sd=1, lb=-Inf, ub=Inf)
   N.L. Johnson, S. Kotz, and N. Balakrishnan (1994):
   Continuous Univariate Distributions, Volume 1.
   2nd edition, John Wiley & Sons, Inc., New York.
-  Chap. 13, p. 80.
+  Chap. 14, p. 207.
 }
 
 \author{
@@ -60,16 +61,10 @@ udnorm(mean=0, sd=1, lb=-Inf, ub=Inf)
 
 \examples{
 ## Create distribution object for standard normal distribution
-distr <- udnorm()
+distr <- udlnorm()
 ## Generate generator object; use method PINV (inversion)
 gen <- pinvd.new(distr)
 ## Draw a sample of size 100
-x <- ur(gen,100)
-
-## Create distribution object for positive normal distribution
-distr <- udnorm(lb=0, ub=Inf)
-## ... and draw a sample
-gen <- pinvd.new(distr)
 x <- ur(gen,100)
 
 }

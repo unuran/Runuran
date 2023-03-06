@@ -38,24 +38,93 @@
 #include <unuran.h>
 #include "Runuran.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define DISTRIBUTION(name)  do { \
+    if ( strcmp( distribution, #name)==0 ) \
+      return unur_distr_##name (params,n_params); \
+    } while(0)
+
 /*****************************************************************************/
 /* Continuous distribution                                                   */
 
 UNUR_DISTR *
-_Runuran_get_std_cont( const char *name, const double *params, int n_params )
+_Runuran_get_std_cont( const char *distribution, const double *params, int n_params )
      /*----------------------------------------------------------------------*/
      /* Create UNU.RAN object for special continuous distribution.           */
      /*                                                                      */
      /* Parameters:                                                          */
-     /*   name     ... name of special distribution                          */
-     /*   params   ... vector of parameter values                            */
-     /*   n_params ... number of parameters                                  */
+     /*   distribution ... name of special distribution                      */
+     /*   params       ... vector of parameter values                        */
+     /*   n_params     ... number of parameters                              */
      /*----------------------------------------------------------------------*/
 {
-  switch (name[0]) {
+  switch (distribution[0]) {
+
+  case 'b':
+    DISTRIBUTION (beta);
+    break;
+    
+  case 'c':
+    DISTRIBUTION (cauchy);
+    DISTRIBUTION (chi);
+    DISTRIBUTION (chisquare);
+    break;
+
+  case 'e':
+    DISTRIBUTION (exponential);
+    DISTRIBUTION (extremeI);
+    DISTRIBUTION (extremeII);
+    break;
+
+  case 'F':
+    DISTRIBUTION (F);
+    break;
+      
+  case 'g':
+    DISTRIBUTION (gamma);
+    DISTRIBUTION (gig);
+    DISTRIBUTION (gig2);
+    break;
+
+  case 'h':
+    DISTRIBUTION (hyperbolic);
+    break;
+      
   case 'n':
-    if ( !strcmp( name, "norm") )
-      return unur_distr_normal (params,n_params);
+    DISTRIBUTION (normal);
+    break;
+
+  case 'i':
+    DISTRIBUTION (ig);
+    break;
+
+  case 'l':
+    DISTRIBUTION (laplace);
+    DISTRIBUTION (logistic);
+    DISTRIBUTION (lomax);
+    DISTRIBUTION (lognormal);
+    break;
+
+  case 'p':
+    DISTRIBUTION (pareto);
+    DISTRIBUTION (powerexponential);
+    break;
+
+  case 'r':
+    DISTRIBUTION (rayleigh);
+    break;
+
+  case 's':
+    DISTRIBUTION (student);
+    break;
+
+  case 't':
+    DISTRIBUTION (triangular);
+    break;
+
+  case 'w':
+    DISTRIBUTION (weibull);
     break;
   }
 
@@ -67,20 +136,39 @@ _Runuran_get_std_cont( const char *name, const double *params, int n_params )
 /* Discrete distribution                                                     */
 
 UNUR_DISTR *
-_Runuran_get_std_discr( const char *name, const double *params, int n_params )
+_Runuran_get_std_discr( const char *distribution, const double *params, int n_params )
      /*----------------------------------------------------------------------*/
      /* Create UNU.RAN object for special discrete distribution.             */
      /*                                                                      */
      /* Parameters:                                                          */
-     /*   name     ... name of special distribution                          */
+     /*   distribution ... name of special distribution                      */
      /*   params   ... vector of parameter values                            */
      /*   n_params ... number of parameters                                  */
      /*----------------------------------------------------------------------*/
 {
-  switch (name[0]) {
+  switch (distribution[0]) {
   case 'b':
-    if ( !strcmp( name, "binom") )
-      return unur_distr_binomial (params,n_params);
+    DISTRIBUTION (binomial);
+    break;
+
+  case 'g':
+    DISTRIBUTION (geometric);
+    break;
+
+  case 'h':
+    DISTRIBUTION (hypergeometric);
+    break;
+
+  case 'l':
+    DISTRIBUTION (logarithmic);
+    break;
+
+  case 'n':
+    DISTRIBUTION (negativebinomial);
+    break;
+
+  case 'p':
+    DISTRIBUTION (poisson);
     break;
   }
 

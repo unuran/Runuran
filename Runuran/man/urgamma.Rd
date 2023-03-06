@@ -6,7 +6,7 @@
 \title{UNU.RAN Gamma random variate generator}
 
 \description{
-  UNU.RAN random variate generator for the Gamma distribution with
+  UNU.RAN random variate generator for the Gamma distribution
   with parameters \code{shape} and \code{scale}.
   It also allows sampling from the truncated distribution.
   

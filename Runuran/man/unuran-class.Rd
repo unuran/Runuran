@@ -20,7 +20,7 @@
   Objects can be created by calls of the form
   \code{new("unuran", distribution, method)}.
 
-  \itemize{
+  \describe{
     \item{distribution:}{A character string that describes the target
       distribution (see UNU.RAN User Manual) or one of the S4 classes
       \code{\linkS4class{unuran.cont}},

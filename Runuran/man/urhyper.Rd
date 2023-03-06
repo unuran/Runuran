@@ -66,9 +66,8 @@ urhyper(nn, m, n, k, lb=max(0,k-n), ub=min(k,m))
 
 \examples{
 ## Create a sample of size 1000
-x <- rhyper(nn=20,m=15,n=5,k=7)
+x <- urhyper(nn=20,m=15,n=5,k=7)
 }
 
 \keyword{distribution}
 \keyword{datagen}
-

@@ -70,6 +70,13 @@ unuran.cont.new( cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE,
 mypdf <- function (x) { exp(-x) }
 distr <- unuran.cont.new(pdf=mypdf, islog=FALSE, lb=0, ub=Inf, mode=0)
 
+## This object can now be used to create an generator object.
+## 1. select a method using a Runuran function:
+gen <- pinvd.new(distr, uresolution=1e-12)
+
+## 2. directly use the UNU.RAN string API
+gen <- unuran.new(distr, method="pinv; u_resolution=1e-12")
+
 }
 
 \keyword{distribution}
