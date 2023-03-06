@@ -136,6 +136,17 @@ udgamma <- function (shape,scale=1,lb=0,ub=Inf) {
   distr
 }
 
+## -- Generalized hyperbolic distribution -----------------------------------
+udghyp <- function (lambda,alpha,beta,delta,mu, lb=-Inf,ub=Inf) {
+  if (missing (lambda) || missing (alpha) || missing (beta)
+      || missing (delta) || missing (mu))
+    stop ("argument 'lambda', 'alpha', 'beta', 'delta', or 'lambda' missing")
+  distr <- new ("unuran.cont",empty=TRUE)
+  distr@distr <-.Call("Runuran_std_cont", distr, "ghyp", c(lambda,alpha,beta,delta,mu),
+                      c(lb,ub), PACKAGE="Runuran")
+  distr
+}
+
 ## -- Generalized inverse Gaussian ------------------------------------------
 urgig <- function (n,lambda,omega,lb=1.e-12,ub=Inf) { 
         ## works for lambda>=1 and omega>0 and for lambda>0 and omega>=0.5
@@ -172,11 +183,11 @@ urhyperbolic <- function (n,shape,scale=1,lb=-Inf,ub=Inf) {
 	 unuran.sample(unr,n)
 }
 
-udhyperbolic <- function (mu,alpha,beta,delta, lb=-Inf,ub=Inf) {
-  if (missing (mu) || missing (alpha) || missing (beta) || missing (delta))
-    stop ("argument 'mu', 'alpha', 'beta', or 'delta' missing")
+udhyperbolic <- function (alpha,beta,delta,mu, lb=-Inf,ub=Inf) {
+  if (missing (alpha) || missing (beta) || missing (delta) || missing (mu))
+    stop ("argument 'alpha', 'beta', 'delta',or 'mu' missing")
   distr <- new ("unuran.cont",empty=TRUE)
-  distr@distr <-.Call("Runuran_std_cont", distr, "hyperbolic", c(mu,alpha,beta,delta), c(lb,ub), PACKAGE="Runuran")
+  distr@distr <-.Call("Runuran_std_cont", distr, "hyperbolic", c(alpha,beta,delta,mu), c(lb,ub), PACKAGE="Runuran")
   distr
 }
 

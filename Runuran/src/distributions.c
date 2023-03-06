@@ -83,6 +83,7 @@ _Runuran_get_std_cont( const char *distribution, const double *params, int n_par
       
   case 'g':
     DISTRIBUTION (gamma);
+    DISTRIBUTION (ghyp);
     DISTRIBUTION (gig);
     DISTRIBUTION (gig2);
     break;

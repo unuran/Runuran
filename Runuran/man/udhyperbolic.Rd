@@ -15,15 +15,15 @@
 }
 
 \usage{
-udhyperbolic(mu, alpha, beta, delta, lb=-Inf, ub=Inf)
+udhyperbolic(alpha, beta, delta, mu, lb=-Inf, ub=Inf)
 }
 
 \arguments{
-  \item{mu}{location parameter.}
   \item{alpha}{tail (shape) parameter (must be strictly larger than
   absolute value of \code{beta}).}
   \item{beta}{asymmetry (shape) parameter.}
   \item{delta}{scale parameter (must be strictly positive).}
+  \item{mu}{location parameter.}
   \item{lb}{lower bound of (truncated) distribution.}
   \item{ub}{upper bound of (truncated) distribution.}
 }
@@ -60,7 +60,7 @@ udhyperbolic(mu, alpha, beta, delta, lb=-Inf, ub=Inf)
 
 \examples{
 ## Create distribution object for hyperbolic distribution
-distr <- udhyperbolic(mu=0,alpha=2,beta=1,delta=1)
+distr <- udhyperbolic(alpha=3,beta=2,delta=1,mu=0)
 ## Generate generator object; use method PINV (inversion)
 gen <- pinvd.new(distr)
 ## Draw a sample of size 100
