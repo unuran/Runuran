@@ -17,30 +17,43 @@
   \tabular{ll}{
     Package: \tab Runuran       \cr
     Type:    \tab Package       \cr
-    Version: \tab 0.10.903      \cr
-    Date:    \tab 2009-10-19    \cr
+    Version: \tab 0.11.0        \cr
+    Date:    \tab 2009-11-17    \cr
     License: \tab GPL 2 or later\cr
   }
   \pkg{Runuran} provides an interface to the UNU.RAN library for
   universal non-uniform random number generators.
-  It compiles three sets of functions of increasing power (and thus
-  complexity):
+  It provides a collection of so called automatic methods for
+  non-uniform random variate generation. Thus it is possible to draw
+  samples from uncommon distributions. Nevertheless, (some of) these
+  algorithms are also well suited for standard distribution like the
+  normal distribution. Moreover, sampling from distributions like the
+  generalized hyperbolic distribution is very fast. Such distributions
+  became recently popular in financial engineering.
+
+  \pkg{Runuran} compiles four sets of functions of increasing power (and
+  thus complexity):
   
   \describe{
-    \item{}{\bold{[Distribution]} --
+    \item{}{\bold{[Special Generator]} --
       Generators for paricular distributions. Their syntax is similar to
       the corresponding \R built-in functions.}
     \item{}{\bold{[Universal]} --
       Functions that offer an interface to a carefully selected
       collection of UNU.RAN methods with their most important
       parameters.}
+    \item{}{\bold{[Distribution]} --
+      Functions that create objects for important distributions.
+      These objects can then be used in combination with one of the
+      universal methods which is best suited for a particular
+      application.}
     \item{}{\bold{[Advanced]} --
       Wrapper to the UNU.RAN string API. This gives access to all
       UNU.RAN methods and their variants.}
   }
   
   We have marked all functions in their corresponding help page by one
-  these three tags.
+  these four tags.
 
   An introduction to \pkg{Runuran} with examples together with a very
   short survey on non-uniform random variate generation can be found in
@@ -48,78 +61,38 @@
   \code{vignette("Runuran")}). 
 }
 
-\section{[Distribution]}{
+\section{[Special Generator]}{
   These functions have similar syntax to the analogous \R built-in
-  generating functions (if these exist) but have an optional domain
+  generating functions (if these exist) but have optional domain
   arguments \code{lb} and \code{ub}, i.e., these calls also allow to
   draw samples from truncated distributions:
 
-  \code{ur...(n, distribution parameters, lb , ub)}
+  \code{ur\ldots(n, distribution parameters, lb , ub)}
 
-  Compared to the corresponding \R functions these \code{ur} functions
-  have a different behavior:
+  Compared to the corresponding \R functions these \code{ur\ldots}
+  functions have a different behavior:
   \itemize{
-    \item \code{ur} functions are often much faster for large
+    \item \code{ur\ldots} functions are often much faster for large
       samples (e.g., a factor of about 5 for the \eqn{t} distribution).
       For small samples they are slow.
-    \item All \code{ur} functions allow to sample from truncated
+    \item All \code{ur\ldots} functions allow to sample from truncated
       versions of the original distributions. Therefore the arguments
       \code{lb} (lower border) and \code{ub} (upper border) are
       available for all these functions.
-    \item Allmost all \code{ur} functions are based on fast numerical
+    \item Allmost all \code{ur\ldots} functions are based on fast numerical
       inversion algorithms. This is important for example for generating
-      order statistics or random vectors from copulas.
-    \item All \code{ur} functions do \strong{not} allow vectors as
+      order statistics, quasi-Monte Carlo methods or random vectors from
+      copulas.
+    \item All \code{ur\ldots} functions do \strong{not} allow vectors as
       arguments (to be more precise: they only use the first element of
       the vector).
   }
-  
-  Currently generators for the following distributions are implemented.
-  
-  %% -- begin: list of distributions --
-  Continuous Univariate Distributions (24):
 
-  \tabular{lcl}{ 
-    \emph{Function} \tab \tab \emph{Distribution} \cr
-    \code{\link{urbeta}} \tab \ldots \tab Beta \cr
-    \code{\link{urburr}} \tab \ldots \tab Burr \cr
-    \code{\link{urcauchy}} \tab \ldots \tab Cauchy \cr
-    \code{\link{urchi}} \tab \ldots \tab Chi \cr
-    \code{\link{urchisq}} \tab \ldots \tab Chi-square \cr
-    \code{\link{urexp}} \tab \ldots \tab Exponential \cr
-    \code{\link{urextremeI}} \tab \ldots \tab Gumbel (extreme value type I) \cr
-    \code{\link{urextremeII}} \tab \ldots \tab Frechet (extreme value type II) \cr
-    \code{\link{urf}} \tab \ldots \tab F \cr
-    \code{\link{urgamma}} \tab \ldots \tab Gamma \cr
-    \code{\link{urgig}} \tab \ldots \tab GIG (generalized inverse Gaussian) \cr
-    \code{\link{urhyperbolic}} \tab \ldots \tab Hyperbolic \cr
-    \code{\link{urlaplace}} \tab \ldots \tab Laplace \cr
-    \code{\link{urlnorm}} \tab \ldots \tab Log-Normal \cr
-    \code{\link{urlogis}} \tab \ldots \tab Logistic \cr
-    \code{\link{urlomax}} \tab \ldots \tab Lomax \cr
-    \code{\link{urnorm}} \tab \ldots \tab Normal (Gaussian) \cr
-    \code{\link{urpareto}} \tab \ldots \tab Pareto (of first kind) \cr
-    \code{\link{urplanck}} \tab \ldots \tab Planck \cr
-    \code{\link{urpowerexp}} \tab \ldots \tab Powerexponential (Subbotin) \cr
-    \code{\link{urrayleigh}} \tab \ldots \tab Rayleigh \cr
-    \code{\link{urt}} \tab \ldots \tab t (Student) \cr
-    \code{\link{urtriang}} \tab \ldots \tab Triangular \cr
-    \code{\link{urweibull}} \tab \ldots \tab Weibull \cr
-  }
+  However, we recommend to use the more flexible approach described in
+  the next sections below.
 
-  Discrete Distributions (6):
-
-  \tabular{lcl}{ 
-    \emph{Function} \tab \tab \emph{Distribution} \cr
-    \code{\link{urbinom}} \tab \ldots \tab Binomial \cr
-    \code{\link{urgeom}} \tab \ldots \tab Geometric \cr
-    \code{\link{urhyper}} \tab \ldots \tab Hypergeometric \cr
-    \code{\link{urlogarithmic}} \tab \ldots \tab Logarithmic \cr
-    \code{\link{urnbinom}} \tab \ldots \tab Negative Binomial \cr
-    \code{\link{urpois}} \tab \ldots \tab Poisson \cr
-  }
-
-  %% -- end: list of distributions --
+  A list of all available special generators can be found in
+  \code{\link{Runuran.special.generators}}.
 }
 
 \section{[Universal]}{
@@ -163,6 +136,16 @@
   }
 }
   
+\section{[Distribution]}{
+  Coding the required functions for particular distributions can be
+  tedious. Thus we have compiled a set of functions that create UNU.RAN
+  distribution objects that can directly be used with the functions from
+  section [Universal].
+
+  A list of all available distributions can be found in
+  \code{\link{Runuran.distributions}}.
+}
+
 \section{[Advanced]}{
   This interface provides the most flexible access to UNU.RAN.
   It requires three steps:
@@ -171,7 +154,7 @@
     \item
     Create a \code{\linkS4class{unuran.distr}} object that contains
     all required information about the \emph{target distribution}.
-    We have three types of distribuions:
+    We have three types of distributions:
   
     \tabular{lcl}{ 
       \emph{Function}                \tab        \tab \emph{Type of distribution} \cr
@@ -179,6 +162,9 @@
       \code{\link{unuran.discr.new}} \tab \ldots \tab discrete distributions \cr
       \code{\link{unuran.cmv.new}}   \tab \ldots \tab multivariate continuous distributions \cr
     }
+
+    The functions from section [Distribution] creates such objects for
+    particular distributions.
     
     \item
     Choose a \emph{generation method} and create a
@@ -207,7 +193,7 @@
   All UNU.RAN methods use the \R built-in random number generator as
   source of (pseudo-) random numbers. Thus the generated samples depend
   on the state \code{\link{.Random.seed}} and can be controlled by the
-  \R\ functions \code{\link{RNGkind}} and \code{\link{set.seed}}.
+  \R functions \code{\link{RNGkind}} and \code{\link{set.seed}}.
 }
 
 \section{Warning}{
@@ -222,8 +208,8 @@
 
   All other objects \strong{must} be \strong{newly created} in a new \R
   session!
-  (Using a restored object does not work as the \code{unuran} is then
-  broken.)
+  (Using a restored object does not work as the \code{"unuran"} object
+  is then broken.)
 }
 
 \note{
@@ -240,15 +226,15 @@
   UNU.RAN User Manual, see
   \url{http://statmath.wu.ac.at/unuran/}.
   
-  W.~H\"ormann, J.~Leydold, and G.~Derflinger (2004):
+  W. H\"ormann, J. Leydold, and G. Derflinger (2004):
   Automatic Nonuniform Random Variate Generation.
   Springer-Verlag, Berlin Heidelberg
 
-  G.~Tirler and J.~Leydold (2003):
+  G. Tirler and J. Leydold (2003):
   Automatic Nonuniform Random Variate Generation in \R.
-  In: K.~Hornik and F.~Leisch, 
+  In: K. Hornik and F. Leisch, 
   Proceedings of the 3rd International Workshop on
-  Distributed Statistical Computing (DSC~2003),
+  Distributed Statistical Computing (DSC 2003),
   March 20--22, Vienna, Austria.
 }
 
@@ -259,8 +245,12 @@
   \code{\linkS4class{unuran.cont}},
   \code{\linkS4class{unuran.discr}},
   \code{\linkS4class{unuran}}.
+
+  See \code{\link{Runuran.special.generators}} for an overview of
+  special generators and 
+  \code{\link{Runuran.distributions}} for a list of ready-to-use
+  distributions suitable for the automatic methods.
 }
 
 \keyword{distribution}
 \keyword{datagen}
-
