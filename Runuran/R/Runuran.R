@@ -97,16 +97,6 @@ unuran.sample <- function(unr,n=1) {
         .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
 }
 
-## r
-##    method alias for unuran.sample  (slow!!)
-if(!isGeneric("r"))
-        setGeneric("r", function(unr,...) standardGeneric("r"))
-
-setMethod("r", "unuran",
-          function(unr,n=1) {
-                  .Call("Runuran_sample", unr, n, PACKAGE="Runuran")
-          } )
-
 ## Quantile -----------------------------------------------------------------
 
 ## uq
