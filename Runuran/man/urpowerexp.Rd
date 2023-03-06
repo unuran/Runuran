@@ -10,12 +10,13 @@
   distribution with shape parameter \code{shape}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Powerexponential (Subbotin).  %% Continuous
+  [Special Generator] -- Sampling Function: Powerexponential (Subbotin).  %% Continuous
 }
 
 \usage{
 urpowerexp(n, shape, lb = -Inf, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{(strictly positive) shape parameter.}
@@ -69,5 +70,3 @@ x <- urpowerexp(n=1000, shape=4)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

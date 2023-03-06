@@ -10,12 +10,13 @@
   kind) with shape parameters \code{k} and \code{a}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Pareto (of first kind).  %% Continuous
+  [Special Generator] -- Sampling Function: Pareto (of first kind).  %% Continuous
 }
 
 \usage{
 urpareto(n, k, a, lb=k, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{k}{(strictly positive) shape and location parameter.}
@@ -69,5 +70,3 @@ x <- urpareto(n=1000,k=2,a=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

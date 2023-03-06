@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Poisson distribution
   with parameter \code{lambda}.
   
-  [Distribution] -- Object: Poisson.  %% Discrete
+  [Distribution] -- Poisson.  %% Discrete
 }
 
 \usage{
@@ -64,5 +64,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

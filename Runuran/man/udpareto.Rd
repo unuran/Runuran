@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Pareto distribution (of first
   kind) with shape parameters \code{k} and \code{a}.
 
-  [Distribution] -- Object: Pareto (of first kind).  %% Continuous
+  [Distribution] -- Pareto (of first kind).  %% Continuous
 }
 
 \usage{
@@ -66,5 +66,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

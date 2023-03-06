@@ -15,7 +15,7 @@
 }
 
 \usage{
-dari.new(pmf, lb, ub, mode=NA, sum=1, ...)
+dari.new(pmf, lb, ub, mode=NA, sum=1, \dots)
 darid.new(distr)
 }
 \arguments{
@@ -26,7 +26,7 @@ darid.new(distr)
     use \code{Inf} if unbounded from right. (numeric, integer)}
   \item{mode}{mode of distribution. (integer)}
   \item{sum}{sum over all \dQuote{probabilities}. (numeric)}
-  \item{...}{(optional) arguments for \code{pmf}.}
+  \item{\dots}{(optional) arguments for \code{pmf}.}
   \item{distr}{distribution object. (S4 object of class \code{"unuran.discr"})}
 }
 
@@ -96,6 +96,5 @@ x <- ur(gen,100)
 
 }
 
-\keyword{distribution}
 \keyword{datagen}
-
+\keyword{distribution}

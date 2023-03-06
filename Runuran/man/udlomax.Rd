@@ -10,7 +10,7 @@
   distribution of second kind) with shape parameter \code{shape} and
   scale parameter \code{scale}.
   
-  [Distribution] -- Object: Lomax (Pareto of second kind).  %% Continuous
+  [Distribution] -- Lomax (Pareto of second kind).  %% Continuous
 }
 
 \usage{
@@ -67,5 +67,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

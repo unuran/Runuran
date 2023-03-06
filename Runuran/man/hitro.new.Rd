@@ -16,7 +16,7 @@
 
 \usage{
 hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
-          thinning=1, burnin = 0, ...)
+          thinning=1, burnin = 0, \dots)
 }
 \arguments{
   \item{dim}{number of dimensions of the distribution. (integer)}
@@ -32,7 +32,7 @@ hitro.new(dim=1, pdf, ll=NULL, ur=NULL, mode=NULL, center=NULL,
     either, the origin is used. (numeric vector)}
   \item{thinning}{thinning factor. (positive integer)}
   \item{burnin}{lenght of burin-in phase. (positive integer)}
-  \item{...}{(optional) arguments for \code{pdf}}
+  \item{\dots}{(optional) arguments for \code{pdf}}
 }
 
 \details{
@@ -124,6 +124,5 @@ x <- ur(gen,100)
 
 }
 
-\keyword{distribution}
 \keyword{datagen}
-
+\keyword{distribution}

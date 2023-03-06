@@ -16,7 +16,7 @@
 }
 
 \usage{
-pinv.new(pdf, cdf, lb, ub, islog=FALSE, center=0, uresolution=1.e-10, ...)
+pinv.new(pdf, cdf, lb, ub, islog=FALSE, center=0, uresolution=1.e-10, \dots)
 pinvd.new(distr, uresolution=1.e-10)
 }
 \arguments{
@@ -29,7 +29,7 @@ pinvd.new(distr, uresolution=1.e-10)
   \item{islog}{whether \code{pdf} and \code{cdf} are given by their
     corresponding logarithms. (boolean)}
   \item{center}{\dQuote{typical} point of distribution. (numeric)}
-  \item{...}{(optional) arguments for \code{pdf} and \code{cdf}.}
+  \item{\dots}{(optional) arguments for \code{pdf} and \code{cdf}.}
   \item{distr}{distribution object. (S4 object of class \code{"unuran.cont"})}
   \item{uresolution}{maximal acceptable u-error. (numeric)}
 }
@@ -133,6 +133,5 @@ x <- ur(gen,100)
 
 }
 
-\keyword{distribution}
 \keyword{datagen}
-
+\keyword{distribution}

@@ -10,12 +10,13 @@
   parameters \code{shape1} and \code{shape2}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Beta.  %% Continuous
+  [Special Generator] -- Sampling Function: Beta.  %% Continuous
 }
 
 \usage{
 urbeta(n, shape1, shape2, lb = 0, ub = 1)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape1,shape2}{positive shape parameters of the Beta distribution.}
@@ -67,5 +68,3 @@ x <- urbeta(n=1000,shape1=2,shape2=5)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -10,12 +10,13 @@
   shape parameters \code{a}, \code{m} and \code{b}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Triangular.  %% Continuous
+  [Special Generator] -- Sampling Function: Triangular.  %% Continuous
 }
 
 \usage{
 urtriang(n, a, m, b, lb=a, ub=b)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{a,b}{left and right boundary of domain}
@@ -67,5 +68,3 @@ x <- urtriang(n=1000,a=-1,m=0,b=2)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

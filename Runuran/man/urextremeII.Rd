@@ -11,12 +11,13 @@
   location parameter \code{location} and scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Frechet (extreme value type II).  %% Continuous
+  [Special Generator] -- Sampling Function: Frechet (extreme value type II).  %% Continuous
 }
 
 \usage{
 urextremeII(n, shape, location=0, scale=1, lb=location, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{(strictly positive) shape parameter.}
@@ -73,5 +74,3 @@ x <- urextremeII(n=1000,shape=2)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

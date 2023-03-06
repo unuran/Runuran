@@ -15,6 +15,7 @@
 \usage{
 uq(unr, U)
 }
+
 \arguments{
   \item{unr}{a \code{unuran} object that implements an inversion menthod.}
   \item{U}{vector of probabilities.}
@@ -89,4 +90,3 @@ uq(gen,seq(0,1,0.05))
 
 \keyword{distribution}
 \keyword{datagen}
-

@@ -17,6 +17,7 @@
 unuran.cont.new( cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE,
                  lb=NA, ub=NA, mode=NA, center=NA, area=NA, name=NA)
 }
+
 \arguments{
   \item{cdf}{cumulative distribution function. (\R function)}
   \item{pdf}{probability density function. (\R function)}
@@ -45,8 +46,8 @@ unuran.cont.new( cdf=NULL, pdf=NULL, dpdf=NULL, islog=FALSE,
 }
 
 \note{
-  \code{unuran.cont.new(...)} is an alias for 
-  \code{new("unuran.cont", ...)}.
+  \code{unuran.cont.new(\dots)} is an alias for 
+  \code{new("unuran.cont", \dots)}.
 }
 
 \seealso{
@@ -81,4 +82,3 @@ gen <- unuran.new(distr, method="pinv; u_resolution=1e-12")
 
 \keyword{distribution}
 \keyword{datagen}
-

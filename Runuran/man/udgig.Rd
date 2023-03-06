@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Generalized Inverse Gaussian distribution
   with parameters \code{theta}, \code{psi}, and \code{chi}.
   
-  [Distribution] -- Object: Generalized Inverse Gaussian.  %% Continuous
+  [Distribution] -- Generalized Inverse Gaussian.  %% Continuous
 }
 
 \usage{
@@ -68,5 +68,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

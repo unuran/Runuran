@@ -15,7 +15,7 @@
 }
 
 \usage{
-tdr.new(pdf, dpdf=NULL, lb, ub, islog=FALSE, ...)
+tdr.new(pdf, dpdf=NULL, lb, ub, islog=FALSE, \dots)
 tdrd.new(distr)
 }
 \arguments{
@@ -27,7 +27,7 @@ tdrd.new(distr)
     use \code{Inf} if unbounded from right. (numeric)}
   \item{islog}{whether \code{pdf} is given as log-density (the
     \code{dpdf} must then be the derivative of the log-density). (boolean)}
-  \item{...}{(optional) arguments for \code{pdf}.}
+  \item{\dots}{(optional) arguments for \code{pdf}.}
   \item{distr}{distribution object. (S4 object of class \code{"unuran.cont"})}
 }
 
@@ -126,6 +126,5 @@ x <- ur(gen,100)
 
 }
 
-\keyword{distribution}
 \keyword{datagen}
-
+\keyword{distribution}

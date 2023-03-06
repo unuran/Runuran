@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Powerexponential (Subbotin)
   distribution with shape parameter \code{shape}.
   
-  [Distribution] -- Object: Powerexponential (Subbotin).  %% Continuous
+  [Distribution] -- Powerexponential (Subbotin).  %% Continuous
 }
 
 \usage{
@@ -72,5 +72,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

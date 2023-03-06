@@ -11,7 +11,7 @@
   \code{alpha}, asymmetry (shape) parameter \code{beta}, scale
   parameter \code{delta}, and location parameter \code{mu}.
   
-  [Distribution] -- Object: Generalized Hyperbolic.  %% Continuous
+  [Distribution] -- Generalized Hyperbolic.  %% Continuous
 }
 
 \usage{
@@ -96,5 +96,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

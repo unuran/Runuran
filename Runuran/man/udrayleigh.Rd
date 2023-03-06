@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Rayleigh distribution with
   scale parameter \code{scale}.
   
-  [Distribution] -- Object: Rayleigh.  %% Continuous
+  [Distribution] -- Rayleigh.  %% Continuous
 }
 
 \usage{
@@ -65,5 +65,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

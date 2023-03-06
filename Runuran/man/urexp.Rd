@@ -10,12 +10,13 @@
   rate \code{rate} (i.e., mean \code{1/rate}).
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Exponential.  %% Continuous
+  [Special Generator] -- Sampling Function: Exponential.  %% Continuous
 }
 
 \usage{
 urexp(n, rate=1, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{rate}{(strictly positive) rate parameter.}
@@ -69,5 +70,3 @@ x <- urexp(n=1000)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

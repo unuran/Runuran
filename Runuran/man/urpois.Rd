@@ -10,12 +10,13 @@
   with parameter \code{lambda}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Poisson.  %% Discrete
+  [Special Generator] -- Sampling Function: Poisson.  %% Discrete
 }
 
 \usage{
 urpois(n, lambda, lb = 0, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{lambda}{(non-negative) mean.}
@@ -68,5 +69,3 @@ x <- urpois(n=1000,lambda=2.3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Inverse Gaussian (Wald) distribution
   with mean \code{mu} and shape parameter \code{lambda}.
   
-  [Distribution] -- Object: Inverse Gaussian (Wald).  %% Continuous
+  [Distribution] -- Inverse Gaussian (Wald).  %% Continuous
 }
 
 \usage{
@@ -69,5 +69,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

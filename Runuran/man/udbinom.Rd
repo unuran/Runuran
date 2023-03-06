@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Binomial distribution
   with parameters \code{size} and \code{prob}.
   
-  [Distribution] -- Object: Binomial.  %% Discrete
+  [Distribution] -- Binomial.  %% Discrete
 }
 
 \usage{
@@ -65,5 +65,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

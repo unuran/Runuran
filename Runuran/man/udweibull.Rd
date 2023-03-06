@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Weibull (Extreme value type III)
   distribution with with parameters \code{shape} and \code{scale}.
   
-  [Distribution] -- Object: Weibull (Extreme value type III).  %% Continuous
+  [Distribution] -- Weibull (Extreme value type III).  %% Continuous
 }
 
 \usage{
@@ -66,5 +66,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

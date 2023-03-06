@@ -15,7 +15,7 @@
 }
 
 \usage{
-ars.new(logpdf, dlogpdf=NULL, lb, ub, ...)
+ars.new(logpdf, dlogpdf=NULL, lb, ub, \dots)
 arsd.new(distr)
 }
 \arguments{
@@ -25,7 +25,7 @@ arsd.new(distr)
     use \code{-Inf} if unbounded from left. (numeric)}
   \item{ub}{upper bound of domain;
     use \code{Inf} if unbounded from right. (numeric)}
-  \item{...}{(optional) arguments for \code{logpdf}.}
+  \item{\dots}{(optional) arguments for \code{logpdf}.}
   \item{distr}{distribution object. (S4 object of class \code{"unuran.cont"})}
 }
 
@@ -118,6 +118,5 @@ x <- ur(gen,100)
 
 }
 
-\keyword{distribution}
 \keyword{datagen}
-
+\keyword{distribution}

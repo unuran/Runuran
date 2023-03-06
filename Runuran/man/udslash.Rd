@@ -8,7 +8,7 @@
 \description{
   Create UNU.RAN object for a Slash distribution.
   
-  [Distribution] -- Object: Slash.  %% Continuous
+  [Distribution] -- Slash.  %% Continuous
 }
 
 \usage{
@@ -65,5 +65,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

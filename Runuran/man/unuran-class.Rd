@@ -89,9 +89,9 @@
 
   G. Tirler and J. Leydold (2003):
   Automatic Nonuniform Random Variate Generation in \R.
-  In: K.~Hornik and F.~Leisch, 
+  In: K. Hornik and F. Leisch, 
   Proceedings of the 3rd International Workshop on
-  Distributed Statistical Computing (DSC~2003),
+  Distributed Statistical Computing (DSC 2003),
   March 20--22, Vienna, Austria.
 }
 

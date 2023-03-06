@@ -10,12 +10,13 @@
   with \code{df1} and \code{df2} degrees of freedom.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: F.  %% Continuous
+  [Special Generator] -- Sampling Function: F.  %% Continuous
 }
 
 \usage{
 urf(n, df1, df2, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{df1, df2}{(strictly positive) degrees of freedom. Non-integer
@@ -70,5 +71,3 @@ x <- urf(n=1000,df1=3,df2=5)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

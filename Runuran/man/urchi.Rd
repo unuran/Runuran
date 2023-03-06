@@ -12,12 +12,13 @@
   (Do not confuse with the Chi-Squared (\eqn{\chi^2}{chi^2})
   distribution!)
   
-  [Distribution] -- Sampling Function: Chi.  %% Continuous
+  [Special Generator] -- Sampling Function: Chi.  %% Continuous
 }
 
 \usage{
 urchi(n, df, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{df}{degrees of freedom (strictly positive, but can be non-integer).}
@@ -70,5 +71,3 @@ x <- urchi(n=1000,df=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

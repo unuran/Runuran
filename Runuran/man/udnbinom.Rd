@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Negative Binomial distribution
   with parameters \code{size} and \code{prob}.
   
-  [Distribution] -- Object: Negative Binomial.  %% Discrete
+  [Distribution] -- Negative Binomial.  %% Discrete
 }
 
 \usage{
@@ -70,5 +70,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

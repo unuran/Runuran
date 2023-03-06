@@ -10,12 +10,13 @@
   Distribution with parameters \code{lambda} and \code{omega}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: GIG (generalized inverse Gaussian).  %% Continuous
+  [Special Generator] -- Sampling Function: GIG (generalized inverse Gaussian).  %% Continuous
 }
 
 \usage{
 urgig(n, lambda, omega, lb=1.e-12, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{lambda}{(strictly positive) shape parameter.}
@@ -74,5 +75,3 @@ x <- urgig(n=1000,lambda=2,omega=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

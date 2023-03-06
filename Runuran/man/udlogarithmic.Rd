@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Logarithmic distribution with
   shape parameter \code{shape}.
   
-  [Distribution] -- Object: Logarithmic.  %% Discrete
+  [Distribution] -- Logarithmic.  %% Discrete
 }
 
 \usage{
@@ -65,5 +65,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

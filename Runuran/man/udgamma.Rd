@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Gamma distribution
   with parameters \code{shape} and \code{scale}.
   
-  [Distribution] -- Object: Gamma.  %% Continuous
+  [Distribution] -- Gamma.  %% Continuous
 }
 
 \usage{
@@ -68,5 +68,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

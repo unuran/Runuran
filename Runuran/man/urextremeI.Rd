@@ -11,12 +11,13 @@
   location parameter \code{location} and scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Gumbel (extreme value type I).  %% Continuous
+  [Special Generator] -- Sampling Function: Gumbel (extreme value type I).  %% Continuous
 }
 
 \usage{
 urextremeI(n, location=0, scale=1, lb=-Inf, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{location}{location parameter.}
@@ -72,5 +73,3 @@ x <- urextremeI(n=1000)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

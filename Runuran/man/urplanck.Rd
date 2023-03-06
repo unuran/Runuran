@@ -10,12 +10,13 @@
   shape parameter \code{a}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Planck.  %% Continuous
+  [Special Generator] -- Sampling Function: Planck.  %% Continuous
 }
 
 \usage{
 urplanck(n, a, lb = 1.e-12, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{a}{(strictly positive) shape parameter.}
@@ -63,5 +64,3 @@ x <- urplanck(n=1000,a=2)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

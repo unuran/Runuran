@@ -11,12 +11,13 @@
   parameter \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Laplace.  %% Continuous
+  [Special Generator] -- Sampling Function: Laplace.  %% Continuous
 }
 
 \usage{
 urlaplace(n, location=0, scale=1, lb = -Inf, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{location}{location parameter.}
@@ -72,5 +73,3 @@ x <- urlaplace(n=1000)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -10,12 +10,13 @@
   location parameter \code{location} and scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Cauchy.  %% Continuous
+  [Special Generator] -- Sampling Function: Cauchy.  %% Continuous
 }
 
 \usage{
 urcauchy(n, location=0, scale=1, lb = -Inf, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{location}{location parameter.}
@@ -72,5 +73,3 @@ x <- urcauchy(n=1000)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

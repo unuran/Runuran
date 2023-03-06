@@ -17,6 +17,7 @@
 ur(unr, n=1)
 unuran.sample(unr, n=1)
 }
+
 \arguments{
   \item{unr}{a \code{unuran} object.}
   \item{n}{sample size.}

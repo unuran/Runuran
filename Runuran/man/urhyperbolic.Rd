@@ -10,12 +10,13 @@
   with parameters \code{shape} and \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Hyperbolic.  %% Continuous
+  [Special Generator] -- Sampling Function: Hyperbolic.  %% Continuous
 }
 
 \usage{
 urhyperbolic(n, shape, scale=1, lb = -Inf, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{(strictly positive) shape parameter.}
@@ -69,5 +70,3 @@ x <- urhyperbolic(n=1000,shape=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

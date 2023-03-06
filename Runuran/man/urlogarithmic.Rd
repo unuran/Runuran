@@ -10,12 +10,13 @@
   shape parameter \code{shape}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Logarithmic.  %% Discrete
+  [Special Generator] -- Sampling Function: Logarithmic.  %% Discrete
 }
 
 \usage{
 urlogarithmic(n, shape, lb = 1, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{shape parameter. Must be between 0 and 1.}
@@ -69,5 +70,4 @@ x <- urlogarithmic(n=1000,shape=0.3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
 

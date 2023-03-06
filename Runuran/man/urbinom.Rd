@@ -10,12 +10,13 @@
   with parameters \code{size} and \code{prob}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Binomial.  %% Discrete
+  [Special Generator] -- Sampling Function: Binomial.  %% Discrete
 }
 
 \usage{
 urbinom(n, size, prob, lb = 0, ub = size)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{size}{number of trials (one or more).}
@@ -68,5 +69,3 @@ x <- urbinom(n=1000,size=10,prob=0.3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

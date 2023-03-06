@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Student t distribution with
   with \code{df} degrees of freedom.
   
-  [Distribution] -- Object: t (Student).  %% Continuous
+  [Distribution] -- t (Student).  %% Continuous
 }
 
 \usage{
@@ -69,5 +69,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

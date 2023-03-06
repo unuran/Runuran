@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Logistic distribution with
   parameters \code{location} and \code{scale}.
   
-  [Distribution] -- Object: Logistic.  %% Continuous
+  [Distribution] -- Logistic.  %% Continuous
 }
 
 \usage{
@@ -69,5 +69,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

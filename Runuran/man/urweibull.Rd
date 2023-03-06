@@ -10,12 +10,13 @@
   with parameters \code{shape} and \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Weibull.  %% Continuous
+  [Special Generator] -- Sampling Function: Weibull.  %% Continuous
 }
 
 \usage{
 urweibull(n, shape, scale=1, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{(strictly positive) shape parameter.}
@@ -68,5 +69,3 @@ x <- urweibull(n=1000,shape=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

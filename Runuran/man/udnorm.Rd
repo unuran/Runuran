@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Normal (Gaussian) distribution with mean
   equal to \code{mean} and standard deviation to \code{sd}.
   
-  [Distribution] -- Object: Normal (Gaussian).  %% Continuous
+  [Distribution] -- Normal (Gaussian).  %% Continuous
 }
 
 \usage{
@@ -73,5 +73,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

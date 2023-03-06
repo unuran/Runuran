@@ -10,12 +10,13 @@
   equal to \code{mean} and standard deviation to \code{sd}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Normal (Gaussian).  %% Continuous
+  [Special Generator] -- Sampling Function: Normal (Gaussian).  %% Continuous
 }
 
 \usage{
 urnorm(n, mean = 0, sd = 1, lb = -Inf, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{mean}{mean of distribution.}
@@ -72,5 +73,3 @@ x <- urnorm(n=1000)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

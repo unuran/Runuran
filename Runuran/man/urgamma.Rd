@@ -10,12 +10,13 @@
   with parameters \code{shape} and \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Gamma.  %% Continuous
+  [Special Generator] -- Sampling Function: Gamma.  %% Continuous
 }
 
 \usage{
 urgamma(n, shape, scale=1, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{(strictly positive) shape parameter.}
@@ -72,5 +73,3 @@ x <- urgamma(n=1000,shape=2)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -9,7 +9,7 @@
   Create UNU.RAN object for an Exponential distribution with 
   rate \code{rate} (i.e., mean \code{1/rate}).
   
-  [Distribution] -- Object: Exponential.  %% Continuous
+  [Distribution] -- Exponential.  %% Continuous
 }
 
 \usage{
@@ -64,5 +64,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

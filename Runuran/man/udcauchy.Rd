@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Cauchy distribution with
   location parameter \code{location} and scale parameter \code{scale}.
 
-  [Distribution] -- Object: Cauchy.  %% Continuous
+  [Distribution] -- Cauchy.  %% Continuous
 }
 
 \usage{
@@ -66,5 +66,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

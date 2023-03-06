@@ -11,12 +11,13 @@
   shape parameter \code{shape} and scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Lomax.  %% Continuous
+  [Special Generator] -- Sampling Function: Lomax.  %% Continuous
 }
 
 \usage{
 urlomax(n, shape, scale=1, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{shape}{(strictly positive) shape parameter.}
@@ -72,5 +73,3 @@ x <- urlomax(n=1000,shape=2)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

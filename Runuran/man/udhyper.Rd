@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Hypergeometric distribution with
   parameters \code{m}, \code{n}, and \code{k}.
   
-  [Distribution] -- Object: Hypergeometric.  %% Discrete
+  [Distribution] -- Hypergeometric.  %% Discrete
 }
 
 \usage{
@@ -32,7 +32,7 @@ udhyper(m, n, k, lb=max(0,k-n), ub=min(k,m))
   \deqn{
     p(x) = \left. {m \choose x}{n \choose k-x} \right/ {m+n \choose k}
   }{p(x) =      choose(m, x) choose(n, k-x) / choose(m+n, k)}
-  for \eqn{x = 0, \ldots, k}{x = 0, ..., k}.
+  for \eqn{x = 0, \ldots, k}{x = 0, \ldots, k}.
 
   The domain of the distribution can be truncated to the 
   interval (\code{lb},\code{ub}).
@@ -65,5 +65,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

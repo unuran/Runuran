@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Geometric distribution
   with parameter \code{prob}.
   
-  [Distribution] -- Object: Geometric.  %% Discrete
+  [Distribution] -- Geometric.  %% Discrete
 }
 
 \usage{
@@ -25,7 +25,7 @@ udgeom(prob, lb = 0, ub = Inf)
 \details{
   The Geometric distribution with \code{prob} \eqn{= p} has density
   \deqn{p(x) = p (1-p)^x}
-  for \eqn{x = 0, 1, 2, \ldots}{x = 0, 1, 2, ...}, \eqn{0 < p \le 1}.
+  for \eqn{x = 0, 1, 2, \ldots}{x = 0, 1, 2, \dots}, \eqn{0 < p \le 1}.
 
   The domain of the distribution can be truncated to the 
   interval (\code{lb},\code{ub}).
@@ -58,5 +58,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

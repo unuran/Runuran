@@ -10,7 +10,7 @@
   with location parameter \code{location} and scale
   parameter \code{scale}.
   
-  [Distribution] -- Object: Laplace (double exponential).  %% Continuous
+  [Distribution] -- Laplace (double exponential).  %% Continuous
 }
 
 \usage{
@@ -67,5 +67,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

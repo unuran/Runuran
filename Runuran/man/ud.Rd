@@ -52,6 +52,3 @@ ud(distr, 1.5)
 ud(distr, -3:3)
 
 }
-
-\keyword{distribution}
-

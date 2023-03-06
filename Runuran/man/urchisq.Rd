@@ -10,12 +10,13 @@
   (\eqn{\chi^2}{chi^2}) distribution with \code{df} degrees of freedom.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Chi-squared.  %% Continuous
+  [Special Generator] -- Sampling Function: Chi-squared.  %% Continuous
 }
 
 \usage{
 urchisq(n, df, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{df}{degrees of freedom (strictly positive, but can be non-integer).}
@@ -67,5 +68,3 @@ x <- urchisq(n=1000,df=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

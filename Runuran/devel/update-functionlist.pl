@@ -8,8 +8,9 @@ use Getopt::Std;
 
 # --- Constants -------------------------------------------------------------
 
-my $ur_Vignette = "./inst/doc/src/tab-distributions.tex";
-my $package_Rd_file = "./man/Runuran-package.Rd";
+##my $ur_Vignette = "./inst/doc/src/tab-distributions.tex";
+my $generators_Rd_file = "./man/Runuran.special.generators.Rd";
+my $distributions_Rd_file = "./man/Runuran.distributions.Rd";
 
 my $man_dir = "./man";
 
@@ -43,12 +44,54 @@ usage unless $update;
 
 opendir MAN, $man_dir
     or die "Cannot open directory $man_dir: $!";
+
+my @ud_files = grep { /^ud.*\.Rd/ && -f "$man_dir/$_" } readdir MAN;
+rewinddir MAN;
+
 my @ur_files = grep { /^ur.*\.Rd/ && -f "$man_dir/$_" } readdir MAN;
 rewinddir MAN;
+
 my @new_files = grep { /^.*\.new\.Rd/ && -f "$man_dir/$_" } readdir MAN;
 closedir MAN;
 
 # --- Get list of distributions ---------------------------------------------
+
+my %udcont;
+my %uddiscr;
+
+my $udmax = "Function";
+foreach my $ud (sort @ud_files) {
+    my $udcall = $ud;
+    $udcall =~ s/\.Rd\s*$//;
+    $udmax = $udcall if length($udcall) > length($udmax);
+    open UD, "$man_dir/$ud" 
+	or die "Cannot open file '$man_dir/$ud' for reading: $!";
+    while (<UD>) { 
+	chomp;
+	next unless $_ =~/^\s*\[Distribution]\s+\-\-\s+(.*)$/;
+	my $tmp = $1;
+	$tmp =~ /^(.*)\s*\.\s*\%\%\s*(Continuous|Discrete)\s*$/
+	    or die "Format error in '$_'";
+	my $distr = $1;
+	my $type = $2;
+	if ($type eq "Continuous") {
+	    $udcont{$udcall} = $distr;
+	}
+	if ($type eq "Discrete") {
+	    $uddiscr{$udcall} = $distr;
+	}
+	last;
+    }
+}
+
+my $n_udcont  = scalar keys %udcont;
+my $n_uddiscr = scalar keys %uddiscr;
+
+print "# Distributions\n";
+print "#   continuous distributions = $n_udcont\n"; 
+print "#   discrete distributions   = $n_uddiscr\n";
+
+# --- Get list of special generators ----------------------------------------
 
 my %urcont;
 my %urdiscr;
@@ -62,7 +105,7 @@ foreach my $ur (sort @ur_files) {
 	or die "Cannot open file '$man_dir/$ur' for reading: $!";
     while (<UR>) { 
 	chomp;
-	next unless $_ =~/^\s*\[Distribution]\s+\-\-\s+(.*)$/;
+	next unless $_ =~/^\s*\[Special Generator]\s+\-\-\s+(.*)$/;
 	my $tmp = $1;
 	$tmp =~ /^Sampling Function:\s*(.*)\s*\.\s*\%\%\s*(Continuous|Discrete)\s*$/
 	    or die "Format error in '$_'";
@@ -81,8 +124,9 @@ foreach my $ur (sort @ur_files) {
 my $n_urcont  = scalar keys %urcont;
 my $n_urdiscr = scalar keys %urdiscr;
 
-print "# continuous distributions = $n_urcont\n"; 
-print "# discrete distributions   = $n_urdiscr\n";
+print "# Special generators\n";
+print "#   continuous distributions = $n_urcont\n"; 
+print "#   discrete distributions   = $n_urdiscr\n";
 
 # --- Print list of distributions into vignette -----------------------------
 
@@ -104,17 +148,61 @@ foreach my $ur (sort keys %urdiscr) {
     $urdiscr_list .= "\t\\> \\code{$ur}\t\\> \\ldots \\> $urdiscr{$ur} \\\\\n";
 }
 
-open DISTR, ">$ur_Vignette"
-    or die "Cannot open file '$ur_Vignette' for writing: $!";
-print DISTR
-    "\\paragraph{Continuous Univariate Distributions ($n_urcont)}\n\n" .
-    $urheader . $urcont_list . $urbottom . "\n";
-print DISTR
-    "\\paragraph{Discrete Univariate Distributions ($n_urdiscr)}\n\n".
-    $urheader . $urdiscr_list . $urbottom . "\n";
-close DISTR;
+## FIXME
+#open DISTR, ">$ur_Vignette"
+#    or die "Cannot open file '$ur_Vignette' for writing: $!";
+#print DISTR
+#    "\\paragraph{Continuous Univariate Distributions ($n_urcont)}\n\n" .
+#    $urheader . $urcont_list . $urbottom . "\n";
+#print DISTR
+#    "\\paragraph{Discrete Univariate Distributions ($n_urdiscr)}\n\n".
+#    $urheader . $urdiscr_list . $urbottom . "\n";
+#close DISTR;
 
-# --- Print list of distributions into package Rd file ----------------------
+# --- Print list of distributions into distributions Rd file ----------------
+
+my $udheader = 
+    "  \\tabular{lcl}{ \n" .
+    "    \\emph{Function} \\tab \\tab \\emph{Distribution} \\cr\n";
+my $udbottom = 
+    "  }\n";
+
+my $udcont_list = "";
+foreach my $ud (sort keys %udcont) {
+    $udcont_list .= "    \\code{\\link{$ud}} \\tab \\ldots \\tab $udcont{$ud} \\cr\n";
+}
+
+my $uddiscr_list = "";
+foreach my $ud (sort keys %uddiscr) {
+    $uddiscr_list .= "    \\code{\\link{$ud}} \\tab \\ldots \\tab $uddiscr{$ud} \\cr\n";
+}
+
+my $list = 
+    "  Continuous Univariate Distributions ($n_udcont):\n\n".
+    $udheader . $udcont_list . $udbottom . "\n" .
+    "  Discrete Distributions ($n_uddiscr):\n\n".
+    $udheader . $uddiscr_list . $udbottom . "\n";
+
+open DISTRIBUTIONS, "$distributions_Rd_file"
+    or die "Cannot open file '$distributions_Rd_file' for reading: $!";
+my $distributions;
+while (<DISTRIBUTIONS>) {
+    $distributions .= $_;
+}
+close DISTRIBUTIONS; 
+
+my $begin = "  %% -- begin: list of distributions --\s*\n";
+my $end   = "  %% -- end: list of distributions --\s*\n";
+
+$distributions =~ s/($begin)(.*?)($end)/$1$list$3/s
+    or die "Cannot find marker for list of distributions";
+
+open DISTRIBUTIONS, ">$distributions_Rd_file"
+    or die "Cannot open file '$distributions_Rd_file' for writing: $!";
+print DISTRIBUTIONS $distributions;
+close DISTRIBUTIONS;
+
+# --- Print list of distributions into special generators Rd file -----------
 
 my $urheader = 
     "  \\tabular{lcl}{ \n" .
@@ -122,7 +210,7 @@ my $urheader =
 my $urbottom = 
     "  }\n";
 
-$urcont_list = "";
+my $urcont_list = "";
 foreach my $ur (sort keys %urcont) {
     $urcont_list .= "    \\code{\\link{$ur}} \\tab \\ldots \\tab $urcont{$ur} \\cr\n";
 }
@@ -138,24 +226,24 @@ my $list =
     "  Discrete Distributions ($n_urdiscr):\n\n".
     $urheader . $urdiscr_list . $urbottom . "\n";
 
-open PACKAGE, "$package_Rd_file"
-    or die "Cannot open file '$package_Rd_file' for reading: $!";
-my $package;
-while (<PACKAGE>) {
-    $package .= $_;
+open GENERATORS, "$generators_Rd_file"
+    or die "Cannot open file '$generators_Rd_file' for reading: $!";
+my $generators;
+while (<GENERATORS>) {
+    $generators .= $_;
 }
-close PACKAGE; 
+close GENERATORS; 
 
 my $begin = "  %% -- begin: list of distributions --\s*\n";
 my $end   = "  %% -- end: list of distributions --\s*\n";
 
-$package =~ s/($begin)(.*?)($end)/$1$list$3/s
+$generators =~ s/($begin)(.*?)($end)/$1$list$3/s
     or die "Cannot find marker for list of distributions";
 
-open PACKAGE, ">$package_Rd_file"
-    or die "Cannot open file '$package_Rd_file' for writing: $!";
-print PACKAGE $package;
-close PACKAGE;
+open GENERATORS, ">$generators_Rd_file"
+    or die "Cannot open file '$generators_Rd_file' for writing: $!";
+print GENERATORS $generators;
+close GENERATORS;
 
 # --- end -------------------------------------------------------------------
 

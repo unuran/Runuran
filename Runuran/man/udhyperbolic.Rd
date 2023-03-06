@@ -11,7 +11,7 @@
   \code{alpha}, asymmetry (shape) parameter \code{beta}, and scale
   parameter \code{delta}.
   
-  [Distribution] -- Object: Hyperbolic.  %% Continuous
+  [Distribution] -- Hyperbolic.  %% Continuous
 }
 
 \usage{
@@ -69,5 +69,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

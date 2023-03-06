@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Beta distribution with
   with parameters \code{shape1} and \code{shape2}.
   
-  [Distribution] -- Object: Beta.  %% Continuous
+  [Distribution] -- Beta.  %% Continuous
 }
 
 \usage{
@@ -66,5 +66,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -10,12 +10,13 @@
   parameters \code{location} and \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Logistic.  %% Continuous
+  [Special Generator] -- Sampling Function: Logistic.  %% Continuous
 }
 
 \usage{
 urlogis(n, location=0, scale=1, lb=-Inf, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{location}{location parameter.}
@@ -74,5 +75,3 @@ x <- urlogis(n=1000)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

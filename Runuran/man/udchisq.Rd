@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Chi-squared (\eqn{\chi^2}{chi^2})
   distribution with \code{df} degrees of freedom.
   
-  [Distribution] -- Object: Chi-squared.  %% Continuous
+  [Distribution] -- Chi-squared.  %% Continuous
 }
 
 \usage{
@@ -66,5 +66,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -10,12 +10,13 @@
   \code{shape1} and \code{shape2}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Burr.  %% Continuous
+  [Special Generator] -- Sampling Function: Burr.  %% Continuous
 }
 
 \usage{
 urburr(n, a, b, lb=0, ub=Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{a,b}{positive shape parameters of the Burr distribution.}
@@ -61,5 +62,3 @@ x <- urburr(n=1000,a=2,b=3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

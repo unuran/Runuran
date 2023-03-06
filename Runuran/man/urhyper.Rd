@@ -9,12 +9,13 @@
   UNU.RAN random variate generator for the Hypergeometric distribution.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Hypergeometric.  %% Discrete
+  [Special Generator] -- Sampling Function: Hypergeometric.  %% Discrete
 }
 
 \usage{
 urhyper(nn, m, n, k, lb=max(0,k-n), ub=min(k,m))
 }
+
 \arguments{
   \item{nn}{number of observations.}
   \item{m}{the number of white balls in the urn.}
@@ -32,7 +33,7 @@ urhyper(nn, m, n, k, lb=max(0,k-n), ub=min(k,m))
   \deqn{
     p(x) = \left. {m \choose x}{n \choose k-x} \right/ {m+n \choose k}
   }{p(x) =      choose(m, x) choose(n, k-x) / choose(m+n, k)}
-  for \eqn{x = 0, \ldots, k}{x = 0, ..., k}.
+  for \eqn{x = 0, \ldots, k}{x = 0, \ldots, k}.
 
   The generation algorithm uses guide table based inversion. The parameters
   \code{lb} and \code{ub} can be used to generate variates from 
@@ -70,4 +71,3 @@ x <- urhyper(nn=20,m=15,n=5,k=7)
 }
 
 \keyword{distribution}
-\keyword{datagen}

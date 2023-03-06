@@ -9,7 +9,7 @@
   Create UNU.RAN object for an F distribution with mean
   with \code{df1} and \code{df2} degrees of freedom.
   
-  [Distribution] -- Object: Normal (Gaussian).  %% Continuous
+  [Distribution] -- F.  %% Continuous
 }
 
 \usage{
@@ -68,5 +68,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

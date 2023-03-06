@@ -10,12 +10,13 @@
   distribution with with parameters \code{size} and \code{prob}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Negative Binomial.  %% Discrete
+  [Special Generator] -- Sampling Function: Negative Binomial.  %% Discrete
 }
 
 \usage{
 urnbinom(n, size, prob, lb = 0, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{size}{target for number of successful trials, or dispersion
@@ -74,5 +75,3 @@ x <- urnbinom(n=1000,size=10,prob=0.3)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

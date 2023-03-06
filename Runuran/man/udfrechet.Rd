@@ -10,7 +10,7 @@
   with shape parameter \code{shape}, location parameter \code{location}
   and scale parameter \code{scale}.
 
-  [Distribution] -- Object: Frechet (Extreme value type II).  %% Continuous
+  [Distribution] -- Frechet (Extreme value type II).  %% Continuous
 }
 
 \usage{
@@ -72,5 +72,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

@@ -9,7 +9,7 @@
   Create UNU.RAN object for a Gumbel (Extreme value type I) distribution
   location parameter \code{location} and scale parameter \code{scale}.
   
-  [Distribution] -- Object: Gumbel (Extreme value type I).  %% Continuous
+  [Distribution] -- Gumbel (Extreme value type I).  %% Continuous
 }
 
 \usage{
@@ -66,5 +66,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

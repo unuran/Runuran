@@ -10,7 +10,7 @@
   whose logarithm has mean equal to \code{meanlog} and standard
   deviation equal to \code{sdlog}.
   
-  [Distribution] -- Object: Log Normal.  %% Continuous
+  [Distribution] -- Log Normal.  %% Continuous
 }
 
 \usage{
@@ -68,5 +68,3 @@ x <- ur(gen,100)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-

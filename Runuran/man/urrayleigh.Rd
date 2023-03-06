@@ -10,12 +10,13 @@
   scale parameter \code{scale}.
   It also allows sampling from the truncated distribution.
   
-  [Distribution] -- Sampling Function: Rayleigh.  %% Continuous
+  [Special Generator] -- Sampling Function: Rayleigh.  %% Continuous
 }
 
 \usage{
 urrayleigh(n, scale=1, lb = 0, ub = Inf)
 }
+
 \arguments{
   \item{n}{size of required sample.}
   \item{scale}{(strictly positive) scale parameter.}
@@ -70,5 +71,3 @@ x <- urrayleigh(n=1000,scale=1)
 }
 
 \keyword{distribution}
-\keyword{datagen}
-
