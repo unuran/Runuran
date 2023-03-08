@@ -782,6 +782,11 @@ _Runuran_error_handler( const char *objid     ATTRIBUTE__UNUSED,
   Rprintf("\tfile: %s, line: %d\n",file,line);
 #endif
 
+#ifdef UNUR_ENABLE_LOGGING
+  /* print error message into log file (use UNU.RAN default error handler) */
+  _unur_error_handler_default( objid, file, line, errortype, errorcode, reason );
+#endif
+
 } /* end of _Runuran_error_handler() */
 
 /*---------------------------------------------------------------------------*/
