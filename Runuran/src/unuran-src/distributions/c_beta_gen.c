@@ -55,9 +55,8 @@ _unur_stdgen_beta_init( struct unur_par *par, struct unur_gen *gen )
 	_unur_cstd_set_sampling_routine(gen, _unur_stdgen_sample_beta_b00 );
 	return beta_b00_init( gen );
       }
-  case UNUR_STDGEN_INVERSION:   
   default: 
-    return _unur_cstd_generic_init(par,gen);
+    return UNUR_FAILURE;
   }
 } 
 #define am      (GEN->gen_param[0])

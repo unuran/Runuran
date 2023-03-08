@@ -28,9 +28,8 @@ _unur_stdgen_chi_init( struct unur_par *par, struct unur_gen *gen )
     }
     _unur_cstd_set_sampling_routine(gen, _unur_stdgen_sample_chi_chru );
     return chi_chru_init( gen );
-  case UNUR_STDGEN_INVERSION:   
   default: 
-    return _unur_cstd_generic_init(par,gen);
+    return UNUR_FAILURE;
   }
 } 
 #define b       (GEN->gen_param[0])

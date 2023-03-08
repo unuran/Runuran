@@ -44,9 +44,7 @@ _unur_stdgen_poisson_init( struct unur_par *par, struct unur_gen *gen )
       _unur_dstd_set_sampling_routine(gen, _unur_stdgen_sample_poisson_pprsc );
       return poisson_pprsc_init( gen );
     }
-  case UNUR_STDGEN_INVERSION:   
   default: 
-    if (gen) _unur_warning(gen->genid,UNUR_ERR_SHOULD_NOT_HAPPEN,"");
     return UNUR_FAILURE;
   }
 } 

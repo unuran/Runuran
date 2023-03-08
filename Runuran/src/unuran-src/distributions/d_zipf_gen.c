@@ -23,9 +23,7 @@ _unur_stdgen_zipf_init( struct unur_par *par, struct unur_gen *gen )
   case 1:  
     _unur_dstd_set_sampling_routine(gen, _unur_stdgen_sample_zipf_zet );
     return zipf_zet_init( gen );
-  case UNUR_STDGEN_INVERSION:   
   default: 
-    if (gen) _unur_warning(gen->genid,UNUR_ERR_SHOULD_NOT_HAPPEN,"");
     return UNUR_FAILURE;
   }
 } 
