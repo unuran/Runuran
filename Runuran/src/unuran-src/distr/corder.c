@@ -25,7 +25,7 @@ unur_distr_corder_new( const struct unur_distr *distr, int n, int k )
     _unur_error(distr_name,UNUR_ERR_DISTR_INVALID,""); return NULL; }
   COOKIE_CHECK(distr,CK_DISTR_CONT,NULL);
   if (distr->id == UNUR_DISTR_CORDER) {
-    _unur_warning(distr_name,UNUR_ERR_DISTR_INVALID,"No order statistics of order statistics allowed");
+    _unur_error(distr_name,UNUR_ERR_DISTR_INVALID,"No order statistics of order statistics allowed");
     return NULL; 
   }
   if (n < 2 || k < 1 || k > n) {
@@ -78,7 +78,7 @@ unur_distr_corder_set_rank( struct unur_distr *os, int n, int k )
     _unur_error(distr_name,UNUR_ERR_DISTR_INVALID,""); return UNUR_ERR_DISTR_INVALID; }
   COOKIE_CHECK(os,CK_DISTR_CONT,UNUR_ERR_COOKIE);
   if (n < 2 || k < 1 || k > n) {
-    _unur_warning(distr_name,UNUR_ERR_DISTR_SET,"n < 2 or k < 1 or k > n");
+    _unur_error(distr_name,UNUR_ERR_DISTR_SET,"n < 2 or k < 1 or k > n");
     return UNUR_ERR_DISTR_SET;
   }
   os->set &= ~UNUR_DISTR_SET_MODE; 

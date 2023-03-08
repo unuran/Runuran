@@ -44,9 +44,8 @@ _unur_stdgen_normal_init( struct unur_par *par, struct unur_gen *gen )
   case 99:   
     _unur_cstd_set_sampling_routine(gen, _unur_stdgen_sample_normal_sum );
     return UNUR_SUCCESS;
-  case UNUR_STDGEN_INVERSION:   
   default: 
-    return _unur_cstd_generic_init(par,gen);
+    return UNUR_FAILURE;
   }
 } 
 #define Xstore  GEN->gen_param[0]

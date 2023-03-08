@@ -708,7 +708,6 @@ _unur_mvtdr_tp_search( struct unur_gen *gen ATTRIBUTE__UNUSED, TP_ARG *a )
       a[1].t /= 2.;
     }
   }
-  return UNUR_FAILURE;
 #undef N_STEPS
 } 
 int 

@@ -36,7 +36,7 @@ unuran-src:
 	(cd ../unuran; \
 		test -f configure || ./autogen.sh; \
 		test -f src/unuran.h || make; )
-	if [[ ! -f Runuran/src/unuran-src/unuran.h ]]; then \
+	if test ! -f Runuran/src/unuran-src/unuran.h ; then \
 		(cd ../unuran/src; \
 			find ./ -type f -name '*.[ch]' -o -name '*.ch' | \
 				grep -v "deprecated_.*\.c" | \

@@ -38,9 +38,8 @@ _unur_stdgen_gamma_init( struct unur_par *par, struct unur_gen *gen )
   case 2:  
     _unur_cstd_set_sampling_routine(gen, _unur_stdgen_sample_gamma_gll );
     return gamma_gll_init( gen );
-  case UNUR_STDGEN_INVERSION:   
   default: 
-    return _unur_cstd_generic_init(par,gen);
+    return UNUR_FAILURE;
   }
 } 
 #define aa  GEN->gen_param[0]
