@@ -259,6 +259,24 @@ if( ! is.error( ud(gen,1) ) )
 
 ## --- distribution function ------------------------------------------------
 
+distr <- unuran.cont.new(cdf=function(x){1-exp(-x)}, lb=0,ub=Inf)
+x <- rexp(100)
+e <- max(abs(up(distr, x) - pexp(x)))
+e; if (e>1.e-10) stop("error too large")
+
+distr <- udgeom(prob=0.8)
+x <- rgeom(100, prob=0.8)
+e <- max(abs(up(distr,x) - pgeom(x,prob=0.8)))
+e; if (e>1.e-10) stop("error too large")
+
+unr <- pinv.new(pdf=function(x){exp(5-x)}, lb=0,ub=Inf)
+x <- rexp(100)
+e <- max(abs(up(unr, x) - pexp(x)))
+e; if (e>1.e-10) stop("error too large")
+
+rm(distr,unr,x,e)
+
+
 distr <- unuran.cont.new(lb=0,ub=1)
 if( ! is.error( up(distr,1) ) )
   stop("'up' ignores missing CDF")
@@ -267,10 +285,11 @@ distr <- unuran.discr.new(lb=0,ub=1)
 if( ! is.error( up(distr,1) ) )
   stop("'up' ignores missing CDF")
 
-gen <- pinv.new(pdf=dexp,lb=0,ub=Inf)
+gen <- tdr.new(pdf=dexp,lb=0,ub=Inf)
 if( ! is.error( up(gen,1) ) )
-  stop("'up' ignores missing CDF")
+  stop("'up' ignores invalid method PINV")
 
+rm(distr,gen)
 
 ## --- pack -----------------------------------------------------------------
 

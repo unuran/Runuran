@@ -6,7 +6,7 @@
 \title{Distribution function for "unuran" object}
 
 \description{
-  Evaluates the cumulative distribution function (CDF) 
+  Evaluates the (approximate) cumulative distribution function (CDF) 
   of a "unuran" object for a continuous or discrete distribution.
 }
 
@@ -14,9 +14,15 @@
 up(obj, x)
 }
 \arguments{
-  \item{obj}{distribution object
-    (S4 object of class \code{"unuran.cont"} or \code{"unuran.discr"}),
-    or generator object (S4 object of class \code{"unuran"}).
+  \item{obj}{one of
+    \itemize{
+      \item a distribution object of class \code{"unuran.cont"}
+      that contains the CDF, or
+      \item a distribution object of class \code{"unuran.discr"}
+      that contains the CDF, or
+      \item a generator object (class \code{"unuran"}) that
+      contains a CDF or implements method \sQuote{PINV}.
+    }
   }
   \item{x}{vector of x values. (numeric)}
 }
@@ -24,15 +30,21 @@ up(obj, x)
 \details{
   The routine evaluates the cumulative distribution function of a
   distribution stored in a UNU.RAN distribution object or UNU.RAN
-  generator object. 
-  (If the CDF is not available in the object, then the
-  computation is aborted.) 
+  generator object. If the CDF is not available in the object, then
+  \code{obj} must be a generator object that implements method
+  \sQuote{PINV}. In this case an approximate value for the CDF is
+  returned. The approximation error is about one tenth of the requested
+  \code{uresolution} for method \sQuote{PINV}. 
+  
+  If a generator object is given that implements method PINV but also
+  contain the CDF, the value of the (exact) CDF is returned. 
 }
 
 \seealso{
   \code{\linkS4class{unuran.cont}},
   \code{\linkS4class{unuran.discr}},
-  \code{\linkS4class{unuran}}.
+  \code{\linkS4class{unuran}},
+  \code{\link{pinv.new}}.
 }
 
 \references{
@@ -55,8 +67,13 @@ up(distr, -3:3)
 
 ## Create an UNU.RAN generator object (for standard Gaussian)
 ## and evaluate density of underyling distribution
-gen <- tdrd.new(udnorm())
-up(gen, 1.5)
-up(gen, -3:3)
+unr <- tdrd.new(udnorm())
+up(unr, 1.5)
+up(unr, -3:3)
+
+## Create an UNU.RAN generator object that does not contain
+## the CDF but implements method PINV.
+unr <- pinv.new(pdf=function(x){exp(-x)}, lb=0,ub=Inf)
+up(unr, 0:5)
 
 }
