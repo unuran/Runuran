@@ -74,7 +74,7 @@ SEXP Runuran_pack (SEXP sexp_unur);
 /* Pack Runuran objects into R lists                                         */
 /*---------------------------------------------------------------------------*/
 
-SEXP Runuran_performance (SEXP sexp_unur);
+SEXP Runuran_performance (SEXP sexp_unur, SEXP sexp_debug);
 /*---------------------------------------------------------------------------*/
 /* Get some informations about UNU.RAN generator object in an R list.        */
 /*---------------------------------------------------------------------------*/

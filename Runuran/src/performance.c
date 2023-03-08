@@ -137,12 +137,13 @@ void add_integer(struct Rlist *list, char *key, int inum)
 /*****************************************************************************/
 
 SEXP
-Runuran_performance (SEXP sexp_unur)
+Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
      /*----------------------------------------------------------------------*/
      /* Get some informations about UNU.RAN generator object in an R list.   */
      /*                                                                      */
      /* Parameters:                                                          */
-     /*   unur ... 'Runuran' object (S4 class)                               */ 
+     /*   unur  ... 'Runuran' object (S4 class)                              */ 
+     /*   debug ... get more information if TRUE                             */ 
      /*                                                                      */
      /* Return:                                                              */
      /*   R list                                                             */
@@ -155,12 +156,15 @@ Runuran_performance (SEXP sexp_unur)
   struct unur_gen *gen = NULL; /* pointer to UNU.RAN object */
   SEXP sexp_data;              /* R pointer to data list in generator object 
 				  (must be empty) */
+  int debug;                   /* whether more information is provided */
   int i;                       /* aux loop variable */
 
   /* array of list elements */
   struct Rlist list;
   list.len = 0;
 
+  /* debug or not debug */
+  debug = *(LOGICAL( AS_LOGICAL(sexp_debug) ));
 
   /* slot 'data' should not be pesent */
   sexp_data = GET_SLOT(sexp_unur, install("data"));
@@ -331,6 +335,43 @@ Runuran_performance (SEXP sexp_unur)
     TRUNC(GEN->bleft,GEN->bright);
     AREA_PDF(GEN->area);
     NINTS (GEN->n_ivs);
+
+    if (debug) {
+      int j,n;
+
+      if (list.len+4 >= MAX_LIST)
+	error("Runuran: Interval error! Please send bug report");
+
+      list.names[list.len] = "cdfi";
+      PROTECT(list.values[list.len] = NEW_NUMERIC(GEN->n_ivs + 1));
+      for (n=0; n<=GEN->n_ivs; n++)
+	REAL(list.values[list.len])[n] = GEN->iv[n].cdfi;
+      ++list.len;
+
+      list.names[list.len] = "xi";
+      PROTECT(list.values[list.len] = NEW_NUMERIC(GEN->n_ivs + 1));
+      for (n=0; n<=GEN->n_ivs; n++)
+	REAL(list.values[list.len])[n] = GEN->iv[n].xi;
+      ++list.len;
+
+      /* points for constructing Newton interpolation */
+      list.names[list.len] = "ui";
+      PROTECT(list.values[list.len] = allocMatrix(REALSXP, GEN->n_ivs, GEN->order));
+      for (n=0; n<GEN->n_ivs; n++) {
+	for (j=0; j<GEN->order; j++)
+	  REAL(list.values[list.len])[n + j*GEN->n_ivs] = GEN->iv[n].ui[j];
+      }
+      ++list.len;
+
+      /* coefficients Newton interpolation */
+      list.names[list.len] = "zi";
+      PROTECT(list.values[list.len] = allocMatrix(REALSXP, GEN->n_ivs, GEN->order));
+      for (n=0; n<GEN->n_ivs; n++) {
+	for (j=0; j<GEN->order; j++)
+	  REAL(list.values[list.len])[n + j*GEN->n_ivs] = GEN->iv[n].zi[j];
+      }
+      ++list.len;
+    }
 #undef GEN
     break;
     /* ..................................................................... */

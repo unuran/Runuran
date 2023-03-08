@@ -192,7 +192,7 @@ setMethod( "show", "unuran",
 
 ## unuran.details
 ## (print for information and hints)
-unuran.details <- function(unr, show=TRUE, return.list=FALSE) {
+unuran.details <- function(unr, show=TRUE, return.list=FALSE, debug=FALSE) {
   if (isTRUE(show)) {
     cat("\nObject is UNU.RAN object:\n")
     cat("\tmethod: ",unr@method.str,"\n")
@@ -200,8 +200,8 @@ unuran.details <- function(unr, show=TRUE, return.list=FALSE) {
     info <- .Call("Runuran_print", unr, TRUE, PACKAGE="Runuran")
     cat(info)
   }
-  if (isTRUE(return.list)) {
-    data <- .Call("Runuran_performance", unr, PACKAGE="Runuran")
+  if (isTRUE(return.list) || isTRUE(debug)) {
+    data <- .Call("Runuran_performance", unr, debug, PACKAGE="Runuran")
     invisible(data)
   }
 }
