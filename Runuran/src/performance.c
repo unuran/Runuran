@@ -33,14 +33,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-/* R header files */
-#include <R.h>
-#include <Rdefines.h>
-#include <Rinternals.h>
-#include <R_ext/Rdynload.h>
-
-/* UNU.RAN header files */
-#include <unuran.h>
 #include "Runuran.h"
 
 /* internal header files for UNU.RAN */
@@ -61,16 +53,6 @@
 #include <methods/tabl_struct.h>
 #include <methods/tdr_struct.h>
 
-/*---------------------------------------------------------------------------*/
-
-#define CHECK_UNUR_PTR(s) do { \
-    if (TYPEOF(s) != EXTPTRSXP || R_ExternalPtrTag(s) != _Runuran_tag()) \
-      error("[UNU.RAN - error] invalid UNU.RAN object");		\
-  } while (0)
-/*---------------------------------------------------------------------------*/
-/* Check pointer to R UNU.RAN generator object.                              */
-/*---------------------------------------------------------------------------*/
-
 
 /*****************************************************************************/
 /* array for storing list elements                                           */
@@ -84,10 +66,10 @@ struct Rlist {
 };
 
 /* functions for appending list elements */
-void add_string(struct Rlist *list, char *key, const char *string);
-void add_numeric(struct Rlist *list, char *key, double num);
-void add_numeric_list(struct Rlist *list, char *key, double *num, int n_num);
-void add_integer(struct Rlist *list, char *key, int inum);
+static void add_string(struct Rlist *list, char *key, const char *string);
+static void add_numeric(struct Rlist *list, char *key, double num);
+static void add_numeric_list(struct Rlist *list, char *key, double *num, int n_num);
+static void add_integer(struct Rlist *list, char *key, int inum);
 
 /*****************************************************************************/
 /* add list elements                                                         */
@@ -189,9 +171,7 @@ Runuran_performance (SEXP sexp_unur)
 
   /* Extract pointer to UNU.RAN generator */
   sexp_gen = GET_SLOT(sexp_unur, install("unur"));
-#ifdef RUNURAN_DEBUG
   CHECK_UNUR_PTR(sexp_gen);
-#endif
   gen = R_ExternalPtrAddr(sexp_gen);
   if (gen == NULL) {
     errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
