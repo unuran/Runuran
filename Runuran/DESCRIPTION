@@ -1,8 +1,8 @@
 Package: Runuran
 Type: Package
 Title: R interface to the UNU.RAN random variate generators
-Version: 0.11.0
-Date: 2009-11-17
+Version: 0.12.0
+Date: 2010-01-04
 Author: Josef Leydold and Wolfgang H\"ormann
 Maintainer: Josef Leydold <josef.leydold@wu.ac.at>
 Depends: R (>= 2.4.0), methods

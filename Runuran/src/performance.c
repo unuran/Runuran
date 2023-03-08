@@ -11,7 +11,7 @@
  *                                                                           *
  *****************************************************************************
  *                                                                           *
- *   Copyright (c) 2009 Wolfgang Hoermann and Josef Leydold                  *
+ *   Copyright (c) 2010 Wolfgang Hoermann and Josef Leydold                  *
  *   Dept. for Statistics, University of Economics, Vienna, Austria          *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
@@ -33,27 +33,33 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* R header files */
 #include <R.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
+/* UNU.RAN header files */
 #include <unuran.h>
 #include "Runuran.h"
 
+/* internal header files for UNU.RAN */
 #include <unur_source.h>
 #include <methods/unur_methods_source.h>
 #include <distr/distr_source.h>
 
+/* structures used by particular UNU.RAN methods */
 #include <methods/arou_struct.h>
 #include <methods/ars_struct.h>
+#include <methods/dari_struct.h>
+#include <methods/dsrou_struct.h>
+#include <methods/hinv_struct.h>
 #include <methods/itdr_struct.h>
 #include <methods/nrou_struct.h>
+#include <methods/pinv_struct.h>
 #include <methods/srou_struct.h>
 #include <methods/tabl_struct.h>
-
-
-#define DISTR     gen->distr->data.cont /* data for distribution in generator object */
+#include <methods/tdr_struct.h>
 
 /*---------------------------------------------------------------------------*/
 
@@ -80,9 +86,10 @@ struct Rlist {
 /* functions for appending list elements */
 void add_string(struct Rlist *list, char *key, const char *string);
 void add_numeric(struct Rlist *list, char *key, double num);
+void add_numeric_list(struct Rlist *list, char *key, double *num, int n_num);
 void add_integer(struct Rlist *list, char *key, int inum);
 
-/*---------------------------------------------------------------------------*/
+/*****************************************************************************/
 /* add list elements                                                         */
 
 void add_string(struct Rlist *list, char *key, const char *string)
@@ -102,6 +109,8 @@ void add_string(struct Rlist *list, char *key, const char *string)
   ++list->len;
 } /* end of add_string() */
 
+/* ------------------------------------------------------------------------- */
+
 void add_numeric(struct Rlist *list, char *key, double num)
 {
   if (list->len >= MAX_LIST)
@@ -111,7 +120,25 @@ void add_numeric(struct Rlist *list, char *key, double num)
   PROTECT(list->values[list->len] = NEW_NUMERIC(1));
   REAL(list->values[list->len])[0] = num;
   ++list->len;
-}
+} /* end of add_numeric() */
+
+/* ------------------------------------------------------------------------- */
+
+void add_numeric_list(struct Rlist *list, char *key, double *num, int n_num)
+{
+  int i;
+
+  if (list->len >= MAX_LIST)
+    error("Runuran: Interval error! Please send bug report");
+
+  list->names[list->len] = key;
+  PROTECT(list->values[list->len] = NEW_NUMERIC(n_num));
+  for (i=0; i<n_num; i++)
+    REAL(list->values[list->len])[i] = num[i];
+  ++list->len;
+} /* end of add_numeric_list() */
+
+/* ------------------------------------------------------------------------- */
 
 void add_integer(struct Rlist *list, char *key, int inum)
 {
@@ -122,7 +149,8 @@ void add_integer(struct Rlist *list, char *key, int inum)
   PROTECT(list->values[list->len] = NEW_INTEGER(1));
   INTEGER(list->values[list->len])[0] = inum;
   ++list->len;
-}
+} /* end of add_integer() */
+
 
 /*****************************************************************************/
 
@@ -138,23 +166,19 @@ Runuran_performance (SEXP sexp_unur)
      /*   R list                                                             */
      /*----------------------------------------------------------------------*/
 {
-
-  SEXP sexp_gen;
-  SEXP sexp_data;
-  struct unur_gen *gen = NULL;
-
-  int i;
-
-  /* int n_list;                  /\* length of list (depends on method) *\/ */
   SEXP sexp_list;              /* pointer to R list */
+  SEXP sexp_names;             /* array of keywords */
 
-
-  SEXP sexp_names;        /* FIXME */
-
+  SEXP sexp_gen;               /* R pointer to generator object */
+  struct unur_gen *gen = NULL; /* pointer to UNU.RAN object */
+  SEXP sexp_data;              /* R pointer to data list in generator object 
+				  (must be empty) */
+  int i;                       /* aux loop variable */
 
   /* array of list elements */
   struct Rlist list;
   list.len = 0;
+
 
   /* slot 'data' should not be pesent */
   sexp_data = GET_SLOT(sexp_unur, install("data"));
@@ -174,48 +198,84 @@ Runuran_performance (SEXP sexp_unur)
   }
 
 
+  /* we use macros to get an overview of used keywords and */
+  /* to minimize the risk of typos.                        */
 
 #define METHOD(string)       add_string(&list,"method",(string))
 
-#define KIND_AR              add_string(&list,"type","rejection")
-#define KIND_INV             add_string(&list,"type","inversion")
-#define KIND_RINV            add_string(&list,"type","inversion+rejection")
+#define KIND_AR              add_string(&list,"type","ar")
+#define KIND_INV             add_string(&list,"type","inv")
+#define KIND_IAR             add_string(&list,"type","iar")
+#define KIND_MCMC            add_string(&list,"type","mcmc")
+#define KIND_OTHER           add_string(&list,"type","other")
 
+  /* rejection method */
 #define REJECTIONCONST(num)  add_numeric(&list,"rejection.constant",(num))
 #define AREA_HAT(num)        add_numeric(&list,"area.hat",(num))
 #define AREA_SQUEEZE(num)    add_numeric(&list,"area.squeeze",(num))
 #define NINTS(inum)          add_integer(&list,"intervals",(inum))
 
+  /* (approximate) inversion method */
+#define TRUNC(left,right)    {				\
+    double tmp[2];					\
+    tmp[0]=(left); tmp[1]=(right);			\
+    add_numeric_list(&list,"truncated.domain",(tmp),2);	\
+  } 
+#define AREA_PDF(num)        add_numeric(&list,"area.pdf",(num))
 
 
   /* get data */
   switch (gen->method) {
 
+    /************************/
     /* discrete, univariate */
+    /************************/
+    /* data for distribution in generator object */
+#define DISTR  gen->distr->data.discr
+
+    /* ..................................................................... */
   case UNUR_METH_DARI:
+#define GEN ((struct unur_dari_gen*)gen->datap)
     METHOD("DARI"); KIND_AR;
-    /* REJECTIONCONST(); */
+    REJECTIONCONST ((gen->distr->set & UNUR_DISTR_SET_PMFSUM)
+		   ? GEN->vt/DISTR.sum : NA_REAL);
+    AREA_HAT (GEN->vt);
+#undef GEN
     break;
+    /* ..................................................................... */
   case UNUR_METH_DAU:
-    METHOD("DAU"); 
+    METHOD("DAU"); KIND_OTHER; 
     break;
+    /* ..................................................................... */
   case UNUR_METH_DGT:
     METHOD("DGT"); KIND_INV;
     break;
+    /* ..................................................................... */
   case UNUR_METH_DSROU:
+#define GEN ((struct unur_dsrou_gen*)gen->datap)
     METHOD("DSROU"); KIND_AR;
-    /* REJECTIONCONST(); */
+    REJECTIONCONST (2.*(-GEN->al+GEN->ar) / DISTR.sum);
+    AREA_HAT (2.*(-GEN->al+GEN->ar));
+#undef GEN
     break;
+    /* ..................................................................... */
   case UNUR_METH_DSS:
     METHOD("DSS"); KIND_INV;
     break;
+    /* ..................................................................... */
   case UNUR_METH_DSTD:
-    METHOD("DSTD"); 
+    METHOD("DSTD"); KIND_OTHER;
     break;
+    /* ..................................................................... */
+    
+#undef DISTR
+
 
     /**************************/
     /* continuous, univariate */
     /**************************/
+
+#define DISTR  gen->distr->data.cont 
 
     /* ..................................................................... */
   case UNUR_METH_AROU:
@@ -231,7 +291,7 @@ Runuran_performance (SEXP sexp_unur)
     /* ..................................................................... */
   case UNUR_METH_ARS:
 #define GEN ((struct unur_ars_gen*)gen->datap)
-    METHOD("ARS"); KIND_RINV; 
+    METHOD("ARS"); KIND_IAR; 
     REJECTIONCONST ((gen->distr->set & UNUR_DISTR_SET_PDFAREA) 
 		   ? GEN->Atotal*exp(GEN->logAmax)/DISTR.area : NA_REAL);
     AREA_HAT (GEN->Atotal*exp(GEN->logAmax));
@@ -240,20 +300,27 @@ Runuran_performance (SEXP sexp_unur)
     break;
     /* ..................................................................... */
   case UNUR_METH_CSTD:
-    METHOD("CSTD"); 
+    METHOD("CSTD"); KIND_OTHER;
     break;
     /* ..................................................................... */
   case UNUR_METH_HINV:
-    METHOD("HINV");  KIND_INV;
+#define GEN ((struct unur_hinv_gen*)gen->datap)
+    METHOD("HINV"); KIND_INV;
+    TRUNC(GEN->bleft,GEN->bright);
+    NINTS (GEN->N-1);
+#undef GEN
     break;
+    /* ..................................................................... */
   case UNUR_METH_HRB:
-    METHOD("HRB"); 
+    METHOD("HRB"); KIND_OTHER;
     break;
+    /* ..................................................................... */
   case UNUR_METH_HRD:
-    METHOD("HRD"); 
+    METHOD("HRD"); KIND_OTHER;
     break;
+    /* ..................................................................... */
   case UNUR_METH_HRI:
-    METHOD("HRI"); 
+    METHOD("HRI"); KIND_OTHER;
     break;
     /* ..................................................................... */
   case UNUR_METH_ITDR:
@@ -266,7 +333,7 @@ Runuran_performance (SEXP sexp_unur)
     break;
     /* ..................................................................... */
   case UNUR_METH_NINV:
-    METHOD("NINV"); 
+    METHOD("NINV"); KIND_INV;
     break;
     /* ..................................................................... */
   case UNUR_METH_NROU:
@@ -279,7 +346,12 @@ Runuran_performance (SEXP sexp_unur)
     break;
     /* ..................................................................... */
   case UNUR_METH_PINV:
-    METHOD("PINV"); 
+#define GEN ((struct unur_pinv_gen*)gen->datap)
+    METHOD("PINV"); KIND_INV; 
+    TRUNC(GEN->bleft,GEN->bright);
+    AREA_PDF(GEN->area);
+    NINTS (GEN->n_ivs);
+#undef GEN
     break;
     /* ..................................................................... */
   case UNUR_METH_SROU:
@@ -307,10 +379,10 @@ Runuran_performance (SEXP sexp_unur)
   case UNUR_METH_TABL:
 #define GEN ((struct unur_tabl_gen*)gen->datap)
 #define TABL_VARIANT_IA   0x0001u   /* use immediate acceptance */
-    METHOD("TABL"); 
-    if (gen->variant&TABL_VARIANT_IA) {KIND_AR;} else {KIND_RINV;}
+    METHOD("TABL"); KIND_AR;
+    if (gen->variant&TABL_VARIANT_IA) {KIND_AR;} else {KIND_IAR;}
     REJECTIONCONST ((gen->distr->set & UNUR_DISTR_SET_PDFAREA) 
-		   ? GEN->Atotal/DISTR.area : NA_REAL);
+		    ? GEN->Atotal/DISTR.area : NA_REAL);
     AREA_HAT (GEN->Atotal);
     AREA_SQUEEZE (GEN->Asqueeze);
     NINTS (GEN->n_ivs);
@@ -319,15 +391,19 @@ Runuran_performance (SEXP sexp_unur)
     break;
     /* ..................................................................... */
   case UNUR_METH_TDR:
-    METHOD("TDR"); KIND_AR;
-    /* REJECTIONCONST(); */
-
-/* performance characteristics: */
-/*    area(hat) = 1.00143 */
-/*    rejection constant = 1.00143 */
-/*    area ratio squeeze/hat = 0.994723 */
-/*    # intervals = 51 */
-
+#define GEN ((struct unur_tdr_gen*)gen->datap)
+#define TDR_VARIANT_IA       0x0030u   /* use immediate acceptance */
+#define TDR_VARMASK_VARIANT  0x00f0u   /* indicates which variant  */
+    METHOD("TDR");
+    if ((gen->variant & TDR_VARMASK_VARIANT) == TDR_VARIANT_IA) {KIND_AR;} else {KIND_IAR;}
+    REJECTIONCONST ((gen->distr->set & UNUR_DISTR_SET_PDFAREA) 
+		    ? GEN->Atotal/DISTR.area : NA_REAL);
+    AREA_HAT (GEN->Atotal);
+    AREA_SQUEEZE (GEN->Asqueeze);
+    NINTS (GEN->n_ivs);
+#undef TDR_VARMASK_VARIANT
+#undef TDR_VARIANT_IA
+#undef GEN
     break;
     /* ..................................................................... */
   case UNUR_METH_UTDR:
@@ -337,45 +413,71 @@ Runuran_performance (SEXP sexp_unur)
     break;
     /* ..................................................................... */
 
+#undef DISTR
+
+
+    /*************************/
     /* continuous, empirical */
+    /*************************/
 
+    /* ..................................................................... */
   case UNUR_METH_EMPK:
-    METHOD("EMPK"); 
+    METHOD("EMPK"); KIND_OTHER;
     break;
+    /* ..................................................................... */
   case UNUR_METH_EMPL:
-    METHOD("EMPL"); 
+    METHOD("EMPL"); KIND_INV;
     break;
+    /* ..................................................................... */
   case UNUR_METH_HIST:
-    METHOD("HIST"); 
+    METHOD("HIST"); KIND_INV;
     break;
+    /* ..................................................................... */
   case UNUR_METH_VEMPK:
-    METHOD("VEMPK"); 
+    METHOD("VEMPK"); KIND_OTHER;
     break;
+    /* ..................................................................... */
 
+
+    /********************************************/
     /* continuous, multivariate (random vector) */
+    /********************************************/
+
+    /* ..................................................................... */
   case UNUR_METH_GIBBS:
-    METHOD("GIBBS"); 
+    METHOD("GIBBS"); KIND_MCMC;
     break;
+    /* ..................................................................... */
   case UNUR_METH_HITRO:
-    METHOD("HITRO"); 
+    METHOD("HITRO"); KIND_MCMC;
     break;
+    /* ..................................................................... */
   case UNUR_METH_MVSTD:
-    METHOD("MVSTD"); 
+    METHOD("MVSTD"); KIND_OTHER;
     break;
+    /* ..................................................................... */
   case UNUR_METH_MVTDR:
-    METHOD("MVTDR"); 
+    METHOD("MVTDR"); KIND_AR;
     break;
+    /* ..................................................................... */
   case UNUR_METH_VNROU:
-    METHOD("VNROU"); 
+    METHOD("VNROU"); KIND_AR;
     break;
+    /* ..................................................................... */
 
     /* case UNUR_METH_NORTA: */
     /* case UNUR_METH_MCORR: */
 
+
+    /********/
     /* misc */
+    /********/
+
+    /* ..................................................................... */
   case UNUR_METH_UNIF:
-    METHOD("UNIF"); 
+    METHOD("UNIF"); KIND_INV;
     break;
+    /* ..................................................................... */
 
     /* case UNUR_METH_DEXT: */
     /* case UNUR_METH_CEXT: */
@@ -383,12 +485,13 @@ Runuran_performance (SEXP sexp_unur)
     /* automatic method --> meta method: selects one of the other methods automatically */
     /* case UNUR_METH_AUTO: */
 
+    /* ..................................................................... */
   default: /* unknown ! */
     METHOD("NA"); 
   }
 
 
-  /* a vector of the "names" attribute of the objects in our list */
+  /* an array of the "names" attribute of the objects in our list */
   PROTECT(sexp_names = allocVector(STRSXP, list.len));
   for(i = 0; i < list.len; i++)
     SET_STRING_ELT(sexp_names, i,  mkChar(list.names[i]));
@@ -396,16 +499,15 @@ Runuran_performance (SEXP sexp_unur)
   /* create R list */
   PROTECT(sexp_list = allocVector(VECSXP, list.len)); 
 
-  /* attach .... method string */
+  /* attach list elements */
   for(i = 0; i < list.len; i++)
     SET_VECTOR_ELT(sexp_list, i, list.values[i]);
  
-  /* attach vector names */
+  /* attach attribute names */
   setAttrib(sexp_list, R_NamesSymbol, sexp_names);
 
 
   UNPROTECT(list.len+2);
-  //  UNPROTECT(3);
   return sexp_list;
 
 } /* end of Runuran_performance() */
