@@ -53,7 +53,7 @@ setMethod( "initialize", "unuran.cmv",
             if (! is.numeric(dim))
               stop("invalid argument 'dim'", call.=FALSE)
             ndim <- as.integer(dim)
-            if (ndim < 1 || ndim > 100000)
+            if (!isTRUE(all.equal(ndim,dim)) || ndim < 1 || ndim > 100000)
               stop("invalid argument 'dim'", call.=FALSE)
 
             if(! (is.function(pdf) || is.null(pdf)) )
