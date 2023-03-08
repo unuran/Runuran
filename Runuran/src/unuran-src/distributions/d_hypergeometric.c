@@ -29,8 +29,8 @@ _unur_pmf_hypergeometric(int k, const UNUR_DISTR *distr)
   if ( k < _unur_max(0,(n-N+M-0.5)) || k > _unur_min(n,M)+0.5 ) 
     return 0.;
   else
-    return exp( LOGNORMCONSTANT - _unur_sf_ln_factorial(k) - _unur_sf_ln_factorial(M-k) -
-                _unur_sf_ln_factorial(n-k) - _unur_sf_ln_factorial(N-M-n+k) );
+    return exp( LOGNORMCONSTANT - _unur_SF_ln_factorial(k) - _unur_SF_ln_factorial(M-k) -
+                _unur_SF_ln_factorial(n-k) - _unur_SF_ln_factorial(N-M-n+k) );
 } 
 #ifdef HAVE_CDF
 double
@@ -52,8 +52,8 @@ int
 _unur_upd_sum_hypergeometric( UNUR_DISTR *distr )
 {
   register double *params = DISTR.params;
-  LOGNORMCONSTANT = _unur_sf_ln_factorial(M) + _unur_sf_ln_factorial(N-M) + _unur_sf_ln_factorial(n) +
-    _unur_sf_ln_factorial(N-n) - _unur_sf_ln_factorial(N);
+  LOGNORMCONSTANT = _unur_SF_ln_factorial(M) + _unur_SF_ln_factorial(N-M) + _unur_SF_ln_factorial(n) +
+    _unur_SF_ln_factorial(N-n) - _unur_SF_ln_factorial(N);
   if (distr->set & UNUR_DISTR_SET_STDDOMAIN) {
     DISTR.sum = 1.;
     return UNUR_SUCCESS;

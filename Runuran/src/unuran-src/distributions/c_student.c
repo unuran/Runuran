@@ -37,8 +37,8 @@ _unur_cdf_student(double x, const UNUR_DISTR *distr)
   double xx;
   if (_unur_iszero(DISTR.nu)) return 0; 
   xx=1./(1.+x*x/DISTR.nu);
-  if (x>0) return 1-.5*_unur_sf_incomplete_beta(xx,.5*DISTR.nu,.5)/_unur_sf_incomplete_beta(1.,.5*DISTR.nu,.5);
-  else     return   .5*_unur_sf_incomplete_beta(xx,.5*DISTR.nu,.5)/_unur_sf_incomplete_beta(1.,.5*DISTR.nu,.5);
+  if (x>0) return 1-.5*_unur_SF_incomplete_beta(xx,.5*DISTR.nu,.5)/_unur_SF_incomplete_beta(1.,.5*DISTR.nu,.5);
+  else     return   .5*_unur_SF_incomplete_beta(xx,.5*DISTR.nu,.5)/_unur_SF_incomplete_beta(1.,.5*DISTR.nu,.5);
 } 
 int
 _unur_upd_mode_student( UNUR_DISTR *distr )
@@ -65,7 +65,7 @@ _unur_upd_area_student( UNUR_DISTR *distr )
 double
 _unur_normconstant_student( const double *params, int n_params ATTRIBUTE__UNUSED )
 {
-  return( sqrt(M_PI * nu) * exp(_unur_sf_ln_gamma(0.5*nu) - _unur_sf_ln_gamma(0.5*(nu+1.))) );
+  return( sqrt(M_PI * nu) * exp(_unur_SF_ln_gamma(0.5*nu) - _unur_SF_ln_gamma(0.5*(nu+1.))) );
 } 
 int
 _unur_set_params_student( UNUR_DISTR *distr, const double *params, int n_params )

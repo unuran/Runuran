@@ -25,7 +25,7 @@ _unur_pmf_binomial(int k, const UNUR_DISTR *distr)
     return 0.;
   else
     return exp( k * log(p) + (n-k) * log(1.-p) +
-		_unur_sf_ln_factorial(n) - _unur_sf_ln_factorial(k) - _unur_sf_ln_factorial(n-k) ) ;
+		_unur_SF_ln_factorial(n) - _unur_SF_ln_factorial(k) - _unur_SF_ln_factorial(n-k) ) ;
 } 
 double
 _unur_cdf_binomial(int k, const UNUR_DISTR *distr)
@@ -37,7 +37,7 @@ _unur_cdf_binomial(int k, const UNUR_DISTR *distr)
     return exp(n*(log(1.-p)));
   if(k>(n-0.5))
     return 1.;
-  return(_unur_sf_incomplete_beta(1.-p, n-k, k+1.));
+  return(_unur_SF_incomplete_beta(1.-p, n-k, k+1.));
 } 
 int
 _unur_upd_mode_binomial( UNUR_DISTR *distr )

@@ -21,16 +21,15 @@ _unur_stdgen_gig_init( struct unur_par *par, struct unur_gen *gen )
   switch ((par) ? par->variant : gen->variant) {
   case 0:  
   case 1:  
-    if (par->distr->data.cont.params[0] <= 0.) {    
+    if (par!=NULL && par->distr->data.cont.params[0] <= 0.) {    
       _unur_error(NULL,UNUR_ERR_GEN_CONDITION,"");
       return UNUR_ERR_GEN_CONDITION;
     }
-    _unur_cstd_set_sampling_routine( par,gen,_unur_stdgen_sample_gig_gigru );
+    _unur_cstd_set_sampling_routine(gen, _unur_stdgen_sample_gig_gigru );
     return gig_gigru_init( gen );
   case UNUR_STDGEN_INVERSION:   
   default: 
-    if (gen) _unur_warning(gen->genid,UNUR_ERR_SHOULD_NOT_HAPPEN,"");
-    return UNUR_FAILURE;
+    return _unur_cstd_generic_init(par,gen);
   }
 } 
 #define m       (GEN->gen_param[0])
