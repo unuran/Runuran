@@ -244,6 +244,32 @@ rm(unr)
 
 ## --- density function -----------------------------------------------------
 
+distr <- unuran.cont.new(pdf=function(x){exp(-x)}, lb=0,ub=Inf)
+x <- rexp(100)
+e <- max(abs(ud(distr, x) - dexp(x)))
+e; if (e>1.e-10) stop("error too large")
+
+distr <- udgeom(prob=0.8)
+x <- rgeom(100, prob=0.8)
+e <- max(abs(ud(distr,x) - dgeom(x,prob=0.8)))
+e; if (e>1.e-10) stop("error too large")
+
+rm(distr,x,e)
+
+
+unr <- pinv.new(pdf=function(x){exp(-x)}, lb=0,ub=Inf)
+x <- rexp(100)
+e <- max(abs(ud(unr, x) - dexp(x)))
+e; if (e>1.e-10) stop("error too large")
+
+unr <- darid.new(udgeom(prob=0.8))
+x <- rgeom(100, prob=0.8)
+e <- max(abs(ud(unr,x) - dgeom(x,prob=0.8)))
+e; if (e>1.e-10) stop("error too large")
+
+rm(unr,x,e)
+
+
 distr <- unuran.cont.new(lb=0,ub=1)
 if( ! is.error( ud(distr,1) ) )
   stop("'ud' ignores missing PDF")
@@ -252,9 +278,16 @@ distr <- unuran.discr.new(lb=0,ub=1)
 if( ! is.error( ud(distr,1) ) )
   stop("'ud' ignores missing PMF")
 
-gen <- pinv.new(cdf=pexp,lb=0,ub=Inf)
-if( ! is.error( ud(gen,1) ) )
+unr <- pinv.new(cdf=pexp,lb=0,ub=Inf)
+if( ! is.error( ud(unr,1) ) )
   stop("'ud' ignores missing PDF")
+
+unr <- pinv.new(pdf=dexp,lb=0,ub=Inf)
+unuran.packed(unr) <- TRUE
+if( ! is.error( ud(unr, 1) ) ) 
+  stop("'ud' does not detect packed generator object")
+
+rm(distr,unr)
 
 
 ## --- distribution function ------------------------------------------------
@@ -285,11 +318,17 @@ distr <- unuran.discr.new(lb=0,ub=1)
 if( ! is.error( up(distr,1) ) )
   stop("'up' ignores missing CDF")
 
-gen <- tdr.new(pdf=dexp,lb=0,ub=Inf)
-if( ! is.error( up(gen,1) ) )
+unr <- tdr.new(pdf=dexp,lb=0,ub=Inf)
+if( ! is.error( up(unr,1) ) )
   stop("'up' ignores invalid method PINV")
 
-rm(distr,gen)
+unr <- pinv.new(pdf=dexp,lb=0,ub=Inf)
+unuran.packed(unr) <- TRUE
+if( ! is.error( up(unr, 1) ) ) 
+  stop("'up' does not detect packed generator object")
+
+rm(distr,unr)
+
 
 ## --- pack -----------------------------------------------------------------
 

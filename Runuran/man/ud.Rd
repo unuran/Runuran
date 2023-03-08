@@ -16,19 +16,29 @@
 ud(obj, x)
 }
 \arguments{
-  \item{obj}{distribution object
-    (S4 object of class \code{"unuran.cont"} or \code{"unuran.discr"}),
-    or generator object (S4 object of class \code{"unuran"}).
+  \item{obj}{one of
+    \itemize{
+      \item a distribution object of class \code{"unuran.cont"}
+      that contains the PDF, or
+      \item a distribution object of class \code{"unuran.discr"}
+      that contains the PMF, or
+      \item a generator object (class \code{"unuran"}) that
+      contains the PDF and PMF, resp.
+    }
   }
   \item{x}{vector of x values. (numeric)}
 }
 
 \details{
-  The routine evaluates the probability density function (continuous) or
-  probability mass function (discrete) of a distribution stored in a 
-  UNU.RAN distribution object or UNU.RAN generator object.
-  (If the PDF (and PMF, resp.) is not available in the object, then the
-  computation is aborted.) 
+  The routine evaluates the probability density function of a
+  distribution stored in a UNU.RAN distribution object or UNU.RAN
+  generator object. If the PDF is not available in the object, then
+  the computation is aborted.
+}
+
+\note{
+  The generator object must not be packed (see
+  \code{\link{unuran.packed}}).
 }
 
 \seealso{

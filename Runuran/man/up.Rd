@@ -40,6 +40,11 @@ up(obj, x)
   contain the CDF, the value of the (exact) CDF is returned. 
 }
 
+\note{
+  The generator object must not be packed (see
+  \code{\link{unuran.packed}}).
+}
+
 \seealso{
   \code{\linkS4class{unuran.cont}},
   \code{\linkS4class{unuran.discr}},
