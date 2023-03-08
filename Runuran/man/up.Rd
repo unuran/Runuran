@@ -1,19 +1,17 @@
-\name{ud}
+\name{up}
 \docType{function}
 
-\alias{ud}
+\alias{up}
 
-\title{Density function for "unuran" object}
+\title{Distribution function for "unuran" object}
 
 \description{
-  Evaluates the probability density function (PDF) or
-  probability mass function (PMF) for a "unuran" 
-  object for a continuous and discrete distribution,
-  respectively.
+  Evaluates the cumulative distribution function (CDF) 
+  of a "unuran" object for a continuous or discrete distribution.
 }
 
 \usage{
-ud(obj, x)
+up(obj, x)
 }
 \arguments{
   \item{obj}{distribution object
@@ -24,10 +22,10 @@ ud(obj, x)
 }
 
 \details{
-  The routine evaluates the probability density function (continuous) or
-  probability mass function (discrete) of a distribution stored in a 
-  UNU.RAN distribution object or UNU.RAN generator object.
-  (If the PDF (and PMF, resp.) is not available in the object, then the
+  The routine evaluates the cumulative distribution function of a
+  distribution stored in a UNU.RAN distribution object or UNU.RAN
+  generator object. 
+  (If the CDF is not available in the object, then the
   computation is aborted.) 
 }
 
@@ -52,13 +50,13 @@ ud(obj, x)
 ## Create an UNU.RAN distribution object (for standard Gaussian)
 ## and evaluate density for some points
 distr <- udnorm()
-ud(distr, 1.5)
-ud(distr, -3:3)
+up(distr, 1.5)
+up(distr, -3:3)
 
 ## Create an UNU.RAN generator object (for standard Gaussian)
 ## and evaluate density of underyling distribution
 gen <- tdrd.new(udnorm())
-ud(gen, 1.5)
-ud(gen, -3:3)
+up(gen, 1.5)
+up(gen, -3:3)
 
 }

@@ -85,6 +85,7 @@ print(unuran.details(unr,show=TRUE,return.list=TRUE))
 ## remove (so that valgrind does not see lost memory from UNU.RAN)
 rm(unr)
 
+
 ## --- Continuous distributions - S4 distribution object --------------------
 
 ## use PDF
@@ -239,6 +240,37 @@ if( ! is.error( uq(unr,"a") ) )
    stop("'uq' does not detect invalid argument 'U'")
         
 rm(unr)
+
+
+## --- density function -----------------------------------------------------
+
+distr <- unuran.cont.new(lb=0,ub=1)
+if( ! is.error( ud(distr,1) ) )
+  stop("'ud' ignores missing PDF")
+
+distr <- unuran.discr.new(lb=0,ub=1)
+if( ! is.error( ud(distr,1) ) )
+  stop("'ud' ignores missing PMF")
+
+gen <- pinv.new(cdf=pexp,lb=0,ub=Inf)
+if( ! is.error( ud(gen,1) ) )
+  stop("'ud' ignores missing PDF")
+
+
+## --- distribution function ------------------------------------------------
+
+distr <- unuran.cont.new(lb=0,ub=1)
+if( ! is.error( up(distr,1) ) )
+  stop("'up' ignores missing CDF")
+
+distr <- unuran.discr.new(lb=0,ub=1)
+if( ! is.error( up(distr,1) ) )
+  stop("'up' ignores missing CDF")
+
+gen <- pinv.new(pdf=dexp,lb=0,ub=Inf)
+if( ! is.error( up(gen,1) ) )
+  stop("'up' ignores missing CDF")
+
 
 ## --- pack -----------------------------------------------------------------
 
