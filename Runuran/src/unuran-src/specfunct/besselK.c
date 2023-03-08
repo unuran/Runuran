@@ -14,9 +14,4 @@ _unur_sf_bessel_k_expo(double x, double nu)
 {
   return bessel_k( x, nu, 2);
 } 
-#else
-double _unur_sf_bessel_k(double x ATTRIBUTE__UNUSED, double nu ATTRIBUTE__UNUSED) 
-{ 
-  return 0./0.; 
-}
 #endif 
