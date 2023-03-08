@@ -53,17 +53,17 @@ unuran-src:
 unuran-clean:
 	rm -rf Runuran.Rcheck
 	rm -f Runuran_*
-	(cd Runuran; \
-		rm -rf configure config.log config.status autom4te.cache)
-	(cd Runuran/src; \
-		rm -f Makevars; \
-		rm -f config.h*; \
-		rm -f Runuran.so *.o )
-	(cd Runuran/src/unuran-src; \
-		rm -rf * )
-	(cd Runuran/inst/doc; \
-		rm -f *.aux *.bbl *.blg *.log *.out *.toc; \
-		rm -f Runuran.R Runuran.pdf Runuran.tex )
+	if test -d Runuran; then \
+		(cd Runuran && \
+			rm -rf configure config.log config.status autom4te.cache) && \
+		(cd Runuran/src && \
+			rm -f Makevars config.h* Runuran.so *.o ) && \
+		(cd Runuran/src/unuran-src && \
+			rm -rf * ) && \
+		(cd Runuran/inst/doc && \
+			rm -f *.aux *.bbl *.blg *.log *.out *.toc && \
+			rm -f Runuran.R Runuran.pdf Runuran.tex ) \
+	fi
 
 # --- Clear working space ---------------------------------------------------
 
