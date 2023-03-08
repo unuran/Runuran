@@ -97,9 +97,9 @@ _unur_cdf_F(double x, const UNUR_DISTR *distr)
   if (x <= 0.)
     return 0.;
   if (nua * x > nub)
-    return 1. - _unur_sf_incomplete_beta(nub / (nub + nua * x), nub/2., nua/2.);
+    return 1. - _unur_SF_incomplete_beta(nub / (nub + nua * x), nub/2., nua/2.);
   else
-    return _unur_sf_incomplete_beta(nua * x / (nub + nua * x), nua/2., nub/2.);
+    return _unur_SF_incomplete_beta(nua * x / (nub + nua * x), nua/2., nub/2.);
 } 
 int
 _unur_upd_mode_F( UNUR_DISTR *distr )
@@ -129,7 +129,7 @@ _unur_upd_area_F( UNUR_DISTR *distr )
 double
 _unur_lognormconstant_F(const double *params, int n_params ATTRIBUTE__UNUSED)
 { 
-  return ((_unur_sf_ln_gamma(nua/2.) + _unur_sf_ln_gamma(nub/2.) - _unur_sf_ln_gamma((nua+nub)/2.))
+  return ((_unur_SF_ln_gamma(nua/2.) + _unur_SF_ln_gamma(nub/2.) - _unur_SF_ln_gamma((nua+nub)/2.))
 	  - 0.5 * nua * log(nua/nub));
 } 
 int

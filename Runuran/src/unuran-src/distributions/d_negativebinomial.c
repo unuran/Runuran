@@ -29,7 +29,7 @@ _unur_pmf_negativebinomial(int k, const UNUR_DISTR *distr)
     return 0.;
   else
     return exp( k*log(1-p) 
-		+ _unur_sf_ln_gamma(k+r) - _unur_sf_ln_gamma(k+1.) - LOGNORMCONSTANT ) ;
+		+ _unur_SF_ln_gamma(k+r) - _unur_SF_ln_gamma(k+1.) - LOGNORMCONSTANT ) ;
 } 
 #ifdef HAVE_CDF
 double
@@ -60,7 +60,7 @@ _unur_upd_mode_negativebinomial( UNUR_DISTR *distr )
 int
 _unur_upd_sum_negativebinomial( UNUR_DISTR *distr )
 {
-  LOGNORMCONSTANT = - DISTR.r * log(DISTR.p) + _unur_sf_ln_gamma(DISTR.r);
+  LOGNORMCONSTANT = - DISTR.r * log(DISTR.p) + _unur_SF_ln_gamma(DISTR.r);
   if (distr->set & UNUR_DISTR_SET_STDDOMAIN) {
     DISTR.sum = 1.;
     return UNUR_SUCCESS;

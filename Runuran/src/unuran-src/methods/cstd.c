@@ -25,7 +25,6 @@ static struct unur_gen *_unur_cstd_create( struct unur_par *par );
 static int _unur_cstd_check_par( struct unur_gen *gen );
 static struct unur_gen *_unur_cstd_clone( const struct unur_gen *gen );
 static void _unur_cstd_free( struct unur_gen *gen);
-static int _unur_cstd_generic_init( struct unur_par *par, struct unur_gen *gen );
 #ifdef UNUR_ENABLE_LOGGING
 static void _unur_cstd_debug_init( struct unur_gen *gen );
 static void _unur_cstd_debug_chg_pdfparams( struct unur_gen *gen );
@@ -302,13 +301,13 @@ _unur_cstd_generic_init( struct unur_par *par, struct unur_gen *gen )
     if (gen) {
       if (DISTR.invcdf) {
 	GEN->is_inversion = TRUE;
-	_unur_cstd_set_sampling_routine(par,gen,_unur_cstd_sample_inv);
+	_unur_cstd_set_sampling_routine(gen,_unur_cstd_sample_inv);
 	return UNUR_SUCCESS;
       }
     }
     else {
       if ((par->distr->data.cont).invcdf) {
-	_unur_cstd_set_sampling_routine(par,gen,_unur_cstd_sample_inv);
+	_unur_cstd_set_sampling_routine(gen,_unur_cstd_sample_inv);
 	return UNUR_SUCCESS;
       }
     }

@@ -18,7 +18,7 @@ _unur_stdgen_geometric_init( struct unur_par *par, struct unur_gen *gen )
   case 0:  
   case UNUR_STDGEN_INVERSION:   
     if (gen) GEN->is_inversion = TRUE;
-    _unur_dstd_set_sampling_routine( par,gen,_unur_stdgen_sample_geometric_inv );
+    _unur_dstd_set_sampling_routine(gen, _unur_stdgen_sample_geometric_inv );
     return UNUR_SUCCESS;
   default: 
     if (gen) _unur_warning(gen->genid,UNUR_ERR_SHOULD_NOT_HAPPEN,"");
