@@ -6,21 +6,13 @@
 
 /* R header files */
 #include <R.h>
-#include <Rdefines.h>
 #include <Rinternals.h>
 
 /* UNU.RAN header files */
 #include <unuran.h>
 
 /*****************************************************************************/
-/*                                                                           */
-/*   R <--> C programming interface (used in .Call)                          */
-/*   (public part)                                                           */
-/*                                                                           */
-/*****************************************************************************/
-
-/*****************************************************************************/
-/* Create and handle UNU.RAN distribution objects                            */
+/* Create UNU.RAN object for distribution defined in pure C code.            */
 
 typedef SEXP RUNURAN_EXT_FUNCT_INIT
 ( SEXP sexp_obj, SEXP sexp_params, SEXP sexp_domain,
