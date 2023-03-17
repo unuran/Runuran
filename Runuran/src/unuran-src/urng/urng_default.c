@@ -25,7 +25,9 @@ unur_get_default_urng( void )
     urng_default = UNUR_URNG_DEFAULT;
     if( urng_default == NULL ) {
       _unur_error("URNG",UNUR_ERR_NULL,"Cannot set default URNG. EXIT !!!");
+#ifndef R_UNURAN
       exit(EXIT_FAILURE);
+#endif
     }
   }
   return (urng_default);
@@ -45,7 +47,9 @@ unur_get_default_urng_aux( void )
     urng_aux_default = UNUR_URNG_AUX_DEFAULT;
     if( urng_aux_default == NULL ) {
       _unur_error("URNG",UNUR_ERR_NULL,"Cannot set default auxilliary URNG. EXIT !!!");
+#ifndef R_UNURAN
       exit(EXIT_FAILURE);
+#endif
     }
   }
   return (urng_aux_default);

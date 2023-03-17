@@ -6,7 +6,6 @@
 #include <methods/cstd_struct.h>
 #include <methods/x_gen_source.h>
 #include <distr/distr_source.h>
-#include <specfunct/unur_specfunct_source.h>
 #include "unur_distributions_source.h"
 #include "unur_distributions.h"
 inline static int slash_slash_init( struct unur_gen *gen );

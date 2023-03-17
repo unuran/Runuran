@@ -27,10 +27,11 @@ typedef struct unur_gen   UNUR_GEN;
 struct unur_urng;                        
 typedef struct unur_urng  UNUR_URNG;
 #define UNUR_URNG_UNURAN 1
-typedef double UNUR_FUNCT_CONT(double x, const struct unur_distr *distr);
-typedef double UNUR_FUNCT_DISCR(int x, const struct unur_distr *distr);
-typedef double UNUR_FUNCT_CVEC(const double *x, struct unur_distr *distr);
-typedef int UNUR_VFUNCT_CVEC(double *result, const double *x, struct unur_distr *distr);
+typedef double UNUR_FUNCT_CONT  (double x, const struct unur_distr *distr);
+typedef double UNUR_FUNCT_DISCR (int x, const struct unur_distr *distr);
+typedef int    UNUR_IFUNCT_DISCR(double x, const struct unur_distr *distr);
+typedef double UNUR_FUNCT_CVEC (const double *x, struct unur_distr *distr);
+typedef int    UNUR_VFUNCT_CVEC(double *result, const double *x, struct unur_distr *distr);
 typedef double UNUR_FUNCTD_CVEC(const double *x, int coord, struct unur_distr *distr);
 struct unur_slist;         
 typedef void UNUR_ERROR_HANDLER( const char *objid, const char *file, int line, 
@@ -288,11 +289,14 @@ int unur_distr_discr_make_pv( UNUR_DISTR *distribution );
 int unur_distr_discr_get_pv( const UNUR_DISTR *distribution, const double **pv );
 int unur_distr_discr_set_pmf( UNUR_DISTR *distribution, UNUR_FUNCT_DISCR *pmf );
 int unur_distr_discr_set_cdf( UNUR_DISTR *distribution, UNUR_FUNCT_DISCR *cdf );
+int unur_distr_discr_set_invcdf( UNUR_DISTR *distribution, UNUR_IFUNCT_DISCR *invcdf );
 UNUR_FUNCT_DISCR *unur_distr_discr_get_pmf( const UNUR_DISTR *distribution );
 UNUR_FUNCT_DISCR *unur_distr_discr_get_cdf( const UNUR_DISTR *distribution );
+UNUR_IFUNCT_DISCR *unur_distr_discr_get_invcdf( const UNUR_DISTR *distribution );
 double unur_distr_discr_eval_pv(int k, const UNUR_DISTR *distribution );
 double unur_distr_discr_eval_pmf( int k, const UNUR_DISTR *distribution );
 double unur_distr_discr_eval_cdf( int k, const UNUR_DISTR *distribution );
+int unur_distr_discr_eval_invcdf( double u, const UNUR_DISTR *distribution );
 int unur_distr_discr_set_pmfstr( UNUR_DISTR *distribution, const char *pmfstr );
 int unur_distr_discr_set_cdfstr( UNUR_DISTR *distribution, const char *cdfstr );
 char *unur_distr_discr_get_pmfstr( const UNUR_DISTR *distribution );
@@ -322,6 +326,7 @@ int unur_dau_set_urnfactor( UNUR_PAR *parameters, double factor );
 UNUR_PAR *unur_dgt_new( const UNUR_DISTR *distribution );
 int unur_dgt_set_guidefactor( UNUR_PAR *parameters, double factor );
 int unur_dgt_set_variant( UNUR_PAR *parameters, unsigned variant );
+int unur_dgt_eval_invcdf_recycle( const UNUR_GEN *generator, double u, double *recycle );
 int unur_dgt_eval_invcdf( const UNUR_GEN *generator, double u );
 UNUR_PAR *unur_dsrou_new( const UNUR_DISTR *distribution );
 int unur_dsrou_set_cdfatmode( UNUR_PAR *parameters, double Fmode );
@@ -416,14 +421,18 @@ int unur_nrou_set_verify( UNUR_PAR *parameters, int verify );
 int unur_nrou_chg_verify( UNUR_GEN *generator, int verify );
 UNUR_PAR *unur_pinv_new( const UNUR_DISTR *distribution );
 int unur_pinv_set_order( UNUR_PAR *parameters, int order);
+int unur_pinv_set_smoothness( UNUR_PAR *parameters, int smoothness);
 int unur_pinv_set_u_resolution( UNUR_PAR *parameters, double u_resolution);
+int unur_pinv_set_use_upoints( UNUR_PAR *parameters, int use_upoints );
 int unur_pinv_set_usepdf( UNUR_PAR *parameters );
 int unur_pinv_set_usecdf( UNUR_PAR *parameters );
 int unur_pinv_set_boundary( UNUR_PAR *parameters, double left, double right );
 int unur_pinv_set_searchboundary( UNUR_PAR *parameters, int left, int right );
 int unur_pinv_set_max_intervals( UNUR_PAR *parameters, int max_ivs );
 int unur_pinv_get_n_intervals( const UNUR_GEN *generator ); 
+int unur_pinv_set_keepcdf( UNUR_PAR *parameters, int keepcdf);
 double unur_pinv_eval_approxinvcdf( const UNUR_GEN *generator, double u );
+double unur_pinv_eval_approxcdf( const UNUR_GEN *generator, double x );
 int unur_pinv_estimate_error( const UNUR_GEN *generator, int samplesize, double *max_error, double *MAE );
 UNUR_PAR *unur_srou_new( const UNUR_DISTR *distribution );
 int unur_srou_set_r( UNUR_PAR *parameters, double r );
@@ -566,10 +575,14 @@ UNUR_PAR *unur_cstd_new( const UNUR_DISTR *distribution );
 int unur_cstd_set_variant( UNUR_PAR *parameters, unsigned variant );
 int unur_cstd_chg_truncated( UNUR_GEN *generator, double left, double right );
 double unur_cstd_eval_invcdf( const UNUR_GEN *generator, double u );
-double _unur_cstd_sample_inv( struct unur_gen *gen ); 
 UNUR_PAR *unur_dstd_new( const UNUR_DISTR *distribution );
 int unur_dstd_set_variant( UNUR_PAR *parameters, unsigned variant );
+int unur_dstd_chg_truncated( UNUR_GEN *generator, int left, int right );
+int unur_dstd_eval_invcdf( const UNUR_GEN *generator, double u );
 UNUR_PAR *unur_mvstd_new( const UNUR_DISTR *distribution );
+UNUR_PAR *unur_mixt_new( int n, const double *prob, UNUR_GEN **comp );
+int unur_mixt_set_useinversion( UNUR_PAR *parameters, int useinv );
+double unur_mixt_eval_invcdf( const UNUR_GEN *generator, double u );
 UNUR_PAR *unur_cext_new( const UNUR_DISTR *distribution );
 int unur_cext_set_init( UNUR_PAR *parameters, int (*init)(UNUR_GEN *gen) );
 int unur_cext_set_sample( UNUR_PAR *parameters, double (*sample)(UNUR_GEN *gen) );
@@ -583,6 +596,59 @@ void *unur_dext_get_params( UNUR_GEN *generator, size_t size );
 double *unur_dext_get_distrparams( UNUR_GEN *generator );
 int unur_dext_get_ndistrparams( UNUR_GEN *generator );
 UNUR_PAR *unur_unif_new( const UNUR_DISTR *dummy );
+#ifndef UNUR_METHODS_H_SEEN
+#define UNUR_METHODS_H_SEEN
+#define UNUR_MASK_TYPE     0xff000000u   
+#define UNUR_METH_DISCR    0x01000000u
+#define UNUR_METH_DARI     0x01000001u
+#define UNUR_METH_DAU      0x01000002u
+#define UNUR_METH_DGT      0x01000003u
+#define UNUR_METH_DSROU    0x01000004u
+#define UNUR_METH_DSS      0x01000005u
+#define UNUR_METH_CONT     0x02000000u
+#define UNUR_METH_AROU     0x02000100u
+#define UNUR_METH_ARS      0x02000d00u
+#define UNUR_METH_HINV     0x02000200u
+#define UNUR_METH_HRB      0x02000300u
+#define UNUR_METH_HRD      0x02000400u
+#define UNUR_METH_HRI      0x02000500u
+#define UNUR_METH_ITDR     0x02000800u
+#define UNUR_METH_NINV     0x02000600u
+#define UNUR_METH_NROU     0x02000700u
+#define UNUR_METH_PINV     0x02001000u
+#define UNUR_METH_SROU     0x02000900u
+#define UNUR_METH_SSR      0x02000a00u
+#define UNUR_METH_TABL     0x02000b00u
+#define UNUR_METH_TDR      0x02000c00u
+#define UNUR_METH_UNIF     0x02000e00u
+#define UNUR_METH_UTDR     0x02000f00u
+#define UNUR_METH_CEMP     0x04000000u
+#define UNUR_METH_EMPK     0x04001100u
+#define UNUR_METH_EMPL     0x04001200u
+#define UNUR_METH_HIST     0x04001300u
+#define UNUR_METH_VEC      0x08000000u
+#define UNUR_METH_MVTDR    0x08010000u
+#define UNUR_METH_VMT      0x08020000u
+#define UNUR_METH_VNROU    0x08030000u
+#define UNUR_METH_VAROU    0x08040000u
+#define UNUR_METH_NORTA    0x08050000u
+#define UNUR_METH_GIBBS    0x08060000u
+#define UNUR_METH_HITRO    0x08070000u
+#define UNUR_METH_BALL     0x08080000u
+#define UNUR_METH_WALK     0x08090000u
+#define UNUR_METH_CVEMP    0x10000000u
+#define UNUR_METH_VEMPK    0x10010000u
+#define UNUR_METH_MAT      0x20000000u
+#define UNUR_METH_MCORR    0x20010000u
+#define UNUR_METH_CSTD     0x0200f100u   
+#define UNUR_METH_DSTD     0x0100f200u   
+#define UNUR_METH_MVSTD    0x0800f300u   
+#define UNUR_METH_MIXT     0x0200e100u   
+#define UNUR_METH_CEXT     0x0200f400u   
+#define UNUR_METH_DEXT     0x0100f500u   
+#define UNUR_METH_AUTO     0x00a00000u   
+#define UNUR_METH_UNKNOWN  0xff000000u
+#endif  
 #ifndef UNUR_DEPRECATED_DISTR_H_SEEN
 #define UNUR_DEPRECATED_DISTR_H_SEEN
 int unur_distr_cvec_set_stdmarginals( UNUR_DISTR *distribution, UNUR_DISTR *marginal );
@@ -674,6 +740,8 @@ void  unur_free( UNUR_GEN *generator );
 const char *unur_gen_info( UNUR_GEN *generator, int help );
 int unur_get_dimension( const UNUR_GEN *generator );
 const char *unur_get_genid( const UNUR_GEN *generator );
+unsigned int unur_get_method( const UNUR_GEN *generator );
+int unur_gen_is_inversion ( const UNUR_GEN *gen );
 UNUR_DISTR *unur_get_distr( const UNUR_GEN *generator );
 int unur_set_use_distr_privatecopy( UNUR_PAR *parameters, int use_privatecopy );
 UNUR_GEN *unur_gen_clone( const UNUR_GEN *gen );
@@ -707,6 +775,7 @@ enum {
   UNUR_DISTR_LOGISTIC         = 0x00000d01u,  
   UNUR_DISTR_LOGNORMAL        = 0x00000e01u,  
   UNUR_DISTR_LOMAX            = 0x00000f01u,  
+  UNUR_DISTR_MEIXNER          = 0x00002601u,  
   UNUR_DISTR_NORMAL           = 0x00001001u,  
    UNUR_DISTR_GAUSSIAN        = 0x00001001u,  
   UNUR_DISTR_PARETO           = 0x00001101u,  
@@ -717,6 +786,7 @@ enum {
   UNUR_DISTR_TRIANGULAR       = 0x00001601u,  
   UNUR_DISTR_UNIFORM          = 0x00002001u,  
    UNUR_DISTR_BOXCAR          = 0x00002001u,  
+  UNUR_DISTR_VG               = 0x00002501u,  
   UNUR_DISTR_WEIBULL          = 0x00001801u,  
   UNUR_DISTR_BURR_I           = 0x0000b001u,  
   UNUR_DISTR_BURR_II          = 0x0000b101u,  
@@ -764,6 +834,7 @@ UNUR_DISTR *unur_distr_laplace(const double *params, int n_params);
 UNUR_DISTR *unur_distr_logistic(const double *params, int n_params);
 UNUR_DISTR *unur_distr_lognormal(const double *params, int n_params);
 UNUR_DISTR *unur_distr_lomax(const double *params, int n_params);
+UNUR_DISTR *unur_distr_meixner(const double *params, int n_params);
 UNUR_DISTR *unur_distr_normal( const double *params, int n_params );
 UNUR_DISTR *unur_distr_pareto( const double *params, int n_params );
 UNUR_DISTR *unur_distr_powerexponential(const double *params, int n_params);
@@ -772,6 +843,7 @@ UNUR_DISTR *unur_distr_slash(const double *params, int n_params);
 UNUR_DISTR *unur_distr_student(const double *params, int n_params);
 UNUR_DISTR *unur_distr_triangular(const double *params, int n_params);
 UNUR_DISTR *unur_distr_uniform(const double *params, int n_params);
+UNUR_DISTR *unur_distr_vg(const double *params, int n_params);
 UNUR_DISTR *unur_distr_weibull(const double *params, int n_params);
 UNUR_DISTR *unur_distr_multinormal(int dim, const double *mean, const double *covar);
 UNUR_DISTR *unur_distr_multicauchy(int dim, const double *mean, const double *covar);

@@ -149,7 +149,7 @@ _unur_mixt_check_par( struct unur_gen *gen )
       _unur_error(gen->genid,UNUR_ERR_GEN_INVALID,"component not univariate");
       return UNUR_ERR_GEN_INVALID;
     }
-    if (GEN->is_inversion && (! _unur_gen_is_inversion (gen->COMP[i]))) {
+    if (GEN->is_inversion && (! unur_gen_is_inversion (gen->COMP[i]))) {
       _unur_error(gen->genid,UNUR_ERR_GEN_INVALID,"component does not implement inversion");
       return UNUR_ERR_GEN_INVALID;
     }
