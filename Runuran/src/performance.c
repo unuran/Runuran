@@ -11,7 +11,7 @@
  *                                                                           *
  *****************************************************************************
  *                                                                           *
- *   Copyright (c) 2010 Wolfgang Hoermann and Josef Leydold                  *
+ *   Copyright (c) 2011 Wolfgang Hoermann and Josef Leydold                  *
  *   Dept. for Statistics, University of Economics, Vienna, Austria          *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
@@ -43,8 +43,10 @@
 /* structures used by particular UNU.RAN methods */
 #include <methods/arou_struct.h>
 #include <methods/ars_struct.h>
+#include <methods/cstd_struct.h>
 #include <methods/dari_struct.h>
 #include <methods/dsrou_struct.h>
+#include <methods/dstd_struct.h>
 #include <methods/hinv_struct.h>
 #include <methods/itdr_struct.h>
 #include <methods/nrou_struct.h>
@@ -258,6 +260,26 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
     /* ..................................................................... */
   case UNUR_METH_DSTD:
     METHOD("DSTD"); KIND_OTHER; CLASS_DISCR;
+#define GEN ((struct unur_dstd_gen*)gen->datap)
+    if (debug) {
+      int i;
+
+      if (list.len+2 >= MAX_LIST)
+      	error("Runuran: Interval error! Please send bug report");
+
+      list.names[list.len] = "genparam";
+      PROTECT(list.values[list.len] = NEW_NUMERIC(GEN->n_gen_param));
+      for (i=0; i<GEN->n_gen_param; i++)
+	REAL(list.values[list.len])[i] = GEN->gen_param[i];
+      ++list.len;
+
+      list.names[list.len] = "geniparam";
+      PROTECT(list.values[list.len] = NEW_INTEGER(GEN->n_gen_iparam));
+      for (i=0; i<GEN->n_gen_iparam; i++)
+	INTEGER(list.values[list.len])[i] = GEN->gen_iparam[i];
+      ++list.len;
+    }
+#undef GEN
     break;
     /* ..................................................................... */
     
@@ -294,6 +316,20 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
     /* ..................................................................... */
   case UNUR_METH_CSTD:
     METHOD("CSTD"); KIND_OTHER; CLASS_CONT;
+#define GEN ((struct unur_cstd_gen*)gen->datap)
+    if (debug) {
+      int i;
+
+      if (list.len+1 >= MAX_LIST)
+      	error("Runuran: Interval error! Please send bug report");
+
+      list.names[list.len] = "genparam";
+      PROTECT(list.values[list.len] = NEW_NUMERIC(GEN->n_gen_param));
+      for (i=0; i<GEN->n_gen_param; i++)
+	REAL(list.values[list.len])[i] = GEN->gen_param[i];
+      ++list.len;
+    }
+#undef GEN
     break;
     /* ..................................................................... */
   case UNUR_METH_HINV:
