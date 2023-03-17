@@ -39,6 +39,5 @@ struct unur_pinv_gen {
   int sleft;               
   int sright;              
   double area;              
-  double logPDFconstant;   
   struct unur_lobatto_table *aCDF; 
 };

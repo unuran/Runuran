@@ -6,11 +6,15 @@ _unur_str_distr_new( char *distribution )
 {
   struct unur_distr *distr = NULL;    
   char distr_unknown;
+#ifdef UNUR_ENABLE_LOGGING
   char *name;                         
+#endif
   char *params;                       
   double *darray = NULL;              
   int n_darray = 0;                   
+#ifdef UNUR_ENABLE_LOGGING
   name = distribution;
+#endif
   params = strchr(distribution,'(');
   if (params != NULL) {
     *params = '\0';                   
@@ -1110,6 +1114,12 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 				 break;
 			 }
 			 break;
+		 case 'k':
+			 if ( !strcmp(key, "keepcdf") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_keepcdf);
+				 break;
+			 }
+			 break;
 		 case 'm':
 			 if ( !strcmp(key, "max_intervals") ) {
 				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_max_intervals);
@@ -1127,10 +1137,18 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 				 result = _unur_str_par_set_ii(par,key,type_args,args,unur_pinv_set_searchboundary);
 				 break;
 			 }
+			 if ( !strcmp(key, "smoothness") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_smoothness);
+				 break;
+			 }
 			 break;
 		 case 'u':
 			 if ( !strcmp(key, "u_resolution") ) {
 				 result = _unur_str_par_set_d(par,key,type_args,args,unur_pinv_set_u_resolution);
+				 break;
+			 }
+			 if ( !strcmp(key, "use_upoints") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_use_upoints);
 				 break;
 			 }
 			 if ( !strcmp(key, "usecdf") ) {

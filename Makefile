@@ -21,48 +21,30 @@ help:
 
 # --- Phony targets ---------------------------------------------------------
 
-.PHONY: all help clean unuran-clean unuran-src unuran-check unuran-build
+.PHONY: all help clean \
+	unuran-clean unuran-src unuran-check unuran-build unuran-devel
 
 # --- Runuran ---------------------------------------------------------------
 
 unuran-build: unuran-src
 	$(R) CMD build Runuran
 
+unuran-devel: unuran-src
+	$(R) CMD build --no-vignettes --no-manual Runuran
+
 unuran-check: unuran-src
 	(unset TEXINPUTS; $(R) CMD check Runuran)
 
 unuran-src:
-	(cd Runuran; autoheader; autoconf)
-	(cd ../unuran; \
-		test -f configure || ./autogen.sh; \
-		test -f src/unuran.h || make; )
-	if test ! -f Runuran/src/unuran-src/unuran.h ; then \
-		(cd ../unuran/src; \
-			find ./ -type f -name '*.[ch]' -o -name '*.ch' | \
-				grep -v "deprecated_.*\.c" | \
-				grep -v "/uniform/.*\.c" | \
-				cpio -vdump ../../R/Runuran/src/unuran-src; \
-			cp -v ./unuran.h.in ../../R/Runuran/src/unuran-src; \
-		); \
-		rm -vf ./Runuran/src/unuran-src/unuran_config.h; \
-		for f in `find ./Runuran/src/unuran-src -type f -name '*.[ch]' -o -name '*.ch'`; do \
-			../unuran/scripts/remove_comments.pl $$f; \
-		done; \
+	if test -d Runuran; then \
+		(cd Runuran && ./scripts/update-sources.sh) \
 	fi
 
 unuran-clean:
 	rm -rf Runuran.Rcheck
 	rm -f Runuran_*
 	if test -d Runuran; then \
-		(cd Runuran && \
-			rm -rf configure config.log config.status autom4te.cache) && \
-		(cd Runuran/src && \
-			rm -f Makevars config.h* Runuran.so *.o ) && \
-		(cd Runuran/src/unuran-src && \
-			rm -rf * ) && \
-		(cd Runuran/inst/doc && \
-			rm -f *.aux *.bbl *.blg *.log *.out *.toc && \
-			rm -f Runuran.R Runuran.pdf Runuran.tex ) \
+		(cd Runuran &&  ./scripts/clean-sources.sh) \
 	fi
 
 # --- Clear working space ---------------------------------------------------
