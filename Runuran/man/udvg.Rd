@@ -88,14 +88,12 @@ udvg(lambda, alpha, beta, mu, lb=-Inf, ub=Inf)
 }
 
 \examples{
-\dontrun{
 ## Create distribution object for variance gamma distribution
 distr <- udvg(lambda=2.25, alpha=210.5, beta=-5.14, mu=0.00094)
 ## Generate generator object; use method PINV (inversion)
 gen <- pinvd.new(distr)
 ## Draw a sample of size 100
 x <- ur(gen,100)
-}
 }
 
 \keyword{distribution}

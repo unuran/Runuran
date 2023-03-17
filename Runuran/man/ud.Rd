@@ -35,13 +35,22 @@ ud(obj, x, islog = FALSE)
   of the density is returned.
 
   If the PDF (or its respective logarithm) is not available in the
-  object, then \code{NA} is returned an warning is thrown.
+  object, then \code{NA} is returned and a warning is thrown.
 
   Note: when the log-density is not given explicitly (by setting
   \code{islog=TRUE} in the corresponding routing like 
   \code{\link{unuran.cont.new}} or in an \pkg{Runuran} built-in
   distribution), then \code{NA} is returned even if the density is
   given.
+
+  \strong{Important:}
+  Routine \code{ud} just evaluates the density function that is stored
+  in \code{obj}. It ignores the boundaries of the domain of the
+  distribution, i.e., it does not return \code{0} outside the domain
+  unless the implementation of the PDF handles this case correctly.
+  This behavior is in particular important when \pkg{Runuran}
+  built-in distributions are truncated by explicitly setting the domain
+  boundaries.
 }
 
 \note{
