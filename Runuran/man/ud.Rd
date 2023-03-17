@@ -11,7 +11,7 @@
 }
 
 \usage{
-ud(obj, x)
+ud(obj, x, islog = FALSE)
 }
 \arguments{
   \item{obj}{one of
@@ -25,13 +25,23 @@ ud(obj, x)
     }
   }
   \item{x}{vector of x values. (numeric)}
+  \item{islog}{if \code{TRUE}, the log-density is returnd. (boolean)}
 }
 
 \details{
   The routine evaluates the probability density function of a
   distribution stored in a UNU.RAN distribution object or UNU.RAN
-  generator object. If the PDF is not available in the object, then
-  the computation is aborted.
+  generator object. If \code{islog} is \code{TRUE}, then the logarithm
+  of the density is returned.
+
+  If the PDF (or its respective logarithm) is not available in the
+  object, then \code{NA} is returned an warning is thrown.
+
+  Note: when the log-density is not given explicitly (by setting
+  \code{islog=TRUE} in the corresponding routing like 
+  \code{\link{unuran.cont.new}} or in an \pkg{Runuran} built-in
+  distribution), then \code{NA} is returned even if the density is
+  given.
 }
 
 \note{

@@ -11,7 +11,7 @@
  *                                                                           *
  *****************************************************************************
  *                                                                           *
- *   Copyright (c) 2007-2009 Wolfgang Hoermann and Josef Leydold             *
+ *   Copyright (c) 2007-2011 Wolfgang Hoermann and Josef Leydold             *
  *   Dept. for Statistics, University of Economics, Vienna, Austria          *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
@@ -441,16 +441,17 @@ _Runuran_quantile_data (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
 /*---------------------------------------------------------------------------*/
 
 SEXP
-Runuran_PDF (SEXP sexp_obj, SEXP sexp_x)
+Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
      /*----------------------------------------------------------------------*/
      /* Evaluate PDF or PMF for UNU.RAN distribution or generator object.    */
      /*                                                                      */
      /* Parameters:                                                          */
-     /*   obj ... 'Runuran' object (distribution or generator, S4 class)     */ 
-     /*   x   ... x-value (numeric array)                                    */
+     /*   obj   ... 'Runuran' object (distribution or generator, S4 class)   */ 
+     /*   x     ... x-value (numeric array)                                  */
+     /*   islog ... boolean: if TRUE then the log-density is return          */
      /*                                                                      */
      /* Return:                                                              */
-     /*   PDF in UNU.RAN object for given 'x' values                         */
+     /*   PDF or log-PDF in UNU.RAN object for given 'x' values              */
      /*----------------------------------------------------------------------*/
 {
   SEXP sexp_distr;                 /* S4 class containing distribution object */
@@ -460,6 +461,8 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x)
   struct unur_gen *gen = NULL;     /* UNU.RAN generator object */
   const char *class;               /* class name of 'obj' */ 
   double *x;                       /* pointer to array arguments for PDF */
+  int islog;                       /* whether we retur the log-density */
+  int funct_missing = FALSE;
   int n = 1;
   int i;
 
@@ -488,15 +491,29 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x)
     error("[UNU.RAN - error] invalid UNU.RAN object");
   }
 
-  /* check objects */
-  if (distr->type == UNUR_DISTR_CONT && distr->data.cont.pdf == NULL)
-      error("[UNU.RAN - error] UNU.RAN object does not contain PDF");
-  if (distr->type == UNUR_DISTR_DISCR && distr->data.discr.pmf == NULL)
-      error("[UNU.RAN - error] UNU.RAN object does not contain PMF");
-
   /* extract x */
   x = REAL(AS_NUMERIC(sexp_x));
   n = length(sexp_x);
+
+  /* whether we have to return the log-density */
+  islog = LOGICAL(sexp_islog)[0];
+
+  /* check object for required functions */
+  funct_missing = FALSE;
+  if (distr->type == UNUR_DISTR_CONT) {
+    if ( (islog  && distr->data.cont.logpdf == NULL) ||
+	 (!islog && distr->data.cont.pdf == NULL) ) {
+      funct_missing = TRUE;
+      warning("[UNU.RAN - error] UNU.RAN object does not contain (log)PDF");
+    }
+  }
+  if (distr->type == UNUR_DISTR_DISCR) {
+    if ( (islog)   /* not implemented yet */
+	 || distr->data.discr.pmf == NULL) {
+      funct_missing = TRUE;
+      warning("[UNU.RAN - error] UNU.RAN object does not contain (log)PMF");
+    }
+  }
 
   /* allocate memory for result */
   PROTECT(sexp_res = NEW_NUMERIC(n));
@@ -509,10 +526,18 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x)
       continue;
     }
 
+    if (funct_missing) {
+      /* function not implemented */
+      NUMERIC_POINTER(sexp_res)[i] = NA_REAL;
+      continue;
+    }
+
     switch (unur_distr_get_type(distr)) {
     case UNUR_DISTR_CONT:
       /* univariate continuous distribution  --> evaluate PDF */
-      NUMERIC_POINTER(sexp_res)[i] = unur_distr_cont_eval_pdf(x[i], distr);
+      NUMERIC_POINTER(sexp_res)[i] = (islog)
+	? unur_distr_cont_eval_logpdf(x[i], distr)
+	: unur_distr_cont_eval_pdf(x[i], distr);
       break;
 
     case UNUR_DISTR_DISCR:
@@ -521,8 +546,9 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x)
 	NUMERIC_POINTER(sexp_res)[i] = 0.;
       else
 	NUMERIC_POINTER(sexp_res)[i] = unur_distr_discr_eval_pmf ((int) x[i], distr);
+      /* remark: logPMF yet not implemented */
       break;
-      
+
     default:
       error("[UNU.RAN - error] invalid distribution type");
     }

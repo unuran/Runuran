@@ -86,6 +86,7 @@ cont.just.run     ("slash","")
 cont.max.uerror.of("t","df=2.5")
 ## max.uerror.of("triang","df=2.5") -- not implemented
 cont.just.run     ("vg","lambda=2.25,alpha=210.,mu=0.001,beta=-5.1")
+cont.just.run     ("vg","lambda=200.,alpha=210.,mu=0.001,beta=-5.1")
 cont.max.uerror.of("weibull","shape=3,scale=2")
 
 ## -- Discrete distributions ----------------------------------------------
