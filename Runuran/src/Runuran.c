@@ -34,6 +34,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "Runuran.h"
+#include "Runuran_ext.h"
 
 /* internal header files for UNU.RAN */
 #include <unur_source.h>
@@ -825,6 +826,10 @@ R_init_Runuran (DllInfo *info  ATTRIBUTE__UNUSED)
   /* Set R built-in generator as default URNG */
   unur_set_default_urng( unur_urng_new( _Runuran_R_unif_rand, NULL) );
   unur_set_default_urng_aux( unur_urng_new( _Runuran_R_unif_rand, NULL) );
+
+  /* Declare some C routines to be callable from other packages */ 
+  R_RegisterCCallable("Runuran", "cont_init",   (DL_FUNC) Runuran_ext_cont_init);
+  R_RegisterCCallable("Runuran", "cont_params", (DL_FUNC) unur_distr_cont_get_pdfparams);
 
   /* Register native routines */ 
   /* Not implemented yet */ 
