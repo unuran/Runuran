@@ -38,8 +38,6 @@
 
 /* internal header files for UNU.RAN */
 #include <unur_source.h>
-#include <methods/unur_methods_source.h>
-#include <methods/x_gen_source.h>
 
 /*---------------------------------------------------------------------------*/
 
@@ -140,7 +138,7 @@ Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
 
   /* set slot 'inversion' to true when 'gen' implements an inversion method. */
   PROTECT(sexp_is_inversion = NEW_LOGICAL(1));
-  LOGICAL_POINTER(sexp_is_inversion)[0] = _unur_gen_is_inversion(gen);
+  LOGICAL_POINTER(sexp_is_inversion)[0] = unur_gen_is_inversion(gen);
   SET_SLOT(sexp_obj, install("inversion"), sexp_is_inversion);
 
   /* make R external pointer and store pointer to structure */
@@ -520,15 +518,16 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
 
   /* evaluate CDF */
   for (i=0; i<n; i++) {
-    if (ISNAN(x[i])) {
-      /* if NA or NaN is given then we simply return the same value */
-      NUMERIC_POINTER(sexp_res)[i] = x[i];
-      continue;
-    }
 
     if (funct_missing) {
       /* function not implemented */
       NUMERIC_POINTER(sexp_res)[i] = NA_REAL;
+      continue;
+    }
+
+    if (ISNAN(x[i])) {
+      /* if NA or NaN is given then we simply return the same value */
+      NUMERIC_POINTER(sexp_res)[i] = x[i];
       continue;
     }
 
@@ -814,7 +813,7 @@ Runuran_pack (SEXP sexp_unur)
   }
 
   /* call packing subroutine for given generator object */
-  switch (gen->method) {
+  switch (unur_get_method(gen)) {
   case UNUR_METH_PINV:
     _Runuran_pack_pinv(gen, sexp_unur);
     break;

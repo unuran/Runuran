@@ -37,7 +37,6 @@
 
 /* internal header files for UNU.RAN */
 #include <unur_source.h>
-#include <methods/unur_methods_source.h>
 #include <distr/distr_source.h>
 
 /* structures used by particular UNU.RAN methods */
@@ -220,7 +219,7 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
 
 
   /* get data */
-  switch (gen->method) {
+  switch (unur_get_method(gen)) {
 
     /************************/
     /* discrete, univariate */
