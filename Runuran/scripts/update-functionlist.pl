@@ -1,6 +1,11 @@
 #! /usr/bin/perl
 
 # ---------------------------------------------------------------------------
+# Run this script in the top-level Runuran directory.
+# The script updates list of distributions in
+#    man/Runuran.distributions.Rd
+#    inst/doc/src/tab-distributions.tex
+# ---------------------------------------------------------------------------
 
 use strict;
 use File::Find;
@@ -40,6 +45,20 @@ getopts('u', \%opts) or usage();
 my $update = $opts{'u'};
 
 usage unless $update;
+
+# --- Read file 'DESCRIPTION' -----------------------------------------------
+
+open DESC, "DESCRIPTION" 
+    or die "You must run this script in the top-level Runuran directory";
+my $description;
+while (<DESC>) {
+    $description .= $_;
+}
+close DESC; 
+
+# check name of package
+die "You must run this script in the top-level Runuran directory"
+    unless $description =~ /^\s*Package:\s+Runuran\s*\n/;
 
 # --- Get list of .Rd files -------------------------------------------------
 

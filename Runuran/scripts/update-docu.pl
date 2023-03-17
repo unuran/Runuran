@@ -1,6 +1,14 @@
 #! /usr/bin/perl
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Run this script in the top-level Runuran directory.
+# The script updates version and date in
+#   DESCRIPTION
+#   man/Runuran-package.Rd
+#   inst/doc/src/version.tex
+# ---------------------------------------------------------------------------
+
 use strict;
 use Getopt::Std;
 
@@ -40,12 +48,16 @@ usage unless $update;
 # --- Read file 'DESCRIPTION' -----------------------------------------------
 
 open DESC, "DESCRIPTION" 
-    or die "Cannot open file 'DESCRIPTION' for reading: $!";
+    or die "You must run this script in the top-level Runuran directory";
 my $description;
 while (<DESC>) {
     $description .= $_;
 }
 close DESC; 
+
+# check name of package
+die "You must run this script in the top-level Runuran directory"
+    unless $description =~ /^\s*Package:\s+Runuran\s*\n/;
 
 # get data
 $description =~ m/^.*\nVersion:\s*(.*?)\s*\n/s 

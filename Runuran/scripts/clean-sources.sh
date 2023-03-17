@@ -1,5 +1,9 @@
 #! /bin/sh
-# Run this to copy all required UNU.RAN C files into the Runuran directory
+
+# ---------------------------------------------------------------------------
+# Run this script in the top-level Runuran directory.
+# The script removes all generated files and all UNU.RAN files.
+# ---------------------------------------------------------------------------
 
 # Check directory
 PACKAGE=`grep -s "Package: Runuran" DESCRIPTION`
