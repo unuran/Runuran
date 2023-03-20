@@ -1,15 +1,14 @@
-
 \documentclass[%
-a4paper,         %% A4 paper
-11pt,            %% Font size
-DIV14,           %% Scale for page layout
-BCOR10mm,        %% add 10 mm margin for binding
-%%smallheadings,   %% do not use huge font size for headings
-%%pointednumbers,  %% section numbers have a point
-%%openbib,         %% use multiple lines for each bibitem
-%%appendixprefix,  %% prefix appendix by "Appendix"
-bibtotoc,        %% include bibliography in table of contents
-abstracton       %% print header "Abstract"
+paper=a4,           %% A4 paper
+fontsize=11pt,      %% Font size
+DIV14,              %% Scale for page layout
+BCOR10mm,           %% add 10 mm margin for binding
+%%smallheadings,    %% do not use huge font size for headings
+%%pointednumbers,   %% section numbers have a point
+%%openbib,          %% use multiple lines for each bibitem
+%%appendixprefix,   %% prefix appendix by "Appendix"
+bibliography=totoc, %% include bibliography in table of contents
+abstract=true       %% print header "Abstract"
 ]{scrartcl}
 
 %% -- Load packages ---------------------------------------------------------
@@ -89,7 +88,7 @@ abstracton       %% print header "Abstract"
 
 %% -- Layout ----------------------------------------------------------------
 
-\pagestyle{headings}
+%% \pagestyle{headings}  %% -- this does not work with v3.12 KOMA-Script package
 
 \setlength{\parskip}{0pt}
 
