@@ -32,6 +32,10 @@ unuran-build: unuran-src
 unuran-devel: unuran-src
 	$(R) CMD build --no-vignettes --no-manual Runuran
 
+unuran-roxy:
+##	echo "library(roxygen2); roxygenize(\"Runuran\",roclets=\"rd\");" | $(R) --vanilla  
+	(cd Runuran && echo "devtools::document(roclets=\"rd\")" | $(R) --vanilla)
+
 unuran-check: unuran-src
 	(unset TEXINPUTS; _R_CHECK_TIMINGS_=0 $(R) CMD check --as-cran --timings Runuran_*.tar.gz)
 
