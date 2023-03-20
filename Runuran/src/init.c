@@ -22,6 +22,30 @@
 
 /*---------------------------------------------------------------------------*/
 
+/* List of functions to be registered as native routines */
+static const R_CallMethodDef CallEntries[] = {
+    {"Runuran_CDF",          (DL_FUNC) &Runuran_CDF,           2},
+    {"Runuran_PDF",          (DL_FUNC) &Runuran_PDF,           3},
+    {"Runuran_cmv_init",     (DL_FUNC) &Runuran_cmv_init,      9},
+    {"Runuran_cont_init",    (DL_FUNC) &Runuran_cont_init,    11},
+    {"Runuran_discr_init",   (DL_FUNC) &Runuran_discr_init,    9},
+    {"Runuran_init",         (DL_FUNC) &Runuran_init,          3},
+    {"Runuran_mixt",         (DL_FUNC) &Runuran_mixt,          4},
+    {"Runuran_pack",         (DL_FUNC) &Runuran_pack,          1},
+    {"Runuran_performance",  (DL_FUNC) &Runuran_performance,   2},
+    {"Runuran_print",        (DL_FUNC) &Runuran_print,         2},
+    {"Runuran_quantile",     (DL_FUNC) &Runuran_quantile,      2},
+    {"Runuran_sample",       (DL_FUNC) &Runuran_sample,        2},
+    {"Runuran_set_aux_seed", (DL_FUNC) &Runuran_set_aux_seed,  1},
+    {"Runuran_std_cont",     (DL_FUNC) &Runuran_std_cont,      4},
+    {"Runuran_std_discr",    (DL_FUNC) &Runuran_std_discr,     4},
+    {"Runuran_use_aux_urng", (DL_FUNC) &Runuran_use_aux_urng,  2},
+    {"Runuran_verify_hat",   (DL_FUNC) &Runuran_verify_hat,    2},
+    {NULL, NULL, 0}
+};
+
+/*---------------------------------------------------------------------------*/
+
 void 
 R_init_Runuran (DllInfo *info  ATTRIBUTE__UNUSED) 
      /*----------------------------------------------------------------------*/
@@ -39,7 +63,6 @@ R_init_Runuran (DllInfo *info  ATTRIBUTE__UNUSED)
 
   /* Set R built-in generator as default URNG */
   unur_set_default_urng( unur_urng_new( _Runuran_R_unif_rand, NULL) );
-  unur_set_default_urng_aux( unur_urng_new( _Runuran_R_unif_rand, NULL) );
 
   /* We use a built-in generator from the UNU.RAN library for the auxiliary URNG */
   {
@@ -55,10 +78,10 @@ R_init_Runuran (DllInfo *info  ATTRIBUTE__UNUSED)
   }
 
   /* Register native routines */ 
-  /* Not implemented yet */ 
-  /*   R_registerRoutines(info, NULL, Runuran_CallEntries, NULL, NULL); */
-  /*   R_useDynamicSymbols(info, FALSE); */
-
+  R_registerRoutines(info, NULL, CallEntries, NULL, NULL);
+  R_useDynamicSymbols(info, FALSE); 
+  R_forceSymbols(info, TRUE);
+ 
   /* Declare some C routines to be callable from other packages */ 
 
   /* For project 'RunuranTEMPL': */
