@@ -60,9 +60,51 @@ R_init_Runuran (DllInfo *info  ATTRIBUTE__UNUSED)
   /*   R_useDynamicSymbols(info, FALSE); */
 
   /* Declare some C routines to be callable from other packages */ 
-  R_RegisterCCallable("Runuran", "cont_init",   (DL_FUNC) &Runuran_ext_cont_init);
-  R_RegisterCCallable("Runuran", "cont_params", (DL_FUNC) &unur_distr_cont_get_pdfparams);
 
+  /* For project 'RunuranTEMPL': */
+  R_RegisterCCallable("Runuran", "cont_init",   (DL_FUNC) Runuran_ext_cont_init);
+  R_RegisterCCallable("Runuran", "cont_params", (DL_FUNC) unur_distr_cont_get_pdfparams);
+
+  /* For project 'rvgtdist': */
+
+#define RREGDEF(name)  R_RegisterCCallable("Runuran", #name, (DL_FUNC) name)
+
+  RREGDEF(unur_init);
+  RREGDEF(unur_free);
+  RREGDEF(unur_sample_cont);
+
+  RREGDEF(unur_distr_free);
+
+  RREGDEF(unur_urng_new);
+  RREGDEF(unur_urng_free);
+
+  RREGDEF(unur_set_default_debug);
+  RREGDEF(unur_set_default_urng);
+  RREGDEF(unur_set_default_urng_aux);
+  RREGDEF(unur_get_default_urng);
+
+  RREGDEF(unur_get_strerror);
+  RREGDEF(unur_set_error_handler);
+
+  RREGDEF(unur_distr_gig);
+  
+  RREGDEF(unur_arou_new);
+  RREGDEF(unur_arou_get_sqhratio);
+
+  RREGDEF(unur_ars_new);
+
+  RREGDEF(unur_tabl_new);
+  RREGDEF(unur_tabl_get_sqhratio);
+  RREGDEF(unur_tabl_set_max_sqhratio);
+  RREGDEF(unur_tabl_set_max_intervals);
+  RREGDEF(unur_tabl_set_boundary);
+
+  RREGDEF(unur_tdr_new);
+  RREGDEF(unur_tdr_set_variant_ia);
+  RREGDEF(unur_tdr_get_sqhratio);
+
+  RREGDEF(unur_pinv_new);
+  
 } /* end of R_init_Runuran() */
 
 /*---------------------------------------------------------------------------*/
