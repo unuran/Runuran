@@ -1330,7 +1330,7 @@ _unur_ars_info( struct unur_gen *gen, int help )
   _unur_string_append(info,"   functions = logPDF dlogPDF\n");
   _unur_string_append(info,"   domain    = (%g, %g)\n", DISTR.domain[0],DISTR.domain[1]);
   _unur_string_append(info,"\n");
-  _unur_string_append(info,"method: ARS (Transformed Density Rejection -- Gilks&Wild variant)\n");
+  _unur_string_append(info,"method: ARS (Adaptive Rejection Sampling)\n");
   _unur_string_append(info,"   T_c(x) = log(x)  ... c = 0\n");
   _unur_string_append(info,"\n");
   _unur_string_append(info,"performance characteristics:\n");

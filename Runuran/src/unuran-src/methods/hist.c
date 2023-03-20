@@ -216,7 +216,7 @@ _unur_hist_info( struct unur_gen *gen, int help )
   _unur_distr_info_typename(gen);
   _unur_string_append(info,"   functions = DATA  [histogram of size=%d]\n", DISTR.n_hist);
   _unur_string_append(info,"\n");
-  _unur_string_append(info,"method: HIST (HISTogramm of empirical distribution)\n");
+  _unur_string_append(info,"method: HIST (HISTogram of empirical distribution)\n");
   _unur_string_append(info,"\n");
   if (help) {
     _unur_string_append(info,"parameters: none\n");
