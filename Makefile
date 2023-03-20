@@ -37,7 +37,8 @@ unuran-check: unuran-src
 
 unuran-src:
 	if test -d Runuran; then \
-		(cd Runuran && ./scripts/update-sources.sh) \
+		(cd Runuran && ./src/scripts/update-sources.sh); \
+		(cd Runuran && ./src/scripts/update-API.pl > inst/include/Runuran_API.h) \
 	fi
 
 unuran-clean:
