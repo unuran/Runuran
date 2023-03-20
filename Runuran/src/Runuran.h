@@ -54,9 +54,29 @@ SEXP Runuran_sample (SEXP sexp_unur, SEXP sexp_n);
 /* Sample from UNU.RAN generator object.                                     */
 /*---------------------------------------------------------------------------*/
 
+SEXP _Runuran_sample_unur (struct unur_gen *gen, int n);
+/*---------------------------------------------------------------------------*/
+/* Sample from generator object: use UNU.RAN object                          */
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_sample_data (SEXP sexp_data, int n);
+/*---------------------------------------------------------------------------*/
+/* Sample from generator object: use R data list (packed object)             */
+/*---------------------------------------------------------------------------*/
+
 SEXP Runuran_quantile (SEXP sexp_unur, SEXP sexp_U);
 /*---------------------------------------------------------------------------*/
 /* Quantile for distribution in UNU.RAN generator object.                    */
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_quantile_unur (struct unur_gen *gen, SEXP sexp_U);
+/*---------------------------------------------------------------------------*/
+/* Evaluate approximate quantile function: use UNU.RAN object                */
+/*---------------------------------------------------------------------------*/
+
+SEXP _Runuran_quantile_data (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur);
+/*---------------------------------------------------------------------------*/
+/* Evaluate approximate quantile function:  use R data list (packed object)  */
 /*---------------------------------------------------------------------------*/
 
 SEXP Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog);
@@ -187,6 +207,20 @@ void _Runuran_set_error_handler(int status);
 /* set status of error handler (on / off).                                   */
 /*---------------------------------------------------------------------------*/
 
+void _Runuran_error_handler ( 
+	const char *objid, const char *file, int line,
+        const char *errortype, int errorcode, const char *reason );
+/*---------------------------------------------------------------------------*/
+/* Error handler for UNU.RAN routines.                                       */
+/*---------------------------------------------------------------------------*/
+
+void _Runuran_error_suppress ( 
+	const char *objid, const char *file, int line,
+        const char *errortype, int errorcode, const char *reason );
+/*---------------------------------------------------------------------------*/
+/* Error handler for UNU.RAN routines that suppresses all warnings/errors.   */
+/*---------------------------------------------------------------------------*/
+
 void _Runuran_free(SEXP sexp_gen);
 /*---------------------------------------------------------------------------*/
 /* Free UNU.RAN generator object.                                            */
@@ -263,3 +297,11 @@ SEXP Runuran_set_aux_seed (SEXP sexp_seed);
 /*---------------------------------------------------------------------------*/
 /* set seed for auxiliary URNG.                                              */
 /*---------------------------------------------------------------------------*/
+
+double _Runuran_R_unif_rand (void *unused);
+/*---------------------------------------------------------------------------*/
+/* Wrapper for R built-in uniform random number generator.                   */
+/*---------------------------------------------------------------------------*/
+
+
+/*****************************************************************************/
