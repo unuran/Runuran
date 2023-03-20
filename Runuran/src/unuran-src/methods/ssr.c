@@ -488,7 +488,7 @@ _unur_ssr_info( struct unur_gen *gen, int help )
 			  "You may provide the \"mode\"");
   }
   _unur_string_append(info,"\n");
-  _unur_string_append(info,"method: SSR (Simple Ratio-Of-Uniforms)\n");
+  _unur_string_append(info,"method: SSR (Simple Setup Rejection)\n");
   if (gen->set & SSR_SET_CDFMODE)
     _unur_string_append(info,"   use CDF at mode\n");
   if (gen->variant & SSR_VARFLAG_SQUEEZE)

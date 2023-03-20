@@ -33,7 +33,7 @@ unuran-devel: unuran-src
 	$(R) CMD build --no-vignettes --no-manual Runuran
 
 unuran-check: unuran-src
-	(unset TEXINPUTS; $(R) CMD check Runuran)
+	(unset TEXINPUTS; _R_CHECK_TIMINGS_=0 $(R) CMD check --as-cran --timings Runuran_*.tar.gz)
 
 unuran-src:
 	if test -d Runuran; then \
