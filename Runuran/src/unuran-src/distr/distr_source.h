@@ -81,6 +81,7 @@ int _unur_distr_cvec_marginals_are_equal( struct unur_distr **marginals, int dim
 int _unur_distr_cvec_duplicate_firstmarginal( struct unur_distr *distribution );
 int _unur_distr_cvec_is_indomain( const double *x, const struct unur_distr *distribution);
 int _unur_distr_cvec_has_boundeddomain( const struct unur_distr *distribution );
+int _unur_distr_cont_upd_pdfarea( struct unur_distr *distr, int silent_check_updfunc );
 #define _unur_check_distr_object( distr,distrtype, rcode ) \
   do { \
     if ((distr)->type != UNUR_DISTR_##distrtype) { \

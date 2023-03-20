@@ -1,4 +1,11 @@
 
+Version 0.25.0: 2018-03-23
+
+	- new functions arou.new()
+
+	- new functions tabl.new()
+
+
 Version 0.24.0: 2017-10-25
 
 	- export some C functions
