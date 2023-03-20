@@ -39,6 +39,62 @@ numerical.derivative <- function (x, func, lb=-Inf, ub=Inf, xmin=1, delta=1.e-7)
 ##                                                                          #
 #############################################################################
 
+## -- AROU: Automatic Ratio-of-Uniforms Sampling ----------------------------
+##
+## Type: Rejection
+##
+## Generate continuous random variates from a given PDF
+##
+
+arou.new <- function (pdf, dpdf=NULL, lb, ub, islog=FALSE, ...) {
+
+        ## check arguments
+        if (missing(pdf) || !is.function(pdf)) {
+           if (!missing(pdf) && is(pdf,"unuran.cont"))
+                stop ("argument 'pdf' is UNU.RAN distribution object. Did you mean 'aroud.new'?")
+           else
+                stop ("argument 'pdf' missing or invalid")
+        }
+
+        if (missing(lb) || missing(ub))
+                stop ("domain ('lb','ub') missing")
+
+        ## internal version of PDF
+        f <- function(x) pdf(x, ...) 
+
+        ## we also need the derivative of the PDF
+        if (is.null(dpdf)) {
+                ## use numerical derivative
+                df <- function(x) {
+                        numerical.derivative(x,f)
+                }
+        }
+        else {
+                if (! is.function(dpdf) )
+                        stop ("argument 'dpdf' invalid")
+                else df <- function(x) dpdf(x,...)
+	}	
+
+        ## S4 class for continuous distribution
+        dist <- new("unuran.cont", pdf=f, dpdf=df, lb=lb, ub=ub, islog=islog)
+
+        ## create and return UNU.RAN object
+        unuran.new(dist, "arou")
+}
+
+## ..........................................................................
+
+aroud.new <- function (distr) {
+
+  ## check arguments
+  if ( missing(distr) || !(isS4(distr) &&  is(distr,"unuran.cont")) )
+    stop ("argument 'distr' missing or invalid")
+
+  ## create and return UNU.RAN object
+  unuran.new(distr, "arou")
+}
+
+
 ## -- ARS: Adaptive Rejection Sampling (TDR with T=log) ---------------------
 ##
 ## Type: Rejection
