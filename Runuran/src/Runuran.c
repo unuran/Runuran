@@ -253,7 +253,7 @@ _Runuran_sample_data (SEXP sexp_data, int n)
 
   switch (mid) {
   case UNUR_METH_PINV:
-    sexp_res = _Runuran_sample_pinv(sexp_data,n);
+    PROTECT(sexp_res = _Runuran_sample_pinv(sexp_data,n));
     break;
   default:
     errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
@@ -263,6 +263,7 @@ _Runuran_sample_data (SEXP sexp_data, int n)
   PutRNGstate();
 
   /* return result to R */
+  UNPROTECT(1);
   return sexp_res;
  
 } /* end of _Runuran_sample_data() */
