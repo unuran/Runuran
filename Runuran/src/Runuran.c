@@ -880,8 +880,7 @@ _Runuran_set_error_handler(int level)
     old_handler = unur_set_error_handler( _Runuran_error_handler_suppress );
     break;
   case 1:
-    /* old_handler = unur_set_error_handler( _Runuran_error_handler_error ); */
-    old_handler = unur_set_error_handler( _Runuran_error_handler_warning );
+    old_handler = unur_set_error_handler( _Runuran_error_handler_error );
     break;
   case 2:
   default:
@@ -981,8 +980,6 @@ _Runuran_error_handler_warning( const char *objid     ATTRIBUTE__UNUSED,
      /*   (void)                                                             */
      /*----------------------------------------------------------------------*/
 {
-#ifdef RUNURAN_DEBUG
-#else
   /* we suppress some warnings */
   if (errortype[0] == 'w') {
     switch (errorcode) {
@@ -994,7 +991,6 @@ _Runuran_error_handler_warning( const char *objid     ATTRIBUTE__UNUSED,
       break;
     }
   }
-#endif
 
   /* print error message or warning */ 
   _Runuran_error_handler_print(objid, file, line, errortype, errorcode, reason);
@@ -1026,13 +1022,10 @@ _Runuran_error_handler_error( const char *objid     ATTRIBUTE__UNUSED,
      /*   (void)                                                             */
      /*----------------------------------------------------------------------*/
 {
-#ifdef RUNURAN_DEBUG
-#else
   /* we suppress some warnings */
   if (errortype[0] == 'w') {
       return;
   }
-#endif
 
   /* print error message or warning */ 
   _Runuran_error_handler_print(objid, file, line, errortype, errorcode, reason);
