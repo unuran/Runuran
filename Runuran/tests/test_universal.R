@@ -167,6 +167,23 @@ unur.test.cont("ur.srou.2.norm", rfunc=ur.srou.2.norm, pfunc=pnorm)
 rm(ur.srou.2.norm)
 
 
+## --- TABL (TABLe based Rejection) -----------------------------------------
+
+ur.tabl.norm <- function (n) {
+        gen <- tabl.new(pdf=dnorm, lb=-Inf, ub=Inf, mode=0)
+        ur(gen,n)
+}
+unur.test.cont("ur.tabl.norm", rfunc=ur.tabl.norm, pfunc=pnorm)
+rm(ur.tabl.norm)
+
+ur.tabl.2.norm <- function (n) {
+        gen <- tabl.new(pdf=dnorm, lb=-Inf, ub=Inf, mode=0)
+        ur(gen,n)
+}
+unur.test.cont("ur.tabl.2.norm", rfunc=ur.tabl.2.norm, pfunc=pnorm)
+rm(ur.tabl.2.norm)
+
+
 ## --- TDR (Transformed Density Rejection) ----------------------------------
 
 ur.tdr.norm <- function (n) {
