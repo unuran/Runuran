@@ -1,8 +1,8 @@
 Package: Runuran
 Type: Package
 Title: R Interface to the 'UNU.RAN' Random Variate Generators
-Version: 0.35
-Date: 2021-10-22
+Version: 0.36
+Date: 2022-05-05
 Authors@R: c(person("Josef", "Leydold", role = c("aut", "cre"),
     email = "josef.leydold@wu.ac.at"),
     person("Wolfgang", "H\"ormann", role = "aut"))
