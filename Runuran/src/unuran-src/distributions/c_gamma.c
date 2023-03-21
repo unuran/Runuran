@@ -166,9 +166,11 @@ _unur_set_params_gamma( UNUR_DISTR *distr, const double *params, int n_params )
   switch (n_params) {
   case 3:
     DISTR.gamma = gamma;
+    /* FALLTHROUGH */
   case 2:
     DISTR.beta = beta;
     n_params = 3;           
+    /* FALLTHROUGH */
   default:
     break;
   }

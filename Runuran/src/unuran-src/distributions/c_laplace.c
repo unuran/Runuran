@@ -108,8 +108,10 @@ _unur_set_params_laplace( UNUR_DISTR *distr, const double *params, int n_params 
   switch (n_params) {
   case 2:
     DISTR.phi = phi;
+    /* FALLTHROUGH */
   case 1:
     DISTR.theta = theta;
+    /* FALLTHROUGH */
   default:
     n_params = 2;           
   }
