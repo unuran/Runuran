@@ -1,3 +1,17 @@
+Version 0.29.0: 2020-02-08
+
+	- up() and uq():
+	  some error messages give more useful informations
+	  
+	- internal:
+	  reorganized some checks
+	  
+	  removed checks for unuran.details()
+	  which print too many digits and are thus
+	  too sensitive against round-off errors
+	  on different platforms
+
+
 Version 0.28.0: 2020-02-03
 
 	- internal:

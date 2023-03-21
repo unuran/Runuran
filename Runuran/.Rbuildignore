@@ -1,4 +1,1 @@
 ^devel
-^inst/unitTests
-^tests/test_details.Rout.save
-
