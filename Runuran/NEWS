@@ -1,3 +1,9 @@
+Version 0.31.0: 2020-10-27
+
+	- internal:
+	  fixed unPTROTECTed variables in C code
+
+
 Version 0.30.0: 2020-02-12
 
 	- disabled all output tests on CRAN:
