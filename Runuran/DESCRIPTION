@@ -1,8 +1,8 @@
 Package: Runuran
 Type: Package
 Title: R Interface to the 'UNU.RAN' Random Variate Generators
-Version: 0.33
-Date: 2020-11-01
+Version: 0.34
+Date: 2021-08-11
 Authors@R: c(person("Josef", "Leydold", role = c("aut", "cre"),
     email = "josef.leydold@wu.ac.at"),
     person("Wolfgang", "H\"ormann", role = "aut"))
@@ -30,4 +30,4 @@ Collate:
    zzz.R
 License: GPL (>=2)
 URL: http://statmath.wu.ac.at/unuran/
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
