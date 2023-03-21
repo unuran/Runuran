@@ -1114,6 +1114,12 @@ _unur_str_par_set( UNUR_PAR *par, const char *key, char *value, struct unur_slis
 				 break;
 			 }
 			 break;
+		 case 'e':
+			 if ( !strcmp(key, "extra_testpoints") ) {
+				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_extra_testpoints);
+				 break;
+			 }
+			 break;
 		 case 'k':
 			 if ( !strcmp(key, "keepcdf") ) {
 				 result = _unur_str_par_set_i(par,key,type_args,args,unur_pinv_set_keepcdf);
