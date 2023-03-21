@@ -1,3 +1,9 @@
+Version 0.30.0: 2020-02-12
+
+	- disabled all output tests on CRAN:
+	  The results of C call Rprintf() differ on different OS.
+
+
 Version 0.29.0: 2020-02-08
 
 	- up() and uq():
