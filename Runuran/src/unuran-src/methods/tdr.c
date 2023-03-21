@@ -28,7 +28,7 @@
 #define TDR_DEBUG_DARS         0x00020000u
 #define TDR_DEBUG_SAMPLE       0x01000000u
 #define TDR_DEBUG_REINIT       0x00000020u  
-#define TDR_SET_CENTER         0x0002u
+#define TDR_SET_CENTER         0x1000u
 #define TDR_SET_STP            0x0001u
 #define TDR_SET_N_STP          0x0002u
 #define TDR_SET_PERCENTILES    0x0004u
