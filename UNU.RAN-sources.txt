@@ -1,0 +1,54 @@
+The files from the UNU.RAN project stripped (i.e., all the comments
+are removed) and copied into directory ./Runuran/src/unuran-src
+using
+
+$ make unuran-clean unuran-src
+
+The UNU.RAN directory must be located in ../unuran.
+
+List of releases together with IDs from the original SVN repository
+and the new GIT repository.
+
+    	SVN
+
+0. 2	3623
+0. 3	3635
+0. 4	3733
+0. 5	3819
+0. 6	3890
+0. 7	4111
+0. 8	4461
+0. 9	4541
+
+0.10	4615
+0.11	4817
+0.12	4840
+0.13	4894
+0.14	4989
+0.15	5204
+0.16	5280
+0.17	5297
+0.18	5344
+0.19	5763
+
+0.20	5816
+0.21	5871
+0.22	6642
+0.23	6739
+0.24	7495
+0.25	7734
+0.26	7778
+0.27	7782
+0.28	7872
+0.29	7907
+
+0.30	7910
+0.31	7919
+0.32	7922
+0.33	7924
+0.34	7939
+0.35	7949
+0.36	7980
+0.37	7993
+0.38	8030
+
