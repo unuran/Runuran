@@ -30,7 +30,7 @@ unuran-build: unuran-src
 	$(R) CMD build Runuran
 
 unuran-devel: unuran-src
-	$(R) CMD build --no-vignettes --no-manual Runuran
+	$(R) CMD build --no-build-vignettes --no-manual Runuran
 
 unuran-roxy:
 ##	echo "library(roxygen2); roxygenize(\"Runuran\",roclets=\"rd\");" | $(R) --vanilla  
@@ -49,7 +49,7 @@ unuran-clean:
 	rm -rf Runuran.Rcheck
 	rm -f Runuran_*
 	if test -d Runuran; then \
-		(cd Runuran &&  ./scripts/clean-sources.sh) \
+		(cd Runuran &&  ./src/scripts/clean-sources.sh) \
 	fi
 
 # --- Clear working space ---------------------------------------------------
