@@ -295,7 +295,7 @@ _unur_lobatto_debug_table (struct unur_lobatto_table *Itable, const struct unur_
   fprintf(LOG,"%s: subintervals for Lobatto integration: %d\n",gen->genid,
 	  Itable->n_values - 1);
   for (n=0; print_Itable && n < Itable->n_values; n++) {
-    fprintf(LOG,"%s:  [%3d] x = %g, u = %g\n",gen->genid,
+    fprintf(LOG,"%s:  [%3d] x = %.16g, u = %.16g\n",gen->genid,
 	    n, Itable->values[n].x, Itable->values[n].u );
   }
 } 
