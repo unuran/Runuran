@@ -17,7 +17,7 @@
   \tabular{ll}{
     Package: \tab Runuran       \cr
     Type:    \tab Package       \cr
-    Version: \tab 0.38          \cr
+    Version: \tab 0.38.999      \cr
     Date:    \tab 2023-01-17    \cr
     License: \tab GPL 2 or later\cr
   }
