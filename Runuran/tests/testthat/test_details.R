@@ -1,7 +1,7 @@
 #############################################################################
 ##                                                                         ##
 ##   Tests for unuran.details                                              ##
-##   (some skipped on CRAN)                                                ##
+##   (all skipped on CRAN)                                                 ##
 ##                                                                         ##
 #############################################################################
 
@@ -21,7 +21,7 @@ context("[details] - print 'Runuran' objects")
 
 ## --- Auxiliary functions --------------------------------------------------
 
-test_unuran.details <- function(distr, method, name=toupper(method), skip.on.cran=FALSE) {
+test_unuran.details <- function(distr, method, name=toupper(method), skip.on.cran=TRUE) {
     ## run unuran.details() with various arguments
     ##
     ## if skip.on.cran == TRUE then the test is only run if
@@ -29,7 +29,8 @@ test_unuran.details <- function(distr, method, name=toupper(method), skip.on.cra
     ## (e.g., by Sys.setenv(NOT_CRAN="true") in a calling R script)
     ##
     ## Using skip.on.cran=TRUE is recommended if the output of unuran.details()
-    ## shows too many digits of accuracy, e.g., for method PINV.
+    ## shows too many digits of accuracy, e.g., for method PINV,
+    ## or numbers like INF which may look weird (1.#INF) on Windows.
     ## ----------------------------------------------------------------------
     
     set.seed(SEED)
