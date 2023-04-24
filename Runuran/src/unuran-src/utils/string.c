@@ -30,11 +30,7 @@ _unur_string_append ( struct unur_string *string, const char *format, ... )
 #if HAVE_DECL_VSNPRINTF
   len = vsnprintf (string->text+string->length, (size_t)MAXSTRINGSIZE, format, ap);
 #else
-  len = vsprintf (string->text+string->length, format, ap);
-  if (len >= MAXSTRINGSIZE) {
-    _unur_error("UTIL",UNUR_ERR_SHOULD_NOT_HAPPEN,"string too long");
-    exit (-1);   
-  }
+  #error Function vsnprintf() required.
 #endif
   string->length += len;
   va_end(ap);

@@ -47,7 +47,7 @@ _unur_make_genid( const char *gentype )
 #if HAVE_DECL_SNPRINTF
   snprintf(genid, len+5, "%s.%03d", gentype, count);
 #else
-  sprintf(genid, "%s.%03d", gentype, count);
+  #error Function snprintf() required.
 #endif
   return genid;
 } 
