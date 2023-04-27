@@ -28,6 +28,8 @@ sub usage {
 
 usage: $progname
 
+  This script must be executed in the top level directory of the package!
+    
 EOM
 
 exit -1;

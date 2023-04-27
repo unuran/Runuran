@@ -1,4 +1,10 @@
 
+Version 0.38.999: work in progress
+
+	- internal:
+	  moved directory with maintainance scripts out of package directory
+
+
 Version 0.38.0: 2023-01-17
 
 	- pinv.new():

@@ -50,7 +50,8 @@ echo "Copy UNU.RAN files ..."
      grep -v "tests/printsample\.c" | \
      grep -v "tests/quantiles\.c" | \
      grep -v "tests/tests\.c" | \
-     grep -v "tests/timing\.c" ) \
+     grep -v "tests/timing\.c" | \
+     grep -v "unuran_config\.h" ) \
     | cpio -vdump -D "$UNURAN_DIR/src" src/unuran-src;
 cp -av "$UNURAN_DIR/src/unuran.h.in" src/unuran-src;
 cp -av "$UNURAN_DIR/src/uniform/mrg31k3p.c" src/unuran-src/uniform;

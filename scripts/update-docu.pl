@@ -31,6 +31,8 @@ usage: $progname -u [-i]
   -i ... increment version number and update date in 
          file 'DESCRIPTION' first
 
+  This script must be executed in the top level directory of the package!
+    
 EOM
 
     exit -1;
