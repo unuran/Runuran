@@ -1,0 +1,26 @@
+
+ * Distributions:
+
+   - add source of other implementations of distributions
+     in comment in Rd files.
+
+   - add udunif().
+
+   - add support for 'distr' package.
+
+
+ * Methods:
+
+   - itdr.new(): add arguments 'cp' and 'ct'.
+
+
+ * Tools:
+
+   - add function unuran.check.hat() for running a
+     MC simulation of rejection methods in verify mode.
+
+   - start new section "Test RVG" in Vignette.
+     make also link to R-Forge project "rvgtest".
+
+   - add support for 'rstream' package.
+
