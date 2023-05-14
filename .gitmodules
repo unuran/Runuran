@@ -1,0 +1,4 @@
+[submodule "unuran"]
+	path = unuran
+	url = git@github.com:unuran/unuran.git
+	branch = develop

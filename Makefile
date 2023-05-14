@@ -28,6 +28,7 @@ help:
 	@echo "  valgrind ... check package '${project}' using valgrind (very slow!)"
 	@echo ""
 	@echo "  clean    ... clear working space"
+	@echo "  very-clean ... clear working space and submodules"
 	@echo ""
 
 # --- Phony targets ---------------------------------------------------------
@@ -37,10 +38,8 @@ help:
 # --- Runuran ---------------------------------------------------------------
 
 src:
-	if test -d ${project}; then \
-		(cd ${project} && ../scripts/update-sources.sh); \
-		(cd ${project} && ../scripts/update-API.pl > inst/include/Runuran_API.h) \
-	fi
+	(cd ${project} && ../scripts/update-sources.sh);
+	(cd ${project} && ../scripts/update-API.pl > inst/include/Runuran_API.h)
 
 roxy:
 ##	echo "library(roxygen2); roxygenize(\"Runuran\",roclets=\"rd\");" | ${R} --vanilla  
@@ -73,12 +72,16 @@ clean:
 	@(cd ./${project} && rm -rf config.log config.status autom4te.cache)
 	@(cd ./${project}/src && rm -rf Makevars config.h)
 # Remove compiled files
-	@(cd ./${project}/src && rm -rf *.so *.o )
-	@(cd ./${project}/src/unuran-src && rm -rf */*.o )
+	@(cd ./${project}/src && rm -rf *.so *.o)
+	@(cd ./${project}/src/unuran-src && rm -rf */*.o)
 # Remove R package files
 	rm -rf ${project}.Rcheck
 	rm -f ${project}_*.tar.gz
 # Remove emacs backup files
 	find . -type f -name "*~" -exec rm -v {} ';'
+
+very-clean: clean
+# Clean UNU.RAN submodules
+	@(cd ./unuran && test -f Makefile && make maintainer-clean || true)
 
 # --- End -------------------------------------------------------------------

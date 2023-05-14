@@ -5,7 +5,7 @@
 # The script copies all required UNU.RAN C files into the Runuran directory.
 # ---------------------------------------------------------------------------
 
-UNURAN_DIR="../../unuran"
+UNURAN_DIR="../unuran"
 
 # Check directory
 PACKAGE=`grep -s "Package: Runuran" DESCRIPTION`
