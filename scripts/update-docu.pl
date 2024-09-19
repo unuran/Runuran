@@ -14,8 +14,12 @@ use Getopt::Std;
 
 # --- Constants -------------------------------------------------------------
 
-my $vignette_file = "./vignettes/inputs/version.tex";
+## name of R package
+my $package = "Runuran";
+
+## package help page
 my $package_Rd_file = "./man/Runuran-package.Rd";
+my $vignette_file = "./vignettes/inputs/version.tex";
 
 # --- Usage -----------------------------------------------------------------
 
@@ -27,9 +31,11 @@ sub usage {
 
 usage: $progname -u [-i]
 
-  -u ... update 'version.tex' and 'Runuran-package.Rd'
+  -u ... update '$vignette_file' and '$package_Rd_file'
   -i ... increment version number and update date in 
          file 'DESCRIPTION' first
+
+  This script must be executed in the top level directory of the package!
 
 EOM
 
@@ -48,7 +54,7 @@ usage unless $update;
 # --- Read file 'DESCRIPTION' -----------------------------------------------
 
 open DESC, "DESCRIPTION" 
-    or die "You must run this script in the top-level Runuran directory";
+    or die "You must run this script in the top-level '$package' directory";
 my $description;
 while (<DESC>) {
     $description .= $_;
@@ -56,8 +62,8 @@ while (<DESC>) {
 close DESC; 
 
 # check name of package
-die "You must run this script in the top-level Runuran directory"
-    unless $description =~ /^\s*Package:\s+Runuran\s*\n/;
+die "You must run this script in the top-level '$package' directory"
+    unless $description =~ /^\s*Package:\s+($package)\s*\n/;
 
 # get data
 $description =~ m/^.*\nVersion:\s*(.*?)\s*\n/s 
@@ -123,7 +129,7 @@ if ($increment) {
 # --- Update Runuran-package -------------------------------------------------
 
 open PACKAGE, "$package_Rd_file"
-    or die "Cannot open file 'man/Runuran-package.Rd' for reading: $!";
+    or die "Cannot open file $package_Rd_file for reading: $!";
 my $package;
 while (<PACKAGE>) {
     $package .= $_;
@@ -131,12 +137,12 @@ while (<PACKAGE>) {
 close PACKAGE; 
 
 $version = sprintf("%-14s", $version); 
-$package =~ s/\n(\s*Version:\s*\\tab\s+).*?\\cr\n/\n$1$version\\cr\n/
-	or die "man/Runuran-package.Rd: Cannot find field 'Version:'";
+$package =~ s/\n(\s*Version:\s*\\tab\s+).*?\\cr\r?\n/\n$1$version\\cr\n/
+    or die "$package_Rd_file: Cannot find field 'Version:'";
 
 $date = sprintf("%-14s", $date); 
-$package =~ s/\n(\s*Date:\s*\\tab\s+).*?\\cr\n/\n$1$date\\cr\n/
-	or die "man/Runuran-package.Rd: Cannot find field 'Date:'";
+$package =~ s/\n(\s*Date:\s*\\tab\s+).*?\\cr\r?\n/\n$1$date\\cr\n/
+    or die "$package_Rd_file: Cannot find field 'Date:'";
 
 open PACKAGE, ">$package_Rd_file"
     or die "Cannot open file 'man/Runuran-package.Rd' for writing: $!";
