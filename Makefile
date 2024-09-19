@@ -42,22 +42,22 @@ src:
 	(cd ${project} && ../scripts/update-API.pl > inst/include/Runuran_API.h)
 
 roxy:
-##	echo "library(roxygen2); roxygenize(\"Runuran\",roclets=\"rd\");" | ${R} --vanilla  
+##	echo "library(roxygen2); roxygenize(\"Runuran\",roclets=\"rd\");" | ${R} --vanilla
 	(cd ${project} && echo "devtools::document(roclets=\"rd\")" | ${R} --vanilla)
 
 version:
 	(cd ${project} && ../scripts/update-docu.pl -u)
 
-build: ## unuran-src
+build:
 	${R} CMD build ${project}
 
-devel: ## unuran-src
+devel:
 	${R} CMD build --no-build-vignettes --no-manual ${project}
 
-check: ## unuran-build
+check:
 	(unset TEXINPUTS; _R_CHECK_TIMINGS_=0 ${R} CMD check --as-cran --timings ${project}_*.tar.gz)
 
-valgrind: ## unuran-build
+valgrind:
 	(unset TEXINPUTS; _R_CHECK_TIMINGS_=0 ${R} CMD check --use-valgrind --timings ${project}_*.tar.gz)
 	@echo -e "\n * Valgrind output ..."
 	@for Rout in `find ${project}.Rcheck/ -name *.Rout`; \
