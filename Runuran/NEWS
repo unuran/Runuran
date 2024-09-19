@@ -1,8 +1,12 @@
 
-Version 0.38.999: work in progress
+Version 0.39: 2024-09-19
+
+	- dau.new():
+	  fixed issue with constant probability vector
 
 	- internal:
 	  moved directory with maintainance scripts out of package directory
+	  fixed defunct declarations
 
 
 Version 0.38.0: 2023-01-17
