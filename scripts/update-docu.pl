@@ -7,6 +7,7 @@
 #   DESCRIPTION
 #   man/Runuran-package.Rd
 #   vignettes/inputs/version.tex
+#   configure.ac
 # ---------------------------------------------------------------------------
 
 use strict;
@@ -20,6 +21,7 @@ my $package = "Runuran";
 ## package help page
 my $package_Rd_file = "./man/Runuran-package.Rd";
 my $vignette_file = "./vignettes/inputs/version.tex";
+my $configure_file = "./configure.ac";
 
 # --- Usage -----------------------------------------------------------------
 
@@ -33,7 +35,7 @@ usage: $progname -u [-i]
 
   -u ... update '$vignette_file' and '$package_Rd_file'
   -i ... increment version number and update date in 
-         file 'DESCRIPTION' first
+         file 'DESCRIPTION' first  (disabled)
 
   This script must be executed in the top level directory of the package!
 
@@ -45,7 +47,8 @@ EOM
 # --- Read command line options ---------------------------------------------
 
 my %opts;
-getopts('ui', \%opts) or usage();
+##getopts('ui', \%opts) or usage();
+getopts('u', \%opts) or usage();
 my $update = $opts{'u'};
 my $increment = $opts{'i'};
 
@@ -136,8 +139,8 @@ while (<PACKAGE>) {
 }
 close PACKAGE; 
 
-$version = sprintf("%-14s", $version); 
-$package =~ s/\n(\s*Version:\s*\\tab\s+).*?\\cr\r?\n/\n$1$version\\cr\n/
+my $packageversion = sprintf("%-14s", $version);
+$package =~ s/\n(\s*Version:\s*\\tab\s+).*?\\cr\r?\n/\n$1$packageversion\\cr\n/
     or die "$package_Rd_file: Cannot find field 'Version:'";
 
 $date = sprintf("%-14s", $date); 
@@ -148,6 +151,24 @@ open PACKAGE, ">$package_Rd_file"
     or die "Cannot open file 'man/Runuran-package.Rd' for writing: $!";
 print PACKAGE $package;
 close PACKAGE;
+
+# --- Update configure.ac ---------------------------------------------------
+
+open CONFIGURE, "$configure_file"
+    or die "Cannot open file $configure_file for reading: $!";
+my $configure;
+while (<CONFIGURE>) {
+    $configure .= $_;
+}
+close CONFIGURE;
+
+$configure =~ s/\n(AC_INIT\(\[Runuran\],\[)(.*?)\]/\n$1$version\]/;
+## pattern: AC_INIT([Runuran],[0.\d+],[unuran@statmath.wu.ac.at])
+
+open CONFIGURE, ">$configure_file"
+    or die "Cannot open $configure_file for writing: $!";
+print CONFIGURE $configure;
+close CONFIGURE;
 
 # --- end -------------------------------------------------------------------
 
