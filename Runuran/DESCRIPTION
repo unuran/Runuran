@@ -4,7 +4,8 @@ Title: R Interface to the 'UNU.RAN' Random Variate Generators
 Version: 0.39.999
 Date: 2024-09-19
 Authors@R: c(person("Josef", "Leydold", role = c("aut", "cre"),
-    email = "josef.leydold@wu.ac.at"),
+    email = "josef.leydold@wu.ac.at",
+    comment = c(ORCID = "0000-0002-9076-4893")),
     person("Wolfgang", "H\"ormann", role = "aut"))
 Depends: R (>= 3.0.0)
 Imports: methods, stats
@@ -29,5 +30,5 @@ Collate:
    utils.R
    zzz.R
 License: GPL (>=2)
-URL: https://statmath.wu.ac.at/unuran/
+URL: https://github.com/unuran/Runuran/, https://statmath.wu.ac.at/unuran/
 RoxygenNote: 7.1.2
