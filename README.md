@@ -2,8 +2,9 @@
 
 R package
 [*Runuran*](https://CRAN.R-project.org/package=Runuran)
-provides an interface to the 'UNU.RAN' library for Non-Uniform
-Universal RANdom variate generators. 
+provides an interface to the
+[*UNU.RAN*](https://github.com/unuran/unuran)
+library for Non-Uniform Universal RANdom variate generators.
 
 The package can be installed from
 [CRAN](https://CRAN.R-project.org/package=Runuran).
