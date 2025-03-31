@@ -130,7 +130,7 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
   struct unur_gen *gen;
 
   /* first argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_unur))
+  if (!Rf_isS4(sexp_unur))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* Extract and check sample size */
@@ -291,7 +291,7 @@ Runuran_quantile (SEXP sexp_unur, SEXP sexp_U)
   struct unur_gen *gen;
 
   /* first argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_unur))
+  if (!Rf_isS4(sexp_unur))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* check type of U */
@@ -433,7 +433,7 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
   int i;
 
   /* first argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_obj))
+  if (!Rf_isS4(sexp_obj))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* check type of x */
@@ -578,7 +578,7 @@ Runuran_CDF (SEXP sexp_obj, SEXP sexp_x)
   int i;
 
   /* first argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_obj))
+  if (!Rf_isS4(sexp_obj))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* check type of x */
@@ -818,7 +818,7 @@ Runuran_pack (SEXP sexp_unur)
   SEXP sexp_data;
 
   /* argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_unur))
+  if (!Rf_isS4(sexp_unur))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* Extract data list */
@@ -1162,7 +1162,7 @@ SEXP Runuran_use_aux_urng (SEXP sexp_unur, SEXP sexp_set)
   const char *class;               /* class name of 'unr' */ 
 
   /* first argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_unur))
+  if (!Rf_isS4(sexp_unur))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN generator object");
 
   /* we need a generator object */ 

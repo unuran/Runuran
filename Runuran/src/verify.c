@@ -65,7 +65,7 @@ Runuran_verify_hat (SEXP sexp_unur, SEXP sexp_n)
   int (*chg_verify)(UNUR_GEN *generator,int verify);
 
   /* first argument must be S4 class */
-  if (!IS_S4_OBJECT(sexp_unur))
+  if (!Rf_isS4(sexp_unur))
     error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* UNU.RAN must not be packed */

@@ -283,7 +283,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
 
 #ifdef RUNURAN_DEBUG
   /*   /\* 'this' must be an S4 class *\/ */
-  /*   if (!IS_S4_OBJECT(sexp_this)) */
+  /*   if (!Rf_isS4(sexp_this)) */
   /*     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object"); */
 
   /* all other variables are tested in the R routine */
@@ -470,7 +470,7 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 
 #ifdef RUNURAN_DEBUG
   /*   /\* 'this' must be an S4 class *\/ */
-  /*   if (!IS_S4_OBJECT(sexp_this)) */
+  /*   if (!Rf_isS4(sexp_this)) */
   /*     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object"); */
 
   /* all other variables are tested in the R routine */
