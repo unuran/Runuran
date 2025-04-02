@@ -42,10 +42,10 @@ SEXP Runuran_ext_cont_init
   if (! (sexp_params && TYPEOF(sexp_params)==REALSXP) )
     Rf_error("[Runuran-Ext] invalid argument 'params'");
   params = REAL(sexp_params);
-  n_params = length(sexp_params);
+  n_params = Rf_length(sexp_params);
 
   /* extract domain of distribution */
-  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
     Rf_error("[Runuran-Ext] invalid argument 'domain'");
   domain = REAL(sexp_domain);
 

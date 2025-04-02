@@ -70,8 +70,8 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   useinversion = *LOGICAL(AS_LOGICAL(sexp_inversion));
 
   /* extract length of component vector */
-  n_comp = length(sexp_comp);
-  if(n_comp != length(sexp_prob)) {
+  n_comp = Rf_length(sexp_comp);
+  if(n_comp != Rf_length(sexp_prob)) {
     errorcall_return(R_NilValue,"[UNU.RAN - error] 'prob' and 'comp' must have same length");
   }
 
@@ -88,7 +88,7 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
     }
     sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
     CHECK_UNUR_PTR(sexp_gen);
-    if (isNull(sexp_gen) || 
+    if (Rf_isNull(sexp_gen) || 
 	((comp[i]=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
       Rf_error("[UNU.RAN - error] invalid argument 'comp[%d]'. maybe packed?",i+1);
     }

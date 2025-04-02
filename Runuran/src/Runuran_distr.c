@@ -124,7 +124,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   unsigned int error = 0u;
 
   /* domain of distribution */
-  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
   lb = (domain[0] < (double) INT_MIN) ? INT_MIN : (int) domain[0]; 
@@ -140,13 +140,13 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   error |= unur_distr_discr_set_domain( distr, lb, ub );
 
   /* set probability vector */
-  if (!isNull(sexp_pv)) {
+  if (!Rf_isNull(sexp_pv)) {
     sexp_pv = PROTECT(AS_NUMERIC(sexp_pv));
     pv = REAL(sexp_pv);
     if (ISNAN(pv[0])) {
       errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
     }
-    n_pv = length(sexp_pv);
+    n_pv = Rf_length(sexp_pv);
     error |= unur_distr_discr_set_pv(distr,pv,n_pv);
     UNPROTECT(1);
   }
@@ -159,10 +159,10 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 
   /* set function pointers */
   error |= unur_distr_set_extobj(distr, Rdistr);
-  if (!isNull(sexp_cdf)) {
+  if (!Rf_isNull(sexp_cdf)) {
     error |= unur_distr_discr_set_cdf(distr, _Runuran_discr_eval_cdf);
   }
-  if (!isNull(sexp_pmf)) {
+  if (!Rf_isNull(sexp_pmf)) {
     error |= unur_distr_discr_set_pmf(distr, _Runuran_discr_eval_pmf);
   }
 
@@ -216,8 +216,8 @@ _Runuran_discr_eval_cdf( int k, const struct unur_distr *distr )
   Rdistr = unur_distr_get_extobj(distr);
   PROTECT(arg = NEW_NUMERIC(1));
   REAL(arg)[0] = (double)k;
-  PROTECT(R_fcall = lang2(Rdistr->cdf, arg));
-  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  PROTECT(R_fcall = Rf_lang2(Rdistr->cdf, arg));
+  y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
   UNPROTECT(2);
   return y;
 } /* end of _Runuran_discr_eval_cdf() */
@@ -237,8 +237,8 @@ _Runuran_discr_eval_pmf( int k, const struct unur_distr *distr )
   Rdistr = unur_distr_get_extobj(distr);
   PROTECT(arg = NEW_NUMERIC(1));
   REAL(arg)[0] = (double)k;
-  PROTECT(R_fcall = lang2(Rdistr->pmf, arg));
-  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  PROTECT(R_fcall = Rf_lang2(Rdistr->pmf, arg));
+  y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
   UNPROTECT(2);
   return y;
 } /* end of _Runuran_discr_eval_pmf() */
@@ -291,7 +291,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
 #endif
 
   /* domain of distribution */
-  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
 
@@ -315,19 +315,19 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
   /* set function pointers */
   error |= unur_distr_set_extobj(distr, Rdistr);
   if (islog) {
-    if (!isNull(sexp_cdf))
+    if (!Rf_isNull(sexp_cdf))
       error |= unur_distr_cont_set_logcdf(distr, _Runuran_cont_eval_cdf);
-    if (!isNull(sexp_pdf))
+    if (!Rf_isNull(sexp_pdf))
       error |= unur_distr_cont_set_logpdf(distr, _Runuran_cont_eval_pdf);
-    if (!isNull(sexp_dpdf))
+    if (!Rf_isNull(sexp_dpdf))
       error |= unur_distr_cont_set_dlogpdf(distr, _Runuran_cont_eval_dpdf);
   }
   else {
-    if (!isNull(sexp_cdf))
+    if (!Rf_isNull(sexp_cdf))
       error |= unur_distr_cont_set_cdf(distr, _Runuran_cont_eval_cdf);
-    if (!isNull(sexp_pdf))
+    if (!Rf_isNull(sexp_pdf))
       error |= unur_distr_cont_set_pdf(distr, _Runuran_cont_eval_pdf);
-    if (!isNull(sexp_dpdf))
+    if (!Rf_isNull(sexp_dpdf))
       error |= unur_distr_cont_set_dpdf(distr, _Runuran_cont_eval_dpdf);
   }
 
@@ -384,8 +384,8 @@ _Runuran_cont_eval_cdf( double x, const struct unur_distr *distr )
   Rdistr = unur_distr_get_extobj(distr);
   PROTECT(arg = NEW_NUMERIC(1));
   REAL(arg)[0] = x;
-  PROTECT(R_fcall = lang2(Rdistr->cdf, arg));
-  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  PROTECT(R_fcall = Rf_lang2(Rdistr->cdf, arg));
+  y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
   UNPROTECT(2);
   return y;
 } /* end of _Runuran_cont_eval_cdf() */
@@ -405,8 +405,8 @@ _Runuran_cont_eval_pdf( double x, const struct unur_distr *distr )
   Rdistr = unur_distr_get_extobj(distr);
   PROTECT(arg = NEW_NUMERIC(1));
   REAL(arg)[0] = x;
-  PROTECT(R_fcall = lang2(Rdistr->pdf, arg));
-  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  PROTECT(R_fcall = Rf_lang2(Rdistr->pdf, arg));
+  y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
   UNPROTECT(2);
   return y;
 } /* end of _Runuran_cont_eval_pdf() */
@@ -426,8 +426,8 @@ _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr )
   Rdistr = unur_distr_get_extobj(distr);
   PROTECT(arg = NEW_NUMERIC(1));
   REAL(arg)[0] = x;
-  PROTECT(R_fcall = lang2(Rdistr->dpdf, arg));
-  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  PROTECT(R_fcall = Rf_lang2(Rdistr->dpdf, arg));
+  y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
   UNPROTECT(2);
   return y;
 } /* end of _Runuran_cont_eval_dpdf() */
@@ -491,24 +491,24 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 
   /* set function pointers */
   error |= unur_distr_set_extobj(distr, Rdistr);
-  if (!isNull(sexp_pdf))
+  if (!Rf_isNull(sexp_pdf))
     error |= unur_distr_cvec_set_pdf(distr, _Runuran_cmv_eval_pdf);
 
   /* set domain */
-  if (!isNull(sexp_ll) && !isNull(sexp_ur)) {
+  if (!Rf_isNull(sexp_ll) && !Rf_isNull(sexp_ur)) {
     ll = REAL(sexp_ll);
     ur = REAL(sexp_ur);
     error |= unur_distr_cvec_set_domain_rect(distr, ll, ur);
   }  
   
   /* set mode */
-  if (!isNull(sexp_mode)) {
+  if (!Rf_isNull(sexp_mode)) {
     mode = REAL(sexp_mode);
     error |= unur_distr_cvec_set_mode(distr, mode);
   }
 
   /* set center */
-  if (!isNull(sexp_center)) {
+  if (!Rf_isNull(sexp_center)) {
     center = REAL(sexp_center);
     error |= unur_distr_cvec_set_center(distr, center);
   }
@@ -566,8 +566,8 @@ _Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr )
     rarg[i] = x[i];
 
   /* evaluate PDF */
-  PROTECT(R_fcall = lang2(Rdistr->pdf, arg));
-  y = REAL(eval(R_fcall, Rdistr->env))[0];
+  PROTECT(R_fcall = Rf_lang2(Rdistr->pdf, arg));
+  y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
   UNPROTECT(2);
 
   return y;
@@ -601,7 +601,7 @@ Runuran_std_cont (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_dom
   unsigned int error = 0u;
 
   /* name of distribution */
-  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && length(sexp_name)>2)
+  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && Rf_length(sexp_name)>2)
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
   name = CHAR(STRING_ELT(sexp_name,0));
 
@@ -609,10 +609,10 @@ Runuran_std_cont (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_dom
   if (! (sexp_params && TYPEOF(sexp_params)==REALSXP) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
   params = REAL(sexp_params);
-  n_params = length(sexp_params);
+  n_params = Rf_length(sexp_params);
 
   /* domain of distribution */
-  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
 
@@ -664,18 +664,18 @@ Runuran_std_discr (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_do
   unsigned int error = 0u;
 
   /* name of distribution */
-  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && length(sexp_name)>2)
+  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && Rf_length(sexp_name)>2)
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
   name = CHAR(STRING_ELT(sexp_name,0));
 
   /* parameters */
-  if (! (sexp_params && TYPEOF(sexp_params)==REALSXP && length(sexp_params)>0) )
+  if (! (sexp_params && TYPEOF(sexp_params)==REALSXP && Rf_length(sexp_params)>0) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
   params = REAL(sexp_params);
-  n_params = length(sexp_params);
+  n_params = Rf_length(sexp_params);
 
   /* domain of distribution */
-  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && length(sexp_domain)==2) )
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
   lb = (domain[0] < (double) INT_MIN) ? INT_MIN : (int) domain[0];

@@ -86,7 +86,7 @@ void add_string(struct Rlist *list, char *key, const char *string)
   list->names[list->len] = key;
 
   /* create R object for list entry */
-  SET_VECTOR_ELT(list->values, list->len, mkString(string));
+  SET_VECTOR_ELT(list->values, list->len, Rf_mkString(string));
   
   /* update length of list */
   ++list->len;
@@ -191,7 +191,7 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
 
   /* slot 'data' should not be pesent */
   sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
-  if (! isNull(sexp_data)) {
+  if (! Rf_isNull(sexp_data)) {
     Rprintf("Object is PACKED !\n\n");
     return R_NilValue;
   }
@@ -199,14 +199,14 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
   /* Extract pointer to UNU.RAN generator */
   sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
   CHECK_UNUR_PTR(sexp_gen);
-  if (isNull(sexp_gen) || 
+  if (Rf_isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
-    warningcall_immediate(R_NilValue,"[UNU.RAN - warning] empty UNU.RAN object");
+    Rf_warningcall_immediate(R_NilValue,"[UNU.RAN - warning] empty UNU.RAN object");
     return R_NilValue;
   }
 
   /* create temporary R list */
-  PROTECT(list.values = allocVector(VECSXP, MAX_LIST));
+  PROTECT(list.values = Rf_allocVector(VECSXP, MAX_LIST));
   list.len = 0;
 
   /* we use macros to get an overview of used keywords and */
@@ -406,7 +406,7 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
 
       /* points for constructing Newton interpolation */
       list.names[list.len] = "ui";
-      val = allocMatrix(REALSXP, GEN->n_ivs, GEN->order);
+      val = Rf_allocMatrix(REALSXP, GEN->n_ivs, GEN->order);
       for (n=0; n<GEN->n_ivs; n++) {
 	for (j=0; j<GEN->order; j++)
 	  REAL(val)[n + j*GEN->n_ivs] = GEN->iv[n].ui[j];
@@ -416,7 +416,7 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
 
       /* coefficients for Newton interpolation */
       list.names[list.len] = "zi";
-      val = allocMatrix(REALSXP, GEN->n_ivs, GEN->order);
+      val = Rf_allocMatrix(REALSXP, GEN->n_ivs, GEN->order);
       for (n=0; n<GEN->n_ivs; n++) {
 	for (j=0; j<GEN->order; j++)
 	  REAL(val)[n + j*GEN->n_ivs] = GEN->iv[n].zi[j];
@@ -572,17 +572,17 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
   }
 
   /* create final list */
-  PROTECT(sexp_list = allocVector(VECSXP, list.len)); 
+  PROTECT(sexp_list = Rf_allocVector(VECSXP, list.len)); 
   for(i = 0; i < list.len; i++)
     SET_VECTOR_ELT(sexp_list, i, VECTOR_ELT(list.values, i));
     
   /* an array of the "names" attribute of the objects in our list */
-  PROTECT(sexp_names = allocVector(STRSXP, list.len));
+  PROTECT(sexp_names = Rf_allocVector(STRSXP, list.len));
   for(i = 0; i < list.len; i++)
-    SET_STRING_ELT(sexp_names, i,  mkChar(list.names[i]));
+    SET_STRING_ELT(sexp_names, i,  Rf_mkChar(list.names[i]));
  
   /* attach attribute names */
-  setAttrib(sexp_list, R_NamesSymbol, sexp_names);
+  Rf_setAttrib(sexp_list, R_NamesSymbol, sexp_names);
 
   /* return list */
   UNPROTECT(3);

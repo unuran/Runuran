@@ -142,12 +142,12 @@ _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur)
   }
 
   /* list of "names" attribute of the objects in our list */
-  PROTECT(sexp_data_names = allocVector(STRSXP, n_slots));
+  PROTECT(sexp_data_names = Rf_allocVector(STRSXP, n_slots));
   for (i=0; i<n_slots; i++)
-    SET_STRING_ELT(sexp_data_names, i, mkChar(slot_name[i]));
+    SET_STRING_ELT(sexp_data_names, i, Rf_mkChar(slot_name[i]));
 
   /* create data list */
-  PROTECT(sexp_data = allocVector(VECSXP, n_slots));
+  PROTECT(sexp_data = Rf_allocVector(VECSXP, n_slots));
   SET_VECTOR_ELT(sexp_data, pmid,   sexp_mid);      /* attach 'mid' element   */
   SET_VECTOR_ELT(sexp_data, porder, sexp_order);    /* attach 'order' element */
   SET_VECTOR_ELT(sexp_data, pUmax,  sexp_Umax);     /* attach 'Umax' element  */
@@ -155,7 +155,7 @@ _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur)
   SET_VECTOR_ELT(sexp_data, piv,    sexp_iv);       /* attach 'iv' element    */
 
   /* attach vector names */
-  setAttrib(sexp_data, R_NamesSymbol, sexp_data_names);
+  Rf_setAttrib(sexp_data, R_NamesSymbol, sexp_data_names);
 
   /* store in slot 'data' of S4 object 'unur' */
   SET_SLOT(sexp_unur, Rf_install("data"), sexp_data);
@@ -195,7 +195,7 @@ _Runuran_sample_pinv (SEXP sexp_data, int n)
   int order = INTEGER(VECTOR_ELT(sexp_data, porder))[0];
   double Umax = REAL(VECTOR_ELT(sexp_data, pUmax))[0];
   int *guide = INTEGER(VECTOR_ELT(sexp_data, pguide));
-  int guide_size = length(VECTOR_ELT(sexp_data, pguide));
+  int guide_size = Rf_length(VECTOR_ELT(sexp_data, pguide));
   double *iv = REAL(VECTOR_ELT(sexp_data, piv));
   
   /* generate sample */
@@ -239,12 +239,12 @@ _Runuran_quantile_pinv (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
   int order = INTEGER(VECTOR_ELT(sexp_data, porder))[0];
   double Umax = REAL(VECTOR_ELT(sexp_data, pUmax))[0];
   int *guide = INTEGER(VECTOR_ELT(sexp_data, pguide));
-  int guide_size = length(VECTOR_ELT(sexp_data, pguide));
+  int guide_size = Rf_length(VECTOR_ELT(sexp_data, pguide));
   double *iv = REAL(VECTOR_ELT(sexp_data, piv));
 
   /* Extract U */
   U = REAL(sexp_U);
-  n = length(sexp_U);
+  n = Rf_length(sexp_U);
 
   /* domain of distribution */
   PROTECT(sexp_dom = GET_SLOT(sexp_unur, Rf_install("dom")));
