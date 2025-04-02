@@ -158,13 +158,13 @@ _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur)
   setAttrib(sexp_data, R_NamesSymbol, sexp_data_names);
 
   /* store in slot 'data' of S4 object 'unur' */
-  SET_SLOT(sexp_unur, install("data"), sexp_data);
+  SET_SLOT(sexp_unur, Rf_install("data"), sexp_data);
 
   /* set domain of distribution and store in slot 'dom' */
   PROTECT(sexp_dom = NEW_NUMERIC(2));
   REAL(sexp_dom)[0] = DISTR.domain[0];
   REAL(sexp_dom)[1] = DISTR.domain[1];
-  SET_SLOT(sexp_unur, install("dom"), sexp_dom);
+  SET_SLOT(sexp_unur, Rf_install("dom"), sexp_dom);
 
   /* o.k. */
   UNPROTECT(8);
@@ -247,7 +247,7 @@ _Runuran_quantile_pinv (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
   n = length(sexp_U);
 
   /* domain of distribution */
-  PROTECT(sexp_dom = GET_SLOT(sexp_unur, install("dom")));
+  PROTECT(sexp_dom = GET_SLOT(sexp_unur, Rf_install("dom")));
   
   /* evaluate inverse CDF */
   PROTECT(sexp_res = NEW_NUMERIC(n));
@@ -261,7 +261,7 @@ _Runuran_quantile_pinv (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
 	/* same bahavior as in UNU.RAN */
 
 	if (U[i] < 0. ||  U[i] > 1.)
-	  warning("[UNU.RAN - warning] argument out of domain: U not in [0,1]");
+	  Rf_warning("[UNU.RAN - warning] argument out of domain: U not in [0,1]");
 	if (U[i] < 0.5 )
 	  REAL(sexp_res)[i] = REAL(sexp_dom)[0];
 	if (U[i] > 0.5 )

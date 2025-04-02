@@ -84,13 +84,13 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   for (i=0; i<n_comp; i++) {
     sexp_unur = VECTOR_ELT(sexp_comp, i);
     if (! Rf_isS4(sexp_unur)) {
-      error("[UNU.RAN - error] argument 'comp[%d]' does not contain UNU.RAN objects",i+1);
+      Rf_error("[UNU.RAN - error] argument 'comp[%d]' does not contain UNU.RAN objects",i+1);
     }
-    sexp_gen = GET_SLOT(sexp_unur, install("unur"));
+    sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
     CHECK_UNUR_PTR(sexp_gen);
     if (isNull(sexp_gen) || 
 	((comp[i]=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
-      error("[UNU.RAN - error] invalid argument 'comp[%d]'. maybe packed?",i+1);
+      Rf_error("[UNU.RAN - error] invalid argument 'comp[%d]'. maybe packed?",i+1);
     }
   }
 
@@ -122,7 +122,7 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   /* set slot 'inversion' to true when 'gen' implements an inversion method. */
   PROTECT(sexp_is_inversion = NEW_LOGICAL(1));
   LOGICAL(sexp_is_inversion)[0] = useinversion;
-  SET_SLOT(sexp_obj, install("inversion"), sexp_is_inversion);
+  SET_SLOT(sexp_obj, Rf_install("inversion"), sexp_is_inversion);
     
   /* make R external pointer and store pointer to structure */
   PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag(), sexp_obj));

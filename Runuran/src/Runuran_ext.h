@@ -4,12 +4,12 @@
  *                                                                           *
  *****************************************************************************/
 
+/* UNU.RAN header files */
+#include <unuran.h>
+
 /* R header files */
 #include <R.h>
 #include <Rinternals.h>
-
-/* UNU.RAN header files */
-#include <unuran.h>
 
 /*****************************************************************************/
 /* Create UNU.RAN object for distribution defined in pure C code.            */

@@ -80,7 +80,7 @@ void add_string(struct Rlist *list, char *key, const char *string)
 {
   /* check length of list */
   if (list->len >= MAX_LIST)
-    error("Runuran: Internal error! Please send bug report.");
+    Rf_error("Runuran: Internal error! Please send bug report.");
 
   /* store name of list entry */
   list->names[list->len] = key;
@@ -97,7 +97,7 @@ void add_string(struct Rlist *list, char *key, const char *string)
 void add_numeric(struct Rlist *list, char *key, double num)
 {
   if (list->len >= MAX_LIST)
-    error("Runuran: Internal error! Please send bug report.");
+    Rf_error("Runuran: Internal error! Please send bug report.");
 
   list->names[list->len] = key;
   SET_VECTOR_ELT(list->values, list->len, ScalarReal(num));
@@ -112,7 +112,7 @@ void add_numeric_vec(struct Rlist *list, char *key, double *num, int n_num)
   SEXP val;
 
   if (list->len >= MAX_LIST)
-    error("Runuran: Internal error! Please send bug report.");
+    Rf_error("Runuran: Internal error! Please send bug report.");
 
   list->names[list->len] = key;
 
@@ -129,7 +129,7 @@ void add_numeric_vec(struct Rlist *list, char *key, double *num, int n_num)
 void add_integer(struct Rlist *list, char *key, int inum)
 {
   if (list->len >= MAX_LIST)
-    error("Runuran: Internal error! Please send bug report.");
+    Rf_error("Runuran: Internal error! Please send bug report.");
 
   list->names[list->len] = key;
   SET_VECTOR_ELT(list->values, list->len, ScalarInteger(inum));
@@ -144,7 +144,7 @@ void add_integer_vec(struct Rlist *list, char *key, int *inum, int n_num)
   SEXP val;
 
   if (list->len >= MAX_LIST)
-    error("Runuran: Internal error! Please send bug report.");
+    Rf_error("Runuran: Internal error! Please send bug report.");
 
   list->names[list->len] = key;
 
@@ -190,14 +190,14 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
   debug = *(LOGICAL( AS_LOGICAL(sexp_debug) ));
 
   /* slot 'data' should not be pesent */
-  sexp_data = GET_SLOT(sexp_unur, install("data"));
+  sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
   if (! isNull(sexp_data)) {
     Rprintf("Object is PACKED !\n\n");
     return R_NilValue;
   }
 
   /* Extract pointer to UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, install("unur"));
+  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
   CHECK_UNUR_PTR(sexp_gen);
   if (isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
@@ -388,7 +388,7 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
       SEXP val;
 
       if (list.len+4 >= MAX_LIST)
-	error("Runuran: Internal error! Please send bug report.");
+	Rf_error("Runuran: Internal error! Please send bug report.");
 
       list.names[list.len] = "cdfi";
       val = NEW_NUMERIC(GEN->n_ivs + 1);

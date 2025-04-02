@@ -756,7 +756,7 @@ SEXP _Runuran_distr_tag(void)
   static SEXP tag = NULL;
 
   /* make tag for R object */
-  if (!tag) tag = install("R_UNURAN_DISTR_TAG");
+  if (!tag) tag = Rf_install("R_UNURAN_DISTR_TAG");
 
   return tag;
 } /* end _Runuran_distr_tag() */
