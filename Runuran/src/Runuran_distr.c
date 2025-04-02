@@ -141,7 +141,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 
   /* set probability vector */
   if (!Rf_isNull(sexp_pv)) {
-    sexp_pv = PROTECT(AS_NUMERIC(sexp_pv));
+    sexp_pv = PROTECT(Rf_coerceVector(sexp_pv, REALSXP));
     pv = REAL(sexp_pv);
     if (ISNAN(pv[0])) {
       errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
@@ -167,8 +167,8 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
   }
 
   /* set mode, center and PDFarea of distribution */
-  mode = *REAL(AS_NUMERIC(sexp_mode));
-  sum = *REAL(AS_NUMERIC(sexp_sum));
+  mode = *REAL(Rf_coerceVector(sexp_mode, REALSXP));
+  sum = *REAL(Rf_coerceVector(sexp_sum, REALSXP));
 
   if (!ISNAN(mode))
     error |= unur_distr_discr_set_mode(distr, (int) mode);
@@ -214,7 +214,7 @@ _Runuran_discr_eval_cdf( int k, const struct unur_distr *distr )
   double y;
 
   Rdistr = unur_distr_get_extobj(distr);
-  PROTECT(arg = NEW_NUMERIC(1));
+  PROTECT(arg = Rf_allocVector(REALSXP, 1));
   REAL(arg)[0] = (double)k;
   PROTECT(R_fcall = Rf_lang2(Rdistr->cdf, arg));
   y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
@@ -235,7 +235,7 @@ _Runuran_discr_eval_pmf( int k, const struct unur_distr *distr )
   double y;
 
   Rdistr = unur_distr_get_extobj(distr);
-  PROTECT(arg = NEW_NUMERIC(1));
+  PROTECT(arg = Rf_allocVector(REALSXP, 1));
   REAL(arg)[0] = (double)k;
   PROTECT(R_fcall = Rf_lang2(Rdistr->pmf, arg));
   y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
@@ -332,9 +332,9 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
   }
 
   /* set mode, center and PDFarea of distribution */
-  mode = *REAL(AS_NUMERIC(sexp_mode));
-  center = *REAL(AS_NUMERIC(sexp_center));
-  area = *REAL(AS_NUMERIC(sexp_area));
+  mode = *REAL(Rf_coerceVector(sexp_mode, REALSXP));
+  center = *REAL(Rf_coerceVector(sexp_center, REALSXP));
+  area = *REAL(Rf_coerceVector(sexp_area, REALSXP));
 
   if (!ISNAN(mode))
     error |= unur_distr_cont_set_mode(distr, mode);
@@ -382,7 +382,7 @@ _Runuran_cont_eval_cdf( double x, const struct unur_distr *distr )
   double y;
 
   Rdistr = unur_distr_get_extobj(distr);
-  PROTECT(arg = NEW_NUMERIC(1));
+  PROTECT(arg = Rf_allocVector(REALSXP, 1));
   REAL(arg)[0] = x;
   PROTECT(R_fcall = Rf_lang2(Rdistr->cdf, arg));
   y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
@@ -403,7 +403,7 @@ _Runuran_cont_eval_pdf( double x, const struct unur_distr *distr )
   double y;
 
   Rdistr = unur_distr_get_extobj(distr);
-  PROTECT(arg = NEW_NUMERIC(1));
+  PROTECT(arg = Rf_allocVector(REALSXP, 1));
   REAL(arg)[0] = x;
   PROTECT(R_fcall = Rf_lang2(Rdistr->pdf, arg));
   y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
@@ -424,7 +424,7 @@ _Runuran_cont_eval_dpdf( double x, const struct unur_distr *distr )
   double y;
 
   Rdistr = unur_distr_get_extobj(distr);
-  PROTECT(arg = NEW_NUMERIC(1));
+  PROTECT(arg = Rf_allocVector(REALSXP, 1));
   REAL(arg)[0] = x;
   PROTECT(R_fcall = Rf_lang2(Rdistr->dpdf, arg));
   y = REAL(Rf_eval(R_fcall, Rdistr->env))[0];
@@ -560,7 +560,7 @@ _Runuran_cmv_eval_pdf( const double *x, struct unur_distr *distr )
   Rdistr = unur_distr_get_extobj(distr);
 
   /* copy x into R object of type "numeric" */
-  PROTECT(arg = NEW_NUMERIC(dim));
+  PROTECT(arg = Rf_allocVector(REALSXP, dim));
   rarg = REAL(arg);
   for (i=0; i<dim; i++)
     rarg[i] = x[i];

@@ -93,9 +93,9 @@ Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
   }
 
   /* set slot 'inversion' to true when 'gen' implements an inversion method. */
-  PROTECT(sexp_is_inversion = NEW_LOGICAL(1));
+  PROTECT(sexp_is_inversion = Rf_allocVector(LGLSXP, 1));
   LOGICAL(sexp_is_inversion)[0] = unur_gen_is_inversion(gen);
-  SET_SLOT(sexp_obj, Rf_install("inversion"), sexp_is_inversion);
+  R_do_slot_assign(sexp_obj, Rf_install("inversion"), sexp_is_inversion);
 
   /* make R external pointer and store pointer to structure */
   PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag(), sexp_obj));
@@ -134,13 +134,13 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
     Rf_error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* Extract and check sample size */
-  n = *(INTEGER (AS_INTEGER (sexp_n)));
+  n = *(INTEGER (Rf_coerceVector(sexp_n, INTSXP)));
   if (n<=0) {
     Rf_error("sample size 'n' must be positive integer");
   }
 
   /* Extract pointer to UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   if (! Rf_isNull(sexp_gen)) {
     CHECK_UNUR_PTR(sexp_gen);
     gen = R_ExternalPtrAddr(sexp_gen);
@@ -150,7 +150,7 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
   }
 
   /* Extract data list */
-  sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
+  sexp_data = R_do_slot(sexp_unur, Rf_install("data"));
   if (! Rf_isNull(sexp_data)) {
     return _Runuran_sample_data(sexp_data,n);
   }
@@ -188,13 +188,13 @@ _Runuran_sample_unur (struct unur_gen *gen, int n)
 
   case UNUR_DISTR_CONT:   /* univariate continuous distribution */
   case UNUR_DISTR_CEMP:   /* empirical continuous univariate distribution */
-    PROTECT(sexp_res = NEW_NUMERIC(n));
+    PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
     for (i=0; i<n; i++) {
       REAL(sexp_res)[i] = unur_sample_cont(gen); }
     break;
 
   case UNUR_DISTR_DISCR:  /* discrete univariate distribution */
-    PROTECT(sexp_res = NEW_NUMERIC(n));
+    PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
     for (i=0; i<n; i++) {
       REAL(sexp_res)[i] = (double) unur_sample_discr(gen); }
     break;
@@ -299,20 +299,20 @@ Runuran_quantile (SEXP sexp_unur, SEXP sexp_U)
     Rf_error("[UNU.RAN - error] argument invalid: 'U' must be numeric");
 
   /* check class name */
-  class = Rf_translateChar(STRING_ELT(GET_CLASS(sexp_unur), 0));
+  class = Rf_translateChar(STRING_ELT( Rf_getAttrib(sexp_unur, R_ClassSymbol), 0));
   if (strcmp(class,"unuran")) {
     Rf_error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
   }
 
   /* check whether UNU.RAN object implements inversion method */
-  sexp_is_inversion = GET_SLOT(sexp_unur, Rf_install("inversion"));
+  sexp_is_inversion = R_do_slot(sexp_unur, Rf_install("inversion"));
   if ( ! LOGICAL(sexp_is_inversion)[0]) {
     Rf_error("[UNU.RAN - error] invalid UNU.RAN object: inversion method required!\n\
 \tUse methods 'HINV', 'NINV', 'PINV'; or 'DGT'");
   }
 
   /* Extract pointer to UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   if (! Rf_isNull(sexp_gen)) {
     CHECK_UNUR_PTR(sexp_gen);
     gen = R_ExternalPtrAddr(sexp_gen);
@@ -322,7 +322,7 @@ Runuran_quantile (SEXP sexp_unur, SEXP sexp_U)
   }
 
   /* Extract data list */
-  sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
+  sexp_data = R_do_slot(sexp_unur, Rf_install("data"));
   if (! Rf_isNull(sexp_data)) {
     return _Runuran_quantile_data(sexp_data,sexp_U,sexp_unur);
   }
@@ -357,7 +357,7 @@ _Runuran_quantile_unur (struct unur_gen *gen, SEXP sexp_U)
   n = Rf_length(sexp_U);
 
   /* evaluate inverse CDF */
-  PROTECT(sexp_res = NEW_NUMERIC(n));
+  PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
   for (i=0; i<n; i++) {
     if (ISNAN(U[i]))
       /* if NA or NaN is given then we simply return the same value */
@@ -441,18 +441,18 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
     Rf_error("[UNU.RAN - error] argument invalid: 'x' must be numeric");
 
   /* get class name */ 
-  class = Rf_translateChar(STRING_ELT(GET_CLASS(sexp_obj), 0));
+  class = Rf_translateChar(STRING_ELT( Rf_getAttrib(sexp_obj, R_ClassSymbol), 0));
 
   /* which type of Runuran object */
   if (!strcmp(class,"unuran.cont") || !strcmp(class,"unuran.discr") ) {
     /* distribution object */
-    sexp_distr = GET_SLOT(sexp_obj, Rf_install("distr"));
+    sexp_distr = R_do_slot(sexp_obj, Rf_install("distr"));
     CHECK_DISTR_PTR(sexp_distr);
     distr = R_ExternalPtrAddr(sexp_distr);
   }
   else if (!strcmp(class,"unuran")) {
     /* generator object */
-    sexp_gen = GET_SLOT(sexp_obj, Rf_install("unur"));
+    sexp_gen = R_do_slot(sexp_obj, Rf_install("unur"));
     if (! Rf_isNull(sexp_gen)) {
       CHECK_UNUR_PTR(sexp_gen);
       gen = R_ExternalPtrAddr(sexp_gen);
@@ -461,7 +461,7 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
       }
     }
     if (distr==NULL) {
-      SEXP sexp_data = GET_SLOT(sexp_obj, Rf_install("data"));
+      SEXP sexp_data = R_do_slot(sexp_obj, Rf_install("data"));
       if (! Rf_isNull(sexp_data)) {
 	/* the generator object is packed */
 	Rf_error("[UNU.RAN - error] cannot compute PDF for packed UNU.RAN object");
@@ -480,7 +480,7 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
   }
   
   /* extract x */
-  sexp_x = PROTECT(AS_NUMERIC(sexp_x));
+  sexp_x = PROTECT(Rf_coerceVector(sexp_x, REALSXP));
   x = REAL(sexp_x);
   n = Rf_length(sexp_x);
 
@@ -505,7 +505,7 @@ Runuran_PDF (SEXP sexp_obj, SEXP sexp_x, SEXP sexp_islog)
   }
 
   /* allocate memory for result */
-  PROTECT(sexp_res = NEW_NUMERIC(n));
+  PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
 
   /* evaluate CDF */
   for (i=0; i<n; i++) {
@@ -586,18 +586,18 @@ Runuran_CDF (SEXP sexp_obj, SEXP sexp_x)
     Rf_error("[UNU.RAN - error] argument invalid: 'x' must be numeric");
 
   /* get class name */
-  class = Rf_translateChar(STRING_ELT(GET_CLASS(sexp_obj), 0));
+  class = Rf_translateChar(STRING_ELT( Rf_getAttrib(sexp_obj, R_ClassSymbol), 0));
 
   /* which type of Runuran object */
   if (!strcmp(class,"unuran.cont") || !strcmp(class,"unuran.discr") ) {
     /* distribution object */
-    sexp_distr = GET_SLOT(sexp_obj, Rf_install("distr"));
+    sexp_distr = R_do_slot(sexp_obj, Rf_install("distr"));
     CHECK_DISTR_PTR(sexp_distr);
     distr = R_ExternalPtrAddr(sexp_distr);
   }
   else if (!strcmp(class,"unuran")) {
     /* generator object */
-    sexp_gen = GET_SLOT(sexp_obj, Rf_install("unur"));
+    sexp_gen = R_do_slot(sexp_obj, Rf_install("unur"));
     if (! Rf_isNull(sexp_gen)) {
       CHECK_UNUR_PTR(sexp_gen);
       gen = R_ExternalPtrAddr(sexp_gen);
@@ -606,7 +606,7 @@ Runuran_CDF (SEXP sexp_obj, SEXP sexp_x)
       }
     }
     if (distr==NULL) {
-      SEXP sexp_data = GET_SLOT(sexp_obj, Rf_install("data"));
+      SEXP sexp_data = R_do_slot(sexp_obj, Rf_install("data"));
       if (! Rf_isNull(sexp_data)) {
 	/* the generator object is packed */
 	Rf_error("[UNU.RAN - error] cannot compute CDF for packed UNU.RAN object");
@@ -636,12 +636,12 @@ Runuran_CDF (SEXP sexp_obj, SEXP sexp_x)
   }
 
   /* extract x */
-  sexp_x = PROTECT(AS_NUMERIC(sexp_x));
+  sexp_x = PROTECT(Rf_coerceVector(sexp_x, REALSXP));
   x = REAL(sexp_x);
   n = Rf_length(sexp_x);
 
   /* allocate memory for result */
-  PROTECT(sexp_res = NEW_NUMERIC(n));
+  PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
 
   /* evaluate CDF */
   for (i=0; i<n; i++) {
@@ -711,14 +711,14 @@ Runuran_print (SEXP sexp_unur, SEXP sexp_help)
   /* UNUR_URNG *urng_tmp, *urng_aux_tmp; */
 
   /* Extract data list */
-  sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
+  sexp_data = R_do_slot(sexp_unur, Rf_install("data"));
   if (! Rf_isNull(sexp_data)) {
     Rprintf("Object is PACKED !\n\n");
     return R_NilValue;
   }
 
   /* Extract slot for UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   if (Rf_isNull(sexp_gen)) {
     Rf_warningcall_immediate(R_NilValue,"[UNU.RAN - warning] empty UNU.RAN object");
     return R_NilValue;
@@ -732,7 +732,7 @@ Runuran_print (SEXP sexp_unur, SEXP sexp_help)
   }
 
   /* Extract help flag */
-  help = *(INTEGER (AS_INTEGER (sexp_help)));
+  help = *(INTEGER (Rf_coerceVector(sexp_help, INTSXP)));
 
   /* Replace URNG by UNU.RAN built-in URNG */
   /* urng_aux_tmp = urng_tmp = unur_urng_builtin(); */
@@ -822,13 +822,13 @@ Runuran_pack (SEXP sexp_unur)
     Rf_error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* Extract data list */
-  sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
+  sexp_data = R_do_slot(sexp_unur, Rf_install("data"));
   if (! Rf_isNull(sexp_data)) {
     errorcall_return(R_NilValue,"[UNU.RAN - error] object already packed");
   }
 
   /* Extract pointer to UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   CHECK_UNUR_PTR(sexp_gen);
   if (Rf_isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
@@ -873,7 +873,7 @@ SEXP Runuran_set_error_level (SEXP sexp_level)
   SEXP sexp_old_level;
 
   /* Extract and check verbosity level */
-  level = *(INTEGER (AS_INTEGER (sexp_level)));
+  level = *(INTEGER (Rf_coerceVector(sexp_level, INTSXP)));
   if (level < 0L || level > 3L) {
     Rf_error("verbosity 'level' of UNU.RAN error handler must be 0, 1, 2, or 3");
   }
@@ -882,7 +882,7 @@ SEXP Runuran_set_error_level (SEXP sexp_level)
   old_level = _Runuran_set_error_handler(level);
 
   /* return old one */
-  PROTECT(sexp_old_level = NEW_INTEGER(1));
+  PROTECT(sexp_old_level = Rf_allocVector(INTSXP, 1));
   INTEGER(sexp_old_level)[0] = old_level;
   UNPROTECT(1);
 
@@ -1166,12 +1166,12 @@ SEXP Runuran_use_aux_urng (SEXP sexp_unur, SEXP sexp_set)
     Rf_error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN generator object");
 
   /* we need a generator object */ 
-  class = Rf_translateChar(STRING_ELT(GET_CLASS(sexp_unur), 0));
+  class = Rf_translateChar(STRING_ELT( Rf_getAttrib(sexp_unur, R_ClassSymbol), 0));
   if (strcmp(class,"unuran")) 
     Rf_error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN generator object");
 
   /* extract pointer to UNU.RAN generator object */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   if (! Rf_isNull(sexp_gen)) {
     CHECK_UNUR_PTR(sexp_gen);
     gen = R_ExternalPtrAddr(sexp_gen);
@@ -1188,7 +1188,7 @@ SEXP Runuran_use_aux_urng (SEXP sexp_unur, SEXP sexp_set)
   }
   
   /* read old value of 'set' */
-  PROTECT(sexp_old = NEW_LOGICAL(1));
+  PROTECT(sexp_old = Rf_allocVector(LGLSXP, 1));
   if (unur_get_urng_aux(gen) == NULL) {
     LOGICAL(sexp_old)[0] = NA_LOGICAL;
   }

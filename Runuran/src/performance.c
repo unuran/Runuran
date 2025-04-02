@@ -116,7 +116,7 @@ void add_numeric_vec(struct Rlist *list, char *key, double *num, int n_num)
 
   list->names[list->len] = key;
 
-  val = NEW_NUMERIC(n_num);
+  val = Rf_allocVector(REALSXP, n_num);
   for (i=0; i<n_num; i++)
     REAL(val)[i] = num[i];
   SET_VECTOR_ELT(list->values, list->len, val);
@@ -148,7 +148,7 @@ void add_integer_vec(struct Rlist *list, char *key, int *inum, int n_num)
 
   list->names[list->len] = key;
 
-  val = NEW_INTEGER(n_num);
+  val = Rf_allocVector(INTSXP, n_num);
   for (i=0; i<n_num; i++)
     INTEGER(val)[i] = inum[i];
   SET_VECTOR_ELT(list->values, list->len, val);
@@ -187,17 +187,17 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
   struct Rlist list;
 
   /* debug or not debug */
-  debug = *(LOGICAL( AS_LOGICAL(sexp_debug) ));
+  debug = *(LOGICAL( Rf_coerceVector(sexp_debug, LGLSXP)));
 
   /* slot 'data' should not be pesent */
-  sexp_data = GET_SLOT(sexp_unur, Rf_install("data"));
+  sexp_data = R_do_slot(sexp_unur, Rf_install("data"));
   if (! Rf_isNull(sexp_data)) {
     Rprintf("Object is PACKED !\n\n");
     return R_NilValue;
   }
 
   /* Extract pointer to UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   CHECK_UNUR_PTR(sexp_gen);
   if (Rf_isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
@@ -391,14 +391,14 @@ Runuran_performance (SEXP sexp_unur, SEXP sexp_debug)
 	Rf_error("Runuran: Internal error! Please send bug report.");
 
       list.names[list.len] = "cdfi";
-      val = NEW_NUMERIC(GEN->n_ivs + 1);
+      val = Rf_allocVector(REALSXP, GEN->n_ivs + 1);
       for (n=0; n<=GEN->n_ivs; n++)
 	REAL(val)[n] = GEN->iv[n].cdfi;
       SET_VECTOR_ELT(list.values, list.len, val);
       ++list.len;
 
       list.names[list.len] = "xi";
-      val = NEW_NUMERIC(GEN->n_ivs + 1);
+      val = Rf_allocVector(REALSXP, GEN->n_ivs + 1);
       for (n=0; n<=GEN->n_ivs; n++)
 	REAL(val)[n] = GEN->iv[n].xi;
       SET_VECTOR_ELT(list.values, list.len, val);

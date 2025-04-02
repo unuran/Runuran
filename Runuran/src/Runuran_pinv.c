@@ -104,19 +104,19 @@ _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur)
   /* create entries for data list */
 
   /* method ID (int) */
-  PROTECT(sexp_mid = NEW_INTEGER(1));
+  PROTECT(sexp_mid = Rf_allocVector(INTSXP, 1));
   INTEGER(sexp_mid)[0] = UNUR_METH_PINV;
 
   /* order (int) */
-  PROTECT(sexp_order = NEW_INTEGER(1));
+  PROTECT(sexp_order = Rf_allocVector(INTSXP, 1));
   INTEGER(sexp_order)[0] = GEN->order;
 
   /* Umax (double) */
-  PROTECT(sexp_Umax = NEW_NUMERIC(1));
+  PROTECT(sexp_Umax = Rf_allocVector(REALSXP, 1));
   REAL(sexp_Umax)[0] = GEN->Umax;
 
   /* guide table (int[]) */
-  PROTECT(sexp_guide = NEW_INTEGER(GEN->guide_size));
+  PROTECT(sexp_guide = Rf_allocVector(INTSXP, GEN->guide_size));
   for (i=0; i<GEN->guide_size; i++) {
     INTEGER(sexp_guide)[i] = iv_size*GEN->guide[i];
   }
@@ -128,7 +128,7 @@ _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur)
   /* sequence for each interval: 
    *   cdfi, z[order-1], u[order-2], z[order-2], ..., u[0], z[0], xi  
    */
-  PROTECT(sexp_iv = NEW_NUMERIC(n_coeff));
+  PROTECT(sexp_iv = Rf_allocVector(REALSXP, n_coeff));
   iv = REAL(sexp_iv);
   for (i=0,n=-1; i<=GEN->n_ivs; i++) {
     iv[++n] = GEN->iv[i].cdfi;
@@ -158,13 +158,13 @@ _Runuran_pack_pinv (struct unur_gen *gen, SEXP sexp_unur)
   Rf_setAttrib(sexp_data, R_NamesSymbol, sexp_data_names);
 
   /* store in slot 'data' of S4 object 'unur' */
-  SET_SLOT(sexp_unur, Rf_install("data"), sexp_data);
+  R_do_slot_assign(sexp_unur, Rf_install("data"), sexp_data);
 
   /* set domain of distribution and store in slot 'dom' */
-  PROTECT(sexp_dom = NEW_NUMERIC(2));
+  PROTECT(sexp_dom = Rf_allocVector(REALSXP, 2));
   REAL(sexp_dom)[0] = DISTR.domain[0];
   REAL(sexp_dom)[1] = DISTR.domain[1];
-  SET_SLOT(sexp_unur, Rf_install("dom"), sexp_dom);
+  R_do_slot_assign(sexp_unur, Rf_install("dom"), sexp_dom);
 
   /* o.k. */
   UNPROTECT(8);
@@ -199,7 +199,7 @@ _Runuran_sample_pinv (SEXP sexp_data, int n)
   double *iv = REAL(VECTOR_ELT(sexp_data, piv));
   
   /* generate sample */
-  PROTECT(sexp_res = NEW_NUMERIC(n));
+  PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
   for (i=0; i<n; i++) {
     U = unif_rand();   /* FIXME: R built-in URNG hard coded ! */
     REAL(sexp_res)[i] = 
@@ -247,10 +247,10 @@ _Runuran_quantile_pinv (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
   n = Rf_length(sexp_U);
 
   /* domain of distribution */
-  PROTECT(sexp_dom = GET_SLOT(sexp_unur, Rf_install("dom")));
+  PROTECT(sexp_dom = R_do_slot(sexp_unur, Rf_install("dom")));
   
   /* evaluate inverse CDF */
-  PROTECT(sexp_res = NEW_NUMERIC(n));
+  PROTECT(sexp_res = Rf_allocVector(REALSXP, n));
   for (i=0; i<n; i++) {
     if (ISNAN(U[i]))
       /* if NA or NaN is given then we simply return the same value */

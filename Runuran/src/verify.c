@@ -69,19 +69,19 @@ Runuran_verify_hat (SEXP sexp_unur, SEXP sexp_n)
     Rf_error("[UNU.RAN - error] argument invalid: 'unr' must be UNU.RAN object");
 
   /* UNU.RAN must not be packed */
-  if (! Rf_isNull( GET_SLOT(sexp_unur, Rf_install("data")) ) ) {
+  if (! Rf_isNull( R_do_slot(sexp_unur, Rf_install("data")) ) ) {
     /* the generator object is packed */
     Rf_error("[UNU.RAN - error] cannot run this function on packed UNU.RAN objects");
   }
 
   /* Extract and check sample size */
-  n = *(INTEGER (AS_INTEGER (sexp_n)));
+  n = *(INTEGER (Rf_coerceVector(sexp_n, INTSXP)));
   if (n<=0) {
     Rf_error("sample size 'n' must be positive integer");
   }
 
   /* Extract pointer to UNU.RAN generator */
-  sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+  sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
   CHECK_UNUR_PTR(sexp_gen);
   if (Rf_isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
@@ -123,7 +123,7 @@ Runuran_verify_hat (SEXP sexp_unur, SEXP sexp_n)
 #undef METHOD
 
   /* create R object for storing result */
-  PROTECT(sexp_failed = NEW_INTEGER(1));
+  PROTECT(sexp_failed = Rf_allocVector(INTSXP, 1));
 
   /* run generator in verify mode and store result */
   chg_verify(gen,TRUE);

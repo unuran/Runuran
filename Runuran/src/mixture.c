@@ -67,7 +67,7 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   int i;
 
   /* extract boolean */
-  useinversion = *LOGICAL(AS_LOGICAL(sexp_inversion));
+  useinversion = *LOGICAL(Rf_coerceVector(sexp_inversion, LGLSXP));
 
   /* extract length of component vector */
   n_comp = Rf_length(sexp_comp);
@@ -76,7 +76,7 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   }
 
   /* extract components */
-  if (! IS_LIST(sexp_comp)) {
+  if (! Rf_isVectorList(sexp_comp)) {
     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'comp'");
   }
   comp = (struct unur_gen**) R_alloc(n_comp, sizeof(struct unur_gen *) );
@@ -86,7 +86,7 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
     if (! Rf_isS4(sexp_unur)) {
       Rf_error("[UNU.RAN - error] argument 'comp[%d]' does not contain UNU.RAN objects",i+1);
     }
-    sexp_gen = GET_SLOT(sexp_unur, Rf_install("unur"));
+    sexp_gen = R_do_slot(sexp_unur, Rf_install("unur"));
     CHECK_UNUR_PTR(sexp_gen);
     if (Rf_isNull(sexp_gen) || 
 	((comp[i]=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
@@ -95,7 +95,7 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   }
 
   /* extract probability vector */
-  PROTECT(sexp_prob = AS_NUMERIC(sexp_prob));
+  PROTECT(sexp_prob = Rf_coerceVector(sexp_prob, REALSXP));
   prob = REAL(sexp_prob);
 
   /* create UNU.RAN generator for mixture */
@@ -120,9 +120,9 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   }
 
   /* set slot 'inversion' to true when 'gen' implements an inversion method. */
-  PROTECT(sexp_is_inversion = NEW_LOGICAL(1));
+  PROTECT(sexp_is_inversion = Rf_allocVector(LGLSXP, 1));
   LOGICAL(sexp_is_inversion)[0] = useinversion;
-  SET_SLOT(sexp_obj, Rf_install("inversion"), sexp_is_inversion);
+  R_do_slot_assign(sexp_obj, Rf_install("inversion"), sexp_is_inversion);
     
   /* make R external pointer and store pointer to structure */
   PROTECT(sexp_gen = R_MakeExternalPtr(gen, _Runuran_tag(), sexp_obj));
