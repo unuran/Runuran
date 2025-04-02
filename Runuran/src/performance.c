@@ -100,7 +100,7 @@ void add_numeric(struct Rlist *list, char *key, double num)
     Rf_error("Runuran: Internal error! Please send bug report.");
 
   list->names[list->len] = key;
-  SET_VECTOR_ELT(list->values, list->len, ScalarReal(num));
+  SET_VECTOR_ELT(list->values, list->len, Rf_ScalarReal(num));
   ++list->len;
 } /* end of add_numeric() */
 
@@ -132,7 +132,7 @@ void add_integer(struct Rlist *list, char *key, int inum)
     Rf_error("Runuran: Internal error! Please send bug report.");
 
   list->names[list->len] = key;
-  SET_VECTOR_ELT(list->values, list->len, ScalarInteger(inum));
+  SET_VECTOR_ELT(list->values, list->len, Rf_ScalarInteger(inum));
   ++list->len;
 } /* end of add_integer() */
 
