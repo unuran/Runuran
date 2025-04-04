@@ -1,6 +1,10 @@
 
 Version 0.40.999:   Work in progress
 
+	- internal:
+	  Replaced non-API C functions by equivalent API functions
+	  Replaced macros from deprecated header file "Rdefines.h"
+
 
 Version 0.40: 2024-10-03
 
