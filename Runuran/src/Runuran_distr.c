@@ -125,12 +125,12 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
 
   /* domain of distribution */
   if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
   lb = (domain[0] < (double) INT_MIN) ? INT_MIN : (int) domain[0]; 
   ub = (domain[1] > (double) INT_MAX) ? INT_MAX : (int) domain[1];
   if (lb >= ub)
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid domain: lb >= ub");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid domain: lb >= ub");
 
   /* create distribution object */
   distr = unur_distr_discr_new();
@@ -144,7 +144,7 @@ Runuran_discr_init (SEXP sexp_obj, SEXP sexp_env,
     sexp_pv = PROTECT(Rf_coerceVector(sexp_pv, REALSXP));
     pv = REAL(sexp_pv);
     if (ISNAN(pv[0])) {
-      errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
+      Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'pv'");
     }
     n_pv = Rf_length(sexp_pv);
     error |= unur_distr_discr_set_pv(distr,pv,n_pv);
@@ -284,7 +284,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
 #ifdef RUNURAN_DEBUG
   /*   /\* 'this' must be an S4 class *\/ */
   /*   if (!Rf_isS4(sexp_this)) */
-  /*     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object"); */
+  /*     Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid object"); */
 
   /* all other variables are tested in the R routine */
   /* TODO: add checks in DEBUGging mode */
@@ -292,7 +292,7 @@ Runuran_cont_init (SEXP sexp_obj, SEXP sexp_env,
 
   /* domain of distribution */
   if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
 
   /* whether we are given logarithm of CDF|PDF|dPDF or not */
@@ -471,7 +471,7 @@ Runuran_cmv_init (SEXP sexp_obj, SEXP sexp_env,
 #ifdef RUNURAN_DEBUG
   /*   /\* 'this' must be an S4 class *\/ */
   /*   if (!Rf_isS4(sexp_this)) */
-  /*     errorcall_return(R_NilValue,"[UNU.RAN - error] invalid object"); */
+  /*     Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid object"); */
 
   /* all other variables are tested in the R routine */
   /* TODO: add checks in DEBUGging mode */
@@ -600,20 +600,20 @@ Runuran_std_cont (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_dom
   const double *domain;
   unsigned int error = 0u;
 
-  /* name of distribution */
-  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && Rf_length(sexp_name)>2)
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
+    /* name of distribution */
+  if (! (sexp_name && TYPEOF(sexp_name) == STRSXP && Rf_length(sexp_name) == 1))
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
   name = CHAR(STRING_ELT(sexp_name,0));
 
   /* parameters */
   if (! (sexp_params && TYPEOF(sexp_params)==REALSXP) )
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
   params = REAL(sexp_params);
   n_params = Rf_length(sexp_params);
 
   /* domain of distribution */
-  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+  if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain) == 2) )
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
 
   /* create distribution object */
@@ -665,18 +665,18 @@ Runuran_std_discr (SEXP sexp_obj, SEXP sexp_name, SEXP sexp_params, SEXP sexp_do
 
   /* name of distribution */
   if (! (sexp_name && TYPEOF(sexp_name) == STRSXP) && Rf_length(sexp_name)>2)
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'name'");
   name = CHAR(STRING_ELT(sexp_name,0));
 
   /* parameters */
   if (! (sexp_params && TYPEOF(sexp_params)==REALSXP && Rf_length(sexp_params)>0) )
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'params'");
   params = REAL(sexp_params);
   n_params = Rf_length(sexp_params);
 
   /* domain of distribution */
   if (! (sexp_domain && TYPEOF(sexp_domain)==REALSXP && Rf_length(sexp_domain)==2) )
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'domain'");
   domain = REAL(sexp_domain);
   lb = (domain[0] < (double) INT_MIN) ? INT_MIN : (int) domain[0];
   ub = (domain[1] > (double) INT_MAX) ? INT_MAX : (int) domain[1];

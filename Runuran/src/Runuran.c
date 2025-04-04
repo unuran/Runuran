@@ -59,10 +59,10 @@ Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
 
   /* check argument */
   if (!sexp_method || TYPEOF(sexp_method) != STRSXP)
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'method'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'method'");
   if (!sexp_distr)
     /* this error should not happen. But we add it just in case. */
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid NULL pointer");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid NULL pointer");
 
   /* get method string */
   method = CHAR(STRING_ELT(sexp_method,0));
@@ -84,12 +84,12 @@ Runuran_init (SEXP sexp_obj, SEXP sexp_distr, SEXP sexp_method)
     break;
 
   default:
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'distribution'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'distribution'");
   }
 
   /* 'gen' must not be a NULL pointer */
   if (gen == NULL) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN object");
   }
 
   /* set slot 'inversion' to true when 'gen' implements an inversion method. */
@@ -156,7 +156,7 @@ Runuran_sample (SEXP sexp_unur, SEXP sexp_n)
   }
 
   /* Neither the UNU.RAN object nor the packed data list exists */
-  errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+  Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
  
 } /* end of Runuran_sample() */
 
@@ -256,7 +256,7 @@ _Runuran_sample_data (SEXP sexp_data, int n)
     PROTECT(sexp_res = _Runuran_sample_pinv(sexp_data,n));
     break;
   default:
-    errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
   }
 
   /* update state for the R built-in URNG */
@@ -328,7 +328,7 @@ Runuran_quantile (SEXP sexp_unur, SEXP sexp_U)
   }
 
   /* Neither the UNU.RAN object nor the packed data list exists */
-  errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+  Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
 
 } /* end of Runuran_quantile() */
 
@@ -396,7 +396,7 @@ _Runuran_quantile_data (SEXP sexp_data, SEXP sexp_U, SEXP sexp_unur)
     return _Runuran_quantile_pinv(sexp_data,sexp_U,sexp_unur);
     break;
   default:
-    errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
   }
 
   /* return result to R */
@@ -728,7 +728,7 @@ Runuran_print (SEXP sexp_unur, SEXP sexp_help)
   /* Extract pointer to UNU.RAN generator */
   gen = R_ExternalPtrAddr(sexp_gen);
   if (gen == NULL) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
   }
 
   /* Extract help flag */
@@ -824,7 +824,7 @@ Runuran_pack (SEXP sexp_unur)
   /* Extract data list */
   sexp_data = R_do_slot(sexp_unur, Rf_install("data"));
   if (! Rf_isNull(sexp_data)) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] object already packed");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] object already packed");
   }
 
   /* Extract pointer to UNU.RAN generator */
@@ -832,7 +832,7 @@ Runuran_pack (SEXP sexp_unur)
   CHECK_UNUR_PTR(sexp_gen);
   if (Rf_isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
   }
 
   /* call packing subroutine for given generator object */
@@ -842,7 +842,7 @@ Runuran_pack (SEXP sexp_unur)
     break;
 
   default:
-    errorcall_return(R_NilValue,"[UNU.RAN - error] cannot pack UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] cannot pack UNU.RAN object");
   }
 
   /* remove UNU.RAN object */

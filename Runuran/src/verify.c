@@ -85,7 +85,7 @@ Runuran_verify_hat (SEXP sexp_unur, SEXP sexp_n)
   CHECK_UNUR_PTR(sexp_gen);
   if (Rf_isNull(sexp_gen) || 
       ((gen=R_ExternalPtrAddr(sexp_gen)) == NULL) ) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] broken UNU.RAN object");
   }
 
   /* get function for toggling verify mode */
@@ -117,7 +117,7 @@ Runuran_verify_hat (SEXP sexp_unur, SEXP sexp_n)
   case UNUR_METH_VNROU:  METHOD(vnrou);
 
   default:
-    errorcall_return(R_NilValue,"[UNU.RAN - error] Method not supported");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] Method not supported");
   }
 
 #undef METHOD

@@ -193,7 +193,7 @@ UNUR_DISTR *_Runuran_get_std_discr( const char *name, const double *params, int 
 /*****************************************************************************/
 
 #define _Runuran_fatal() \
-  errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN distribution object")
+  Rf_errorcall(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN distribution object")
 /*---------------------------------------------------------------------------*/
 /* Handle fatal error: print error message and exit.                         */
 /*---------------------------------------------------------------------------*/

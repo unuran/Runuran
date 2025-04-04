@@ -72,12 +72,12 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
   /* extract length of component vector */
   n_comp = Rf_length(sexp_comp);
   if(n_comp != Rf_length(sexp_prob)) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] 'prob' and 'comp' must have same length");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] 'prob' and 'comp' must have same length");
   }
 
   /* extract components */
   if (! Rf_isVectorList(sexp_comp)) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'comp'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'comp'");
   }
   comp = (struct unur_gen**) R_alloc(n_comp, sizeof(struct unur_gen *) );
 
@@ -111,12 +111,12 @@ Runuran_mixt (SEXP sexp_obj, SEXP sexp_prob, SEXP sexp_comp, SEXP sexp_inversion
 
   /* check that 'prob' had contained useful data */
   if (ISNAN(prob[0])) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] invalid argument 'prob'");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] invalid argument 'prob'");
   }
   
   /* 'gen' must not be a NULL pointer */
   if (gen == NULL) {
-    errorcall_return(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN object");
+    Rf_errorcall(R_NilValue,"[UNU.RAN - error] cannot create UNU.RAN object");
   }
 
   /* set slot 'inversion' to true when 'gen' implements an inversion method. */
