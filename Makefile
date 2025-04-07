@@ -24,7 +24,8 @@ help:
 	@echo "  version  ... update version number and release date in documentation"
 	@echo "  roxy     ... update help pages (roxygenize package)"
 	@echo ""
-	@echo "  devel    ... build without vignettes etc (faster)"
+	@echo "  develbuild ... build without vignettes etc (faster)"
+	@echo "  develcheck ... check package '${project}' in NOT_ON_CRAN mode"
 	@echo "  valgrind ... check package '${project}' using valgrind (very slow!)"
 	@echo ""
 	@echo "  clean    ... clear working space"
@@ -51,14 +52,22 @@ version:
 build:
 	${R} CMD build ${project}
 
-devel:
+develbuild:
 	${R} CMD build --no-build-vignettes --no-manual ${project}
 
 check:
 	(unset TEXINPUTS; _R_CHECK_TIMINGS_=0 ${R} CMD check --as-cran --timings ${project}_*.tar.gz)
 
+develcheck:
+	(unset TEXINPUTS; \
+	export NOT_CRAN="true"; \    ## testthat executes all "skip on CRAN" tests
+	_R_CHECK_TIMINGS_=0 ${R} CMD check --timings ${project}_*.tar.gz)
+
 valgrind:
-	(unset TEXINPUTS; _R_CHECK_TIMINGS_=0 ${R} CMD check --use-valgrind --timings ${project}_*.tar.gz)
+	(unset TEXINPUTS; \
+	export NOT_CRAN="true"; \
+	_R_CHECK_TIMINGS_=0 ${R} CMD check --use-valgrind --timings ${project}_*.tar.gz)
+
 	@echo -e "\n * Valgrind output ..."
 	@for Rout in `find ${project}.Rcheck/ -name *.Rout`; \
 		do echo -e "\n = $$Rout:\n"; \
