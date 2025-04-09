@@ -60,7 +60,7 @@ check:
 
 develcheck:
 	(unset TEXINPUTS; \
-	export NOT_CRAN="true"; \    ## testthat executes all "skip on CRAN" tests
+	export NOT_CRAN="true"; \
 	_R_CHECK_TIMINGS_=0 ${R} CMD check --timings ${project}_*.tar.gz)
 
 valgrind:
